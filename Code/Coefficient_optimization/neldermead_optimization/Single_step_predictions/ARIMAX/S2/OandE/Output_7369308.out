@@ -1,0 +1,57 @@
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@n-62-21-104>
+Subject: Job 7369308: <My_Application> in cluster <dcc> Exited
+
+Job <My_Application> was submitted from host <gbarlogin1> by user <s181320> in cluster <dcc> at Mon Jun 29 11:41:02 2020
+Job was executed on host(s) <n-62-21-104>, in queue <hpc>, as user <s181320> in cluster <dcc> at Tue Jun 30 04:27:15 2020
+</zhome/6e/9/133731> was used as the home directory.
+</zhome/6e/9/133731/Desktop/Thesis/Thesis/Code/Coefficient_optimization/neldermead_optimization/Single_step_predictions/ARIMAX/S2> was used as the working directory.
+Started at Tue Jun 30 04:27:15 2020
+Terminated at Tue Jun 30 16:27:42 2020
+Results reported at Tue Jun 30 16:27:42 2020
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/bash -l
+#BSUB -env none
+### -- Name of the job ---
+#BSUB -J My_Application
+### -- estimated wall clock time (execution time): hh:mm:ss --
+#BSUB -W 12:00
+### -- number of processors/cores/nodes --
+#BSUB -M 2GB
+#BSUB -n 1
+#BSUB -o OandE/Output_%J.out
+#BSUB -e OandE/Error_%J.err
+#LSB_JOB_REPORT_MAIL=N
+/appl/R/bin/R-3.5.1 CMD BATCH --vanilla  "-2412" "/zhome/6e/9/133731/Desktop/Thesis/Thesis/Code/Coefficient_optimization/neldermead_optimization/Single_step_predictions/ARIMAX/S2/CO_singlestep_ARIMAX_S2.r" "/zhome/6e/9/133731/Desktop/Thesis/Thesis/Code/Coefficient_optimization/neldermead_optimization/Single_step_predictions/ARIMAX/S2/OandE/job2412.Rout"
+
+------------------------------------------------------------
+
+TERM_RUNLIMIT: job killed after reaching LSF run time limit.
+Exited with exit code 140.
+
+Resource usage summary:
+
+    CPU time :                                   43204.00 sec.
+    Max Memory :                                 79 MB
+    Average Memory :                             67.29 MB
+    Total Requested Memory :                     2048.00 MB
+    Delta Memory :                               1969.00 MB
+    Max Swap :                                   13 MB
+    Max Processes :                              5
+    Max Threads :                                6
+    Run time :                                   43227 sec.
+    Turnaround time :                            103600 sec.
+
+The output (if any) is above this job summary.
+
+
+
+PS:
+
+Read file <OandE/Error_7369308.err> for stderr output of this job.
+

@@ -1,0 +1,285 @@
+
+R version 3.5.1 (2018-07-02) -- "Feather Spray"
+Copyright (C) 2018 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> 
+> 
+> cores <- as.numeric(Sys.getenv('LSB_DJOB_NUMPROC'))
+> setwd("/zhome/6e/9/133731/Desktop/Thesis/Thesis")
+> #cores = parallel::detectCores()
+> source("Code/Coefficient optimization/Multi step predictions/HPC/meta_optim.R")
+> 
+> 
+> ##################### Reading in data ##################### 
+> s1_training <-  read.csv("Data/Training data/s1_training.txt", header = TRUE, sep = "\t")
+> s1 <- s1_training$Value
+> s1_wwIndex <- read.csv("Data/Training data/s1_WW_training.txt", header = TRUE, sep = "\t")
+> 
+> 
+> ##################### Parameters ##################### 
+> MAX <- 8
+> x <- expand.grid(0:MAX, 0:2, 0:MAX)
+> colnames(x) <- c("p", "d", "q")
+> 
+> ##################### Optimization for Dammning (station 1) ##################### 
+> 
+> ## training data and observed data are the same but ts is modified within functions before calculating the residuals
+> ts <- s1 
+> observed <- s1
+> wwIndex <- s1_wwIndex$Flag
+> 
+> 
+> system.time(
++   CO_s1 <- parallel::mclapply(1:nrow(x), function(i){
++     temp <- as.matrix(x[i,])
++     temp <- c(temp[1], temp[2], temp[3])
++     start_time <- Sys.time()
++     results <- meta_optim(temp, external_regressor = FALSE)
++     end_time <- Sys.time()
++     time_taken <- end_time - start_time
++     print(paste("Order: ", "(", temp[1], ", ", temp[2], ", ", temp[3], ")", " takes ", signif(time_taken, 4), " seconds to optimize", sep = ""))
++   }, mc.cores = cores, mc.allow.recursive = TRUE, mc.preschedule=FALSE)
++ )
+[1] "Order: (0, 1, 0) takes 0.0001297 seconds to optimize"
+[1] "No parameters to optimize for"
+Warning message:
+In optim(par = startpars, fn = compute_arime_mse, order = orders,  :
+  one-dimensional optimization by Nelder-Mead is unreliable:
+use "Brent" or optimize() directly
+[1] "Order: (1, 1, 0) takes 7.227 seconds to optimize"
+[1] "Order: (2, 0, 0) takes 17.57 seconds to optimize"
+[1] "Order: (2, 1, 0) takes 18.1 seconds to optimize"
+[1] "Order: (4, 0, 0) takes 28.34 seconds to optimize"
+[1] "Order: (1, 0, 0) takes 46.43 seconds to optimize"
+[1] "Order: (3, 0, 0) takes 1.175 seconds to optimize"
+[1] "Order: (3, 1, 0) takes 1.285 seconds to optimize"
+[1] "Order: (0, 2, 0) takes 9.346e-05 seconds to optimize"
+[1] "Order: (1, 2, 0) takes 7.444 seconds to optimize"
+[1] "Order: (4, 1, 0) takes 1.468 seconds to optimize"
+[1] "Order: (2, 2, 0) takes 22.71 seconds to optimize"
+[1] "Order: (5, 1, 0) takes 2.205 seconds to optimize"
+[1] "Order: (3, 2, 0) takes 47.09 seconds to optimize"
+[1] "Order: (5, 2, 0) takes 46.96 seconds to optimize"
+[1] "Order: (6, 2, 0) takes 49.96 seconds to optimize"
+[1] "Order: (4, 2, 0) takes 2.086 seconds to optimize"
+[1] "Order: (0, 0, 1) takes 50.52 seconds to optimize"
+[1] "Order: (7, 2, 0) takes 1.554 seconds to optimize"
+[1] "Order: (6, 1, 0) takes 5.283 seconds to optimize"
+[1] "Order: (3, 0, 1) takes 43.77 seconds to optimize"
+[1] "Order: (8, 1, 0) takes 5.784 seconds to optimize"
+[1] "Order: (2, 0, 1) takes 2.493 seconds to optimize"
+[1] "Order: (8, 2, 0) takes 4.282 seconds to optimize"
+[1] "Order: (4, 0, 1) takes 1.452 seconds to optimize"
+[1] "Order: (8, 0, 1) takes 1.354 seconds to optimize"
+[1] "Order: (7, 0, 1) takes 1.923 seconds to optimize"
+[1] "Order: (0, 1, 1) takes 47.89 seconds to optimize"
+[1] "Order: (5, 0, 1) takes 3.215 seconds to optimize"
+[1] "Order: (1, 0, 1) takes 5.371 seconds to optimize"
+[1] "Order: (5, 0, 0) takes 11.38 seconds to optimize"
+[1] "Order: (7, 1, 0) takes 11.16 seconds to optimize"
+[1] "Order: (6, 0, 0) takes 11.98 seconds to optimize"
+[1] "Order: (8, 0, 0) takes 14.75 seconds to optimize"
+[1] "Order: (6, 0, 1) takes 9.279 seconds to optimize"
+[1] "Order: (0, 2, 1) takes 31.19 seconds to optimize"
+[1] "Order: (1, 1, 1) takes 8.836 seconds to optimize"
+[1] "Order: (1, 2, 1) takes 4.165 seconds to optimize"
+[1] "Order: (3, 2, 1) takes 2.416 seconds to optimize"
+[1] "Order: (2, 1, 1) takes 17.7 seconds to optimize"
+[1] "Order: (4, 2, 1) takes 11.12 seconds to optimize"
+[1] "Order: (2, 2, 1) takes 18.21 seconds to optimize"
+[1] "Order: (7, 0, 0) takes 41.32 seconds to optimize"
+[1] "Order: (4, 1, 1) takes 35.62 seconds to optimize"
+[1] "Order: (3, 1, 1) takes 37.93 seconds to optimize"
+[1] "Order: (0, 0, 2) takes 2.537 seconds to optimize"
+[1] "Order: (1, 0, 2) takes 1.161 seconds to optimize"
+[1] "Order: (2, 0, 2) takes 55.23 seconds to optimize"
+[1] "Order: (3, 0, 2) takes 3.283 seconds to optimize"
+[1] "Order: (5, 2, 1) takes 34.81 seconds to optimize"
+[1] "Order: (6, 0, 2) takes 9.147 seconds to optimize"
+[1] "Order: (4, 0, 2) takes 23.04 seconds to optimize"
+[1] "Order: (8, 0, 2) takes 1.319 seconds to optimize"
+[1] "Order: (0, 1, 2) takes 1.562 seconds to optimize"
+[1] "Order: (5, 1, 1) takes 1.211 seconds to optimize"
+[1] "Order: (1, 1, 2) takes 12.21 seconds to optimize"
+[1] "Order: (5, 0, 2) takes 42.27 seconds to optimize"
+[1] "Order: (7, 0, 2) takes 28.62 seconds to optimize"
+[1] "Order: (2, 1, 2) takes 19.15 seconds to optimize"
+[1] "Order: (7, 1, 1) takes 1.626 seconds to optimize"
+[1] "Order: (3, 1, 2) takes 24.3 seconds to optimize"
+[1] "Order: (6, 1, 1) takes 3.194 seconds to optimize"
+[1] "Order: (0, 2, 2) takes 1.086 seconds to optimize"
+[1] "Order: (1, 2, 2) takes 8.89 seconds to optimize"
+[1] "Order: (4, 1, 2) takes 2.127 seconds to optimize"
+[1] "Order: (2, 2, 2) takes 12.17 seconds to optimize"
+[1] "Order: (6, 1, 2) takes 2.134 seconds to optimize"
+[1] "Order: (4, 2, 2) takes 5.694 seconds to optimize"
+[1] "Order: (3, 2, 2) takes 19.63 seconds to optimize"
+[1] "Order: (6, 2, 2) takes 1.584 seconds to optimize"
+[1] "Order: (5, 2, 2) takes 2.133 seconds to optimize"
+[1] "Order: (0, 0, 3) takes 6.548 seconds to optimize"
+[1] "Order: (1, 0, 3) takes 46.69 seconds to optimize"
+[1] "Order: (4, 0, 3) takes 3.616 seconds to optimize"
+[1] "Order: (5, 0, 3) takes 3.199 seconds to optimize"
+[1] "Order: (6, 0, 3) takes 15.65 seconds to optimize"
+[1] "Order: (7, 0, 3) takes 8.501 seconds to optimize"
+[1] "Order: (8, 0, 3) takes 17.93 seconds to optimize"
+[1] "Order: (0, 1, 3) takes 3.651 seconds to optimize"
+[1] "Order: (1, 1, 3) takes 11.7 seconds to optimize"
+[1] "Order: (2, 1, 3) takes 42.76 seconds to optimize"
+[1] "Order: (3, 1, 3) takes 12.15 seconds to optimize"
+[1] "Order: (4, 1, 3) takes 26.78 seconds to optimize"
+[1] "Order: (5, 1, 2) takes 8.169 seconds to optimize"
+[1] "Order: (5, 1, 3) takes 1.263 seconds to optimize"
+[1] "Order: (7, 1, 3) takes 26.71 seconds to optimize"
+[1] "Order: (6, 2, 1) takes 10.08 seconds to optimize"
+[1] "Order: (0, 2, 3) takes 2.89 seconds to optimize"
+[1] "Order: (1, 2, 3) takes 8.254 seconds to optimize"
+[1] "Order: (2, 2, 3) takes 10.4 seconds to optimize"
+[1] "Order: (8, 1, 1) takes 11.54 seconds to optimize"
+[1] "Order: (7, 2, 1) takes 11.44 seconds to optimize"
+[1] "Order: (7, 2, 2) takes 8.286 seconds to optimize"
+[1] "Order: (3, 2, 3) takes 1.529 seconds to optimize"
+[1] "Order: (8, 2, 1) takes 12.02 seconds to optimize"
+[1] "Order: (8, 1, 2) takes 11.54 seconds to optimize"
+[1] "Order: (0, 0, 4) takes 8.122 seconds to optimize"
+[1] "Order: (1, 0, 4) takes 3.284 seconds to optimize"
+[1] "Order: (2, 0, 4) takes 3.812 seconds to optimize"
+[1] "Order: (3, 0, 4) takes 11.58 seconds to optimize"
+[1] "Order: (5, 0, 4) takes 2.627 seconds to optimize"
+[1] "Order: (6, 0, 4) takes 8.503 seconds to optimize"
+[1] "Order: (8, 2, 3) takes 1.457 seconds to optimize"
+[1] "Order: (4, 2, 3) takes 2.409 seconds to optimize"
+[1] "Order: (7, 0, 4) takes 12.58 seconds to optimize"
+[1] "Order: (0, 1, 4) takes 15.03 seconds to optimize"
+[1] "Order: (8, 0, 4) takes 21.64 seconds to optimize"
+[1] "Order: (1, 1, 4) takes 27.74 seconds to optimize"
+[1] "Order: (7, 2, 3) takes 2.357 seconds to optimize"
+[1] "Order: (2, 1, 4) takes 28.39 seconds to optimize"
+[1] "Order: (5, 2, 3) takes 3.261 seconds to optimize"
+[1] "Order: (7, 1, 2) takes 13.63 seconds to optimize"
+[1] "Order: (4, 1, 4) takes 1.349 seconds to optimize"
+[1] "Order: (6, 1, 3) takes 6.246 seconds to optimize"
+[1] "Order: (0, 2, 4) takes 3.015 seconds to optimize"
+[1] "Order: (1, 2, 4) takes 2.2 seconds to optimize"
+[1] "Order: (2, 2, 4) takes 1.599 seconds to optimize"
+[1] "Order: (3, 1, 4) takes 1.839 seconds to optimize"
+[1] "Order: (5, 2, 4) takes 33.64 seconds to optimize"
+[1] "Order: (3, 2, 4) takes 1.814 seconds to optimize"
+[1] "Order: (8, 2, 2) takes 13.27 seconds to optimize"
+[1] "Order: (8, 1, 4) takes 3.997 seconds to optimize"
+[1] "Order: (0, 0, 5) takes 11.04 seconds to optimize"
+[1] "Order: (1, 0, 5) takes 4.865 seconds to optimize"
+[1] "Order: (2, 0, 5) takes 4.024 seconds to optimize"
+[1] "Order: (6, 0, 5) takes 1.132 seconds to optimize"
+[1] "Order: (7, 0, 5) takes 5.086 seconds to optimize"
+[1] "Order: (8, 0, 5) takes 12.95 seconds to optimize"
+[1] "Order: (8, 1, 3) takes 10.71 seconds to optimize"
+[1] "Order: (0, 1, 5) takes 32.9 seconds to optimize"
+[1] "Order: (1, 1, 5) takes 9.499 seconds to optimize"
+[1] "Order: (6, 2, 3) takes 9.07 seconds to optimize"
+[1] "Order: (7, 2, 4) takes 4.389 seconds to optimize"
+[1] "Order: (3, 1, 5) takes 2.842 seconds to optimize"
+[1] "Order: (2, 1, 5) takes 3.554 seconds to optimize"
+[1] "Order: (4, 2, 4) takes 9.881 seconds to optimize"
+[1] "Order: (7, 1, 4) takes 11.29 seconds to optimize"
+[1] "Order: (0, 2, 5) takes 25.71 seconds to optimize"
+[1] "Order: (5, 1, 4) takes 12.28 seconds to optimize"
+[1] "Order: (2, 2, 5) takes 18.51 seconds to optimize"
+[1] "Order: (1, 2, 5) takes 34.88 seconds to optimize"
+[1] "Order: (6, 1, 4) takes 12.75 seconds to optimize"
+[1] "Order: (5, 1, 5) takes 5.865 seconds to optimize"
+[1] "Order: (6, 2, 4) takes 11.34 seconds to optimize"
+[1] "Order: (3, 2, 5) takes 1.92 seconds to optimize"
+[1] "Order: (4, 1, 5) takes 9.539 seconds to optimize"
+[1] "Order: (0, 0, 6) takes 11.38 seconds to optimize"
+[1] "Order: (1, 0, 6) takes 9.304 seconds to optimize"
+[1] "Order: (2, 0, 6) takes 1.769 seconds to optimize"
+[1] "Order: (3, 0, 6) takes 8.508 seconds to optimize"
+[1] "Order: (4, 0, 6) takes 7.867 seconds to optimize"
+[1] "Order: (6, 0, 6) takes 6.784 seconds to optimize"
+[1] "Order: (4, 2, 5) takes 4.309 seconds to optimize"
+[1] "Order: (8, 0, 6) takes 19.44 seconds to optimize"
+[1] "Order: (5, 2, 5) takes 4.924 seconds to optimize"
+[1] "Order: (0, 1, 6) takes 29.04 seconds to optimize"
+[1] "Order: (1, 1, 6) takes 13.9 seconds to optimize"
+[1] "Order: (7, 0, 6) takes 1.122 seconds to optimize"
+[1] "Order: (8, 2, 4) takes 14.37 seconds to optimize"
+[1] "Order: (2, 1, 6) takes 41.52 seconds to optimize"
+[1] "Order: (6, 1, 5) takes 10.94 seconds to optimize"
+[1] "Order: (7, 1, 5) takes 10.41 seconds to optimize"
+[1] "Order: (3, 1, 6) takes 3.049 seconds to optimize"
+[1] "Order: (8, 1, 5) takes 10.47 seconds to optimize"
+[1] "Order: (0, 2, 6) takes 46.37 seconds to optimize"
+[1] "Order: (1, 2, 6) takes 12.25 seconds to optimize"
+[1] "Order: (8, 1, 6) takes 1.86 seconds to optimize"
+[1] "Order: (4, 1, 6) takes 4.002 seconds to optimize"
+[1] "Order: (7, 2, 5) takes 8.863 seconds to optimize"
+[1] "Order: (6, 2, 6) takes 50.63 seconds to optimize"
+[1] "Order: (5, 1, 6) takes 4.985 seconds to optimize"
+[1] "Order: (2, 2, 6) takes 1.485 seconds to optimize"
+[1] "Order: (0, 0, 7) takes 17.76 seconds to optimize"
+[1] "Order: (1, 0, 7) takes 2.376 seconds to optimize"
+[1] "Order: (5, 2, 6) takes 1.683 seconds to optimize"
+[1] "Order: (3, 0, 7) takes 2.369 seconds to optimize"
+[1] "Order: (2, 0, 7) takes 14.08 seconds to optimize"
+[1] "Order: (6, 0, 7) takes 4.937 seconds to optimize"
+[1] "Order: (4, 2, 6) takes 1.894 seconds to optimize"
+[1] "Order: (8, 0, 7) takes 4.33 seconds to optimize"
+[1] "Order: (7, 0, 7) takes 20.63 seconds to optimize"
+[1] "Order: (2, 1, 7) takes 2.545 seconds to optimize"
+[1] "Order: (6, 2, 5) takes 11.2 seconds to optimize"
+[1] "Order: (1, 1, 7) takes 32.38 seconds to optimize"
+[1] "Order: (0, 1, 7) takes 49.67 seconds to optimize"
+[1] "Order: (3, 1, 7) takes 46.24 seconds to optimize"
+[1] "Order: (5, 1, 7) takes 32.75 seconds to optimize"
+[1] "Order: (8, 2, 5) takes 11.1 seconds to optimize"
+[1] "Order: (3, 2, 6) takes 4.059 seconds to optimize"
+[1] "Order: (0, 2, 7) takes 15.48 seconds to optimize"
+[1] "Order: (2, 2, 7) takes 14.73 seconds to optimize"
+[1] "Order: (7, 1, 6) takes 6.299 seconds to optimize"
+[1] "Order: (1, 2, 7) takes 1.117 seconds to optimize"
+[1] "Order: (4, 1, 7) takes 3.096 seconds to optimize"
+[1] "Order: (6, 1, 7) takes 4.613 seconds to optimize"
+[1] "Order: (8, 1, 7) takes 5.56 seconds to optimize"
+[1] "Order: (6, 1, 6) takes 12.17 seconds to optimize"
+[1] "Order: (7, 2, 6) takes 7.876 seconds to optimize"
+[1] "Order: (1, 0, 8) takes 4.322 seconds to optimize"
+[1] "Order: (2, 0, 8) takes 13.85 seconds to optimize"
+[1] "Order: (0, 0, 8) takes 37.3 seconds to optimize"
+[1] "Order: (6, 2, 7) takes 3.813 seconds to optimize"
+[1] "Order: (5, 0, 8) takes 8.536 seconds to optimize"
+[1] "Order: (4, 0, 8) takes 19.24 seconds to optimize"
+[1] "Order: (6, 0, 8) takes 10.46 seconds to optimize"
+[1] "Order: (3, 0, 8) takes 32.01 seconds to optimize"
+[1] "Order: (7, 0, 8) takes 16.35 seconds to optimize"
+[1] "Order: (8, 2, 6) takes 8.83 seconds to optimize"
+[1] "Order: (3, 2, 7) takes 6.366 seconds to optimize"
+[1] "Order: (1, 1, 8) takes 35.32 seconds to optimize"
+[1] "Order: (2, 1, 8) takes 42.27 seconds to optimize"
+[1] "Order: (8, 0, 8) takes 1.097 seconds to optimize"
+[1] "Order: (4, 2, 7) takes 6.544 seconds to optimize"
+[1] "Order: (5, 2, 7) takes 6.001 seconds to optimize"
+There were 50 or more warnings (use warnings() to see the first 50)There were 50 or more warnings (use warnings() to see the first 50)
+There were 50 or more warnings (use warnings() to see the first 50)
+
+There were 50 or more warnings (use warnings() to see the first 50)
+There were 50 or more warnings (use warnings() to see the first 50)There were 50 or more warnings (use warnings() to see the first 50)
+
+There were 50 or more warnings (use warnings() to see the first 50)
+There were 50 or more warnings (use warnings() to see the first 50)
+There were 50 or more warnings (use warnings() to see the first 50)
+Timing stopped at: 1.7e+06 2913 1.728e+05
+Execution halted

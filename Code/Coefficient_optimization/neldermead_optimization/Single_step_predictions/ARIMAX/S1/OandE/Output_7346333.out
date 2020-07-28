@@ -1,0 +1,56 @@
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@n-62-23-20>
+Subject: Job 7346333: <My_Application> in cluster <dcc> Done
+
+Job <My_Application> was submitted from host <gbarlogin1> by user <s181320> in cluster <dcc> at Sat Jun 27 16:38:39 2020
+Job was executed on host(s) <n-62-23-20>, in queue <hpc>, as user <s181320> in cluster <dcc> at Sat Jun 27 17:36:12 2020
+</zhome/6e/9/133731> was used as the home directory.
+</zhome/6e/9/133731/Desktop/Thesis/Thesis/Code/Coefficient_optimization/neldermead_optimization/Single_step_predictions/ARIMAX/S1> was used as the working directory.
+Started at Sat Jun 27 17:36:12 2020
+Terminated at Sat Jun 27 17:49:48 2020
+Results reported at Sat Jun 27 17:49:48 2020
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/bash -l
+#BSUB -env none
+### -- Name of the job ---
+#BSUB -J My_Application
+### -- estimated wall clock time (execution time): hh:mm:ss --
+#BSUB -W 12:00
+### -- number of processors/cores/nodes --
+#BSUB -M 2GB
+#BSUB -n 1
+#BSUB -o OandE/Output_%J.out
+#BSUB -e OandE/Error_%J.err
+#LSB_JOB_REPORT_MAIL=N
+/appl/R/bin/R-3.5.1 CMD BATCH --vanilla  "-330" "/zhome/6e/9/133731/Desktop/Thesis/Thesis/Code/Coefficient_optimization/neldermead_optimization/Single_step_predictions/ARIMAX/S1/CO_singlestep_ARIMAX_S1.r" "/zhome/6e/9/133731/Desktop/Thesis/Thesis/Code/Coefficient_optimization/neldermead_optimization/Single_step_predictions/ARIMAX/S1/OandE/job330.Rout"
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   815.99 sec.
+    Max Memory :                                 116 MB
+    Average Memory :                             114.92 MB
+    Total Requested Memory :                     2048.00 MB
+    Delta Memory :                               1932.00 MB
+    Max Swap :                                   -
+    Max Processes :                              5
+    Max Threads :                                6
+    Run time :                                   817 sec.
+    Turnaround time :                            4269 sec.
+
+The output (if any) is above this job summary.
+
+
+
+PS:
+
+Read file <OandE/Error_7346333.err> for stderr output of this job.
+

@@ -1,0 +1,58 @@
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@n-62-21-98>
+Subject: Job 6404197: <My_Application> in cluster <dcc> Done
+
+Job <My_Application> was submitted from host <gbarlogin1> by user <s181320> in cluster <dcc> at Wed Apr 29 15:37:53 2020
+Job was executed on host(s) <n-62-21-98>, in queue <hpc>, as user <s181320> in cluster <dcc> at Wed Apr 29 15:37:55 2020
+</zhome/6e/9/133731> was used as the home directory.
+</zhome/6e/9/133731/Desktop/Thesis/Thesis/Code/Coefficient_optimization/Multi_step_predictions/ml_vs_mcss> was used as the working directory.
+Started at Wed Apr 29 15:37:55 2020
+Terminated at Wed Apr 29 18:17:50 2020
+Results reported at Wed Apr 29 18:17:50 2020
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+
+#!/bin/bash -l
+#BSUB -env none
+### -- Name of the job ---
+#BSUB -J My_Application
+### -- estimated wall clock time (execution time): hh:mm:ss --
+#BSUB -W 12:00
+### -- number of processors/cores/nodes --
+#BSUB -M 2GB
+#BSUB -n 1
+#BSUB -o OandE/Output_%J.out
+#BSUB -e OandE/Error_%J.err
+#BSUB LSB_JOB_REPORT_MAIL=N 
+
+/appl/R/bin/R-3.5.1 CMD BATCH --vanilla  "-15" "/zhome/6e/9/133731/Desktop/Thesis/Thesis/Code/Coefficient_optimization/Multi_step_predictions/ml_vs_mcss/compare_ml_mcss.r" "/zhome/6e/9/133731/Desktop/Thesis/Thesis/Code/Coefficient_optimization/Multi_step_predictions/ml_vs_mcss/OandE/job15.Rout"
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   9593.27 sec.
+    Max Memory :                                 145 MB
+    Average Memory :                             126.15 MB
+    Total Requested Memory :                     2048.00 MB
+    Delta Memory :                               1903.00 MB
+    Max Swap :                                   2 MB
+    Max Processes :                              5
+    Max Threads :                                6
+    Run time :                                   9598 sec.
+    Turnaround time :                            9597 sec.
+
+The output (if any) is above this job summary.
+
+
+
+PS:
+
+Read file <OandE/Error_6404197.err> for stderr output of this job.
+

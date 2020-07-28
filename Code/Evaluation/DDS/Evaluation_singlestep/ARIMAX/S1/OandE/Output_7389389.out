@@ -1,0 +1,56 @@
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@n-62-21-103>
+Subject: Job 7389389: <My_Application> in cluster <dcc> Done
+
+Job <My_Application> was submitted from host <gbarlogin1> by user <s181320> in cluster <dcc> at Wed Jul  1 18:33:18 2020
+Job was executed on host(s) <n-62-21-103>, in queue <hpc>, as user <s181320> in cluster <dcc> at Wed Jul  1 18:33:19 2020
+</zhome/6e/9/133731> was used as the home directory.
+</zhome/6e/9/133731/Desktop/Thesis/Thesis/Code/Evaluation/DDS/Evaluation_singlestep/ARIMAX/S1> was used as the working directory.
+Started at Wed Jul  1 18:33:19 2020
+Terminated at Wed Jul  1 18:33:28 2020
+Results reported at Wed Jul  1 18:33:28 2020
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/bash -l
+#BSUB -env none
+### -- Name of the job ---
+#BSUB -J My_Application
+### -- estimated wall clock time (execution time): hh:mm:ss --
+#BSUB -W 12:00
+### -- number of processors/cores/nodes --
+#BSUB -M 2GB
+#BSUB -n 1
+#BSUB -o OandE/Output_%J.out
+#BSUB -e OandE/Error_%J.err
+#LSB_JOB_REPORT_MAIL=N
+/appl/R/bin/R-3.6.3-mkl CMD BATCH --vanilla  "-1734" "/zhome/6e/9/133731/Desktop/Thesis/Thesis/Code/Evaluation/DDS/Evaluation_singlestep/ARIMAX/S1/evaluation_ss_ARIMAX_S1.r" "/zhome/6e/9/133731/Desktop/Thesis/Thesis/Code/Evaluation/DDS/Evaluation_singlestep/ARIMAX/S1/OandE/job1734.Rout"
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   6.51 sec.
+    Max Memory :                                 196 MB
+    Average Memory :                             170.67 MB
+    Total Requested Memory :                     2048.00 MB
+    Delta Memory :                               1852.00 MB
+    Max Swap :                                   -
+    Max Processes :                              5
+    Max Threads :                                6
+    Run time :                                   11 sec.
+    Turnaround time :                            10 sec.
+
+The output (if any) is above this job summary.
+
+
+
+PS:
+
+Read file <OandE/Error_7389389.err> for stderr output of this job.
+

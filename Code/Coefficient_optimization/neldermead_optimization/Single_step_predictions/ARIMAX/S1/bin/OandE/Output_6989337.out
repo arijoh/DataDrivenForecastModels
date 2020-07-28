@@ -1,0 +1,57 @@
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@n-62-21-98>
+Subject: Job 6989337: <My_Application> in cluster <dcc> Exited
+
+Job <My_Application> was submitted from host <gbarlogin1> by user <s181320> in cluster <dcc> at Thu May 28 02:34:00 2020
+Job was executed on host(s) <n-62-21-98>, in queue <hpc>, as user <s181320> in cluster <dcc> at Fri May 29 04:42:49 2020
+</zhome/6e/9/133731> was used as the home directory.
+</zhome/6e/9/133731/Desktop/Thesis/Thesis/Code/Coefficient_optimization/Single_step_predictions/HPC/ARIMAX/S1> was used as the working directory.
+Started at Fri May 29 04:42:49 2020
+Terminated at Fri May 29 16:43:08 2020
+Results reported at Fri May 29 16:43:08 2020
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/bash -l
+#BSUB -env none
+### -- Name of the job ---
+#BSUB -J My_Application
+### -- estimated wall clock time (execution time): hh:mm:ss --
+#BSUB -W 12:00
+### -- number of processors/cores/nodes --
+#BSUB -M 2GB
+#BSUB -n 1
+#BSUB -o OandE/Output_%J.out
+#BSUB -e OandE/Error_%J.err
+#LSB_JOB_REPORT_MAIL=N
+/appl/R/bin/R-3.5.1 CMD BATCH --vanilla  "-887" "/zhome/6e/9/133731/Desktop/Thesis/Thesis/Code/Coefficient_optimization/Single_step_predictions/HPC/ARIMAX/S1/CO_singlestep_ARIMAX_S1.r" "/zhome/6e/9/133731/Desktop/Thesis/Thesis/Code/Coefficient_optimization/Single_step_predictions/HPC/ARIMAX/S1/OandE/job887.Rout"
+
+------------------------------------------------------------
+
+TERM_RUNLIMIT: job killed after reaching LSF run time limit.
+Exited with exit code 140.
+
+Resource usage summary:
+
+    CPU time :                                   43209.00 sec.
+    Max Memory :                                 131 MB
+    Average Memory :                             69.90 MB
+    Total Requested Memory :                     2048.00 MB
+    Delta Memory :                               1917.00 MB
+    Max Swap :                                   -
+    Max Processes :                              5
+    Max Threads :                                6
+    Run time :                                   43220 sec.
+    Turnaround time :                            137348 sec.
+
+The output (if any) is above this job summary.
+
+
+
+PS:
+
+Read file <OandE/Error_6989337.err> for stderr output of this job.
+

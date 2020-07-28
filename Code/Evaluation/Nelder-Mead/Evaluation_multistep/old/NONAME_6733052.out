@@ -1,0 +1,38 @@
+/bin/bash: ./job_ARIMA_S1.sh: Permission denied
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@n-62-21-98>
+Subject: Job 6733052: <NONAME> in cluster <dcc> Exited
+
+Job <NONAME> was submitted from host <gbarlogin1> by user <s181320> in cluster <dcc> at Thu May 14 15:23:24 2020
+Job was executed on host(s) <n-62-21-98>, in queue <hpc>, as user <s181320> in cluster <dcc> at Thu May 14 16:18:36 2020
+</zhome/6e/9/133731> was used as the home directory.
+</zhome/6e/9/133731/Desktop/Thesis/Thesis/Code/Evaluation/Evaluation_multistep> was used as the working directory.
+Started at Thu May 14 16:18:36 2020
+Terminated at Thu May 14 16:18:38 2020
+Results reported at Thu May 14 16:18:38 2020
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+job_ARIMA_S1.sh
+------------------------------------------------------------
+
+Exited with exit code 126.
+
+Resource usage summary:
+
+    CPU time :                                   0.64 sec.
+    Max Memory :                                 -
+    Average Memory :                             -
+    Total Requested Memory :                     1024.00 MB
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              -
+    Max Threads :                                -
+    Run time :                                   17 sec.
+    Turnaround time :                            3314 sec.
+
+The output (if any) is above this job summary.
+

@@ -1,0 +1,51 @@
+WARNING: unknown option '-3'
+
+
+R version 3.5.1 (2018-07-02) -- "Feather Spray"
+Copyright (C) 2018 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> args <- commandArgs(trailingOnly = F)
+> myargument <- args[length(args)]
+> myargument <- sub("-","",myargument)
+> myargument <- as.numeric(myargument)
+> setwd("/zhome/6e/9/133731/Desktop/Thesis/Thesis/Code")
+> source(paste(getwd(), "/Coefficient_optimization/dds_optimization/Single_step_predictions/meta_optim.r", sep = ""))
+> load("Coefficient_optimization/dds_optimization/Single_step_predictions/ARIMA/orders.rdata")
+> s2 <-  read.csv("../Data/Training_data/s2_training.txt", header = TRUE, sep = "\t")$Value
+> s2_wwIndex <- read.csv("../Data/Training_data/s2_WW_training.txt", header = TRUE, sep = "\t")$Flag
+> 
+> ts <- s2
+> wwIndex <- s2_wwIndex
+> 
+> order <- as.vector(orders[myargument,], mode = "numeric")
+> print(order)
+[1] 2 0 0
+> 
+> start_time <- Sys.time()
+> results <- meta_optim(order, External_Regressor = FALSE)
+> end_time <- Sys.time()
+> results$Time <- end_time -  start_time  
+> 
+> 
+> name <- paste("CO_ARIMA_S1_c(", order[1], ", ", order[2], ", ", order[3], ")", sep = "")
+> assign(name, results)
+> filename <- paste("Coefficient_optimization/dds_optimization/Single_step_predictions/ARIMA/S2/Lists/", name, ".rdata",sep = "")
+> save(results, file = filename)
+> 
+> 
+> proc.time()
+   user  system elapsed 
+113.194   0.217 113.549 
