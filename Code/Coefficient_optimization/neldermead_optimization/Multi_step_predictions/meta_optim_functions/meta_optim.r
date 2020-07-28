@@ -293,7 +293,7 @@ meta_optim <- function(order, External_Regressor, reg.nr, reg.lag){
     for (i in 1:length(output$residuals[[1]])){
       temp2 <- 0
       for (j in 1:k){
-        temp2 <-  temp2 + ((k - j + 1) * residuals[j,i] )
+        temp2 <-  temp2 + ((k - j + 1) * (residuals[j,i])^2 )
       }
       SC_[i] <-  temp2
     }

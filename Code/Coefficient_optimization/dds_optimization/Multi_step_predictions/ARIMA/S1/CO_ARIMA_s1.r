@@ -2,7 +2,7 @@ args <- commandArgs(trailingOnly = F)
 myargument <- args[length(args)]
 myargument <- sub("-","",myargument)
 myargument <- as.numeric(myargument)
-setwd("/zhome/6e/9/133731/Desktop/Thesis/Thesis/Code")
+setwd("/zhome/6e/9/133731/Desktop/UpdateMS/Code")
 source(paste(getwd(), "/Coefficient_optimization/dds_optimization/Multi_step_predictions/meta_optim.r", sep = ""))
 load("Coefficient_optimization/dds_optimization/Multi_step_predictions/ARIMA/orders.rdata")
 s1 <-  read.csv("../Data/Training_data/s1_training.txt", header = TRUE, sep = "\t")$Value

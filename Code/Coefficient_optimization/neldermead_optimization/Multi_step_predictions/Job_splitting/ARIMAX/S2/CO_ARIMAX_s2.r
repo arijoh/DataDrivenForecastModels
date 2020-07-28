@@ -3,7 +3,7 @@ myargument <- args[length(args)]
 myargument <- sub("-","",myargument)
 myargument <- as.numeric(myargument)
 
-setwd("/zhome/6e/9/133731/Desktop/Thesis/Thesis/Code")
+setwd("/zhome/6e/9/133731/Desktop/UpdateMS/Code")
 source(paste(getwd(),"/Coefficient_optimization/neldermead_optimization/Multi_step_predictions/meta_optim_functions/meta_optim.r", sep = ""))
 load("Coefficient_optimization/neldermead_optimization/Multi_step_predictions/Job_splitting/ARIMAX/orders.RData")
 
