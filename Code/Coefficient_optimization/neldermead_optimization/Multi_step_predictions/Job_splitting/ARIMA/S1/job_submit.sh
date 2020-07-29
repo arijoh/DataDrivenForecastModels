@@ -12,4 +12,4 @@
 #BSUB -e OandE/Error_%J.err
 #BSUB LSB_JOB_REPORT_MAIL=N 
 
-/appl/R/bin/R-3.5.1 CMD BATCH --vanilla  "-162" "/zhome/6e/9/133731/Desktop/Thesis/Thesis/Code/Coefficient_optimization/Multi_step_predictions/Job_splitting/ARIMA/S1/CO_ARIMA_s1.r" "/zhome/6e/9/133731/Desktop/Thesis/Thesis/Code/Coefficient_optimization/Multi_step_predictions/Job_splitting/ARIMA/S1/OandE/job162.Rout"
+/appl/R/bin/R-3.5.1 CMD BATCH --vanilla  "-162" "/zhome/6e/9/133731/Desktop/UpdateMS/Code/Coefficient_optimization/neldermead_optimization/Multi_step_predictions/Job_splitting/ARIMA/S1/CO_ARIMA_s1.r" "/zhome/6e/9/133731/Desktop/UpdateMS/Code/Coefficient_optimization/neldermead_optimization/Multi_step_predictions/Job_splitting/ARIMA/S1/OandE/job162.Rout"
