@@ -5,7 +5,7 @@ myargument <- as.numeric(myargument)
 
 library(xts)
 Sys.setenv(TZ = "GMT")
-setwd("/zhome/6e/9/133731/Desktop/Thesis/Thesis/Code")
+setwd("/zhome/6e/9/133731/Desktop/UpdateMS/Code")
 wd <- getwd()
 source(paste(wd,"/Evaluation/functions.r", sep = ""))
 files <- list.files(path = "Coefficient_optimization/Multi_step_predictions/Job_splitting/ARIMAX/S2/Lists", pattern = ".rdata", recursive = TRUE)
