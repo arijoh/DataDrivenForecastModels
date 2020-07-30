@@ -49,3 +49,18 @@ Type 'q()' to quit R.
 > 
 > start_time <- Sys.time()
 > results <- meta_optim(order, External_Regressor = TRUE, reg.nr = reg.nr, reg.lag = reg.lag)
+> end_time <- Sys.time()
+> results$reg.nr <-  reg.nr
+> results$reg.lag <- reg.lag
+> results$Time <- end_time -  start_time  
+> 
+> name <- paste("CO_ARIMAX_S2_c(", order[1], ", ", order[2], ", ", order[3], "reg.nr=", reg.nr, "reg.lag=", reg.lag,  ")", sep = "")
+> assign(name, results)
+> filename <- paste("Coefficient_optimization/dds_optimization/Multi_step_predictions/ARIMAX/S2/Lists/", name, ".rdata",sep = "")
+> save(results, file = filename)
+> 
+> 
+> 
+> proc.time()
+   user  system elapsed 
+510.751   1.681 513.841 

@@ -9,7 +9,7 @@ scriptpath=os.path.dirname(os.path.realpath(__file__))
 workpath=os.path.abspath(os.path.join(scriptpath, os.pardir))
 script=os.path.join(scriptpath,rscriptname)
 
-for i in range(150): #2430
+for i in range(700, 1000): #2430
 #get working directories and option combinations
     exepath= '/appl/R/bin/R-3.5.1 CMD BATCH --vanilla ' + ' "-' + str(i+1) + '" "' + script + '" "' + os.path.join(scriptpath, 'OandE', "job" + str(i+1) + ".Rout" ) + '"'
     #modify job file
