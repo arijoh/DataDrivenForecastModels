@@ -1,0 +1,56 @@
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@n-62-28-34>
+Subject: Job 7843166: <My_Application> in cluster <dcc> Done
+
+Job <My_Application> was submitted from host <gbarlogin1> by user <s181320> in cluster <dcc> at Thu Jul 30 12:19:07 2020
+Job was executed on host(s) <n-62-28-34>, in queue <hpc>, as user <s181320> in cluster <dcc> at Thu Jul 30 13:20:35 2020
+</zhome/6e/9/133731> was used as the home directory.
+</zhome/6e/9/133731/Desktop/UpdateMS/Code/Coefficient_optimization/dds_optimization/Multi_step_predictions/ARIMAX/S1> was used as the working directory.
+Started at Thu Jul 30 13:20:35 2020
+Terminated at Thu Jul 30 13:20:37 2020
+Results reported at Thu Jul 30 13:20:37 2020
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/bash -l
+#BSUB -env none
+### -- Name of the job ---
+#BSUB -J My_Application
+### -- estimated wall clock time (execution time): hh:mm:ss --
+#BSUB -W 12:00
+### -- number of processors/cores/nodes --
+#BSUB -M 2GB
+#BSUB -n 1
+#BSUB -o OandE/Output_%J.out
+#BSUB -e OandE/Error_%J.err
+#LSB_JOB_REPORT_MAIL=N
+/appl/R/bin/R-3.5.1 CMD BATCH --vanilla  "-1630" "/zhome/6e/9/133731/Desktop/UpdateMS/Code/Coefficient_optimization/dds_optimization/Multi_step_predictions/ARIMAX/S1/CO_ARIMAX_s1.r" "/zhome/6e/9/133731/Desktop/UpdateMS/Code/Coefficient_optimization/dds_optimization/Multi_step_predictions/ARIMAX/S1/OandE/job1630.Rout"
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   1.55 sec.
+    Max Memory :                                 -
+    Average Memory :                             -
+    Total Requested Memory :                     2048.00 MB
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              -
+    Max Threads :                                -
+    Run time :                                   2 sec.
+    Turnaround time :                            3690 sec.
+
+The output (if any) is above this job summary.
+
+
+
+PS:
+
+Read file <OandE/Error_7843166.err> for stderr output of this job.
+

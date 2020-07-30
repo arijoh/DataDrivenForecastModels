@@ -1,0 +1,56 @@
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@n-62-21-105>
+Subject: Job 7831597: <My_Application> in cluster <dcc> Done
+
+Job <My_Application> was submitted from host <gbarlogin1> by user <s181320> in cluster <dcc> at Wed Jul 29 19:38:11 2020
+Job was executed on host(s) <n-62-21-105>, in queue <hpc>, as user <s181320> in cluster <dcc> at Thu Jul 30 07:42:44 2020
+</zhome/6e/9/133731> was used as the home directory.
+</zhome/6e/9/133731/Desktop/UpdateMS/Code/Coefficient_optimization/dds_optimization/Multi_step_predictions/ARIMA/S2> was used as the working directory.
+Started at Thu Jul 30 07:42:44 2020
+Terminated at Thu Jul 30 07:45:44 2020
+Results reported at Thu Jul 30 07:45:44 2020
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/bash -l
+#BSUB -env none
+### -- Name of the job ---
+#BSUB -J My_Application
+### -- estimated wall clock time (execution time): hh:mm:ss --
+#BSUB -W 48:00
+### -- number of processors/cores/nodes --
+#BSUB -M 2GB
+#BSUB -n 1
+#BSUB -o OandE/Output_%J.out
+#BSUB -e OandE/Error_%J.err
+#LSB_JOB_REPORT_MAIL=N
+/appl/R/bin/R-3.5.1 CMD BATCH --vanilla  "-142" "/zhome/6e/9/133731/Desktop/UpdateMS/Code/Coefficient_optimization/dds_optimization/Multi_step_predictions/ARIMA/S2/CO_ARIMA_s2.r" "/zhome/6e/9/133731/Desktop/UpdateMS/Code/Coefficient_optimization/dds_optimization/Multi_step_predictions/ARIMA/S2/OandE/job142.Rout"
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   179.56 sec.
+    Max Memory :                                 149 MB
+    Average Memory :                             133.50 MB
+    Total Requested Memory :                     2048.00 MB
+    Delta Memory :                               1899.00 MB
+    Max Swap :                                   -
+    Max Processes :                              5
+    Max Threads :                                6
+    Run time :                                   180 sec.
+    Turnaround time :                            43653 sec.
+
+The output (if any) is above this job summary.
+
+
+
+PS:
+
+Read file <OandE/Error_7831597.err> for stderr output of this job.
+
