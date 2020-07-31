@@ -10,4 +10,4 @@
 #BSUB -o OandE/Output_%J.out
 #BSUB -e OandE/Error_%J.err
 #LSB_JOB_REPORT_MAIL=N
-/appl/R/bin/R-3.5.1 CMD BATCH --vanilla  "-1000" "/zhome/6e/9/133731/Desktop/UpdateMS/Code/Coefficient_optimization/neldermead_optimization/Multi_step_predictions/Job_splitting/ARIMAX/S2/CO_ARIMAX_s2.r" "/zhome/6e/9/133731/Desktop/UpdateMS/Code/Coefficient_optimization/neldermead_optimization/Multi_step_predictions/Job_splitting/ARIMAX/S2/OandE/job1000.Rout"
+/appl/R/bin/R-3.5.1 CMD BATCH --vanilla  "-2430" "/zhome/6e/9/133731/Desktop/UpdateMS/Code/Coefficient_optimization/neldermead_optimization/Multi_step_predictions/Job_splitting/ARIMAX/S2/CO_ARIMAX_s2.r" "/zhome/6e/9/133731/Desktop/UpdateMS/Code/Coefficient_optimization/neldermead_optimization/Multi_step_predictions/Job_splitting/ARIMAX/S2/OandE/job2430.Rout"
