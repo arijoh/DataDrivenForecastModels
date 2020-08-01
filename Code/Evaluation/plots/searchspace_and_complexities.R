@@ -111,7 +111,7 @@ hist_ARIMA <- ggplot(ARIMA_S1_ss_nm, aes(x=n))+
   scale_y_continuous(minor_breaks = seq(0 , 200, 25), breaks = seq(0, 200, 25), limits = c(-0.5, 200))+
   scale_x_continuous(limits = c(-0.5, 23.5))+
   theme_minimal()+
-  theme(plot.title = element_text(size = 16), text = element_text(size=16))
+  theme(plot.title = element_text(size = 14), text = element_text(size=14))
 
 hist_ARIMAX <- ggplot(ARIMAX_S1_ss_nm, aes(x=n))+
   geom_histogram(binwidth=1, fill=I("blue"), col=I("black"), alpha=I(.5)) +
@@ -120,10 +120,10 @@ hist_ARIMAX <- ggplot(ARIMAX_S1_ss_nm, aes(x=n))+
   scale_y_continuous(minor_breaks = seq(0 , 200, 25), breaks = seq(0, 200, 25), limits = c(-0.5, 200))+
   scale_x_continuous(limits = c(-0.5, 23.5))+
   theme_minimal()+
-  theme(plot.title = element_text(size = 16), text = element_text(size=16))
+  theme(plot.title = element_text(size = 14), text = element_text(size=14))
 
 hyperparameter_distribution <- annotate_figure(ggarrange(hist_ARIMA, hist_ARIMAX),
-                                     top = text_grob("Hyperparameter distribution", size= 18))
+                                     top = text_grob("Hyperparameter distribution", size= 14))
 # hyperparameter_distribution
 ggsave(filename="../Figures/Results/hyperparameter_distribution.pdf", width = 7, heigh = 3)
 hyperparameter_distribution
@@ -195,7 +195,7 @@ plotComputationCost <- function(data, title){
     facet_grid(cols = vars(optimization))+
     scale_x_continuous(limits = c(-0.5, 23.5))+
     theme_minimal()+
-    theme(plot.title = element_text(size = 16), text = element_text(size=12))
+    theme(plot.title = element_text(size = 14), text = element_text(size=14))
   return(plot)
 }
 
@@ -211,13 +211,13 @@ compCost_station2_ARIMAX_ms <- plotComputationCost(data_aggr_ARIMAX_S2_ms, title
 
 
 ComputationCost_station1_ss <- annotate_figure(ggarrange(compCost_station1_ARIMA_ss, compCost_station1_ARIMAX_ss, nrow = 2), 
-                                        top = text_grob("Computing time\nDæmmningen, single-step models", size = 16))
+                                        top = text_grob("Computing time\nDæmmningen, single-step models", size = 14))
 ComputationCost_station2_ss <- annotate_figure(ggarrange(compCost_station2_ARIMA_ss, compCost_station2_ARIMAX_ss, nrow = 2), 
-                                        top = text_grob("Computing time\nDamhusåen, single-step models", size = 16))
+                                        top = text_grob("Computing time\nDamhusåen, single-step models", size = 14))
 ComputationCost_station1_ms <- annotate_figure(ggarrange(compCost_station1_ARIMA_ms, compCost_station1_ARIMAX_ms, nrow = 2), 
-                                        top = text_grob("Computing time\nDæmmningen, multi-step models", size = 16))
+                                        top = text_grob("Computing time\nDæmmningen, multi-step models", size = 14))
 ComputationCost_station2_ms <- annotate_figure(ggarrange(compCost_station2_ARIMA_ms, compCost_station2_ARIMAX_ms, nrow = 2), 
-                                        top = text_grob("Computing time\nDamhusåen, multi-step models", size = 16))
+                                        top = text_grob("Computing time\nDamhusåen, multi-step models", size = 14))
 
 ComputationCost_station1_ss
 ComputationCost_station2_ss

@@ -153,24 +153,21 @@ plotViolin <- function(data, zoom_to, title){
 
 ## Rows
 plot_S1_ss <- plotViolin(data_S1_ss, zoom_to = 2.5, title = "Dæmningen\nSingle-step objective function criteria")
-plot_S1_ms <- plotViolin(data_S1_ms, zoom_to = 10, title = "Dæmningen\nMulti-step objective function criteria")
-
-plot_S2_ss <- plotViolin(data_S2_ss, zoom_to = 10, title = "Damhusåen\nSingle-step objective function criteria")
-plot_S2_ms <- plotViolin(data_S2_ms, zoom_to = 10, title = "Damhusåen\nMulti-step objective function criteria")
-
-
 ggsave(filename = "../Figures/Results/Comparison/ObjectiveFunction/singlestepDammningen.pdf", width = 11, height =8)
 plot_S1_ss
 dev.off()
 
-ggsave(filename = "../Figures/Results/Comparison/ObjectiveFunction/singlestepDamhusaen.pdf", width = 11, height = 8)
-plot_S2_ss
-dev.off()
-
+plot_S1_ms <- plotViolin(data_S1_ms, zoom_to = 10, title = "Dæmningen\nMulti-step objective function criteria")
 ggsave(filename = "../Figures/Results/Comparison/ObjectiveFunction/multistepDammningen.pdf", width = 11, height = 8)
 plot_S1_ms
 dev.off()
 
+plot_S2_ss <- plotViolin(data_S2_ss, zoom_to = 10, title = "Damhusåen\nSingle-step objective function criteria")
+ggsave(filename = "../Figures/Results/Comparison/ObjectiveFunction/singlestepDamhusaen.pdf", width = 11, height = 8)
+plot_S2_ss
+dev.off()
+
+plot_S2_ms <- plotViolin(data_S2_ms, zoom_to = 20, title = "Damhusåen\nMulti-step objective function criteria")
 ggsave(filename = "../Figures/Results/Comparison/ObjectiveFunction/multistepDamhusaen.pdf", width = 11, height = 8)
 plot_S2_ms
 dev.off()

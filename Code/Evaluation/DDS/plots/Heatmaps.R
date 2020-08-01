@@ -163,6 +163,7 @@ data <- rbind(data_ss_S1,
               data_ss_S2,
               data_ms_S1,
               data_ms_S2)
+
 library(wesanderson)
 
 # Gradient color
@@ -183,7 +184,7 @@ plot <- ggplot(data, aes(x = reg.lag, y = reg.nr, fill= (f))) +
   facet_grid(rows = vars(Station), cols = vars(ofc))+
   ggtitle("Objective function value vs regressors")+
   scale_fill_distiller(palette = "Spectral")+
-  theme_ipsum(grid = F, base_size = 8*2, axis_title_size = 8*2,  axis_text_size = 8*2, plot_margin = margin(5,5,5,5), base_family = "")
+  theme_ipsum(grid = F, base_size = 8*2, axis_title_size = 8*2,  axis_text_size = 8*2, plot_title_size = 12, plot_margin = margin(5,5,5,5), base_family = "")
 
 plot
 

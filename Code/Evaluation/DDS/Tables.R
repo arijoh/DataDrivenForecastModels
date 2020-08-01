@@ -159,15 +159,15 @@ Damhusaen_Accuracy_PI <- DamhusaenDF_Accuracy[[1]]
 Damhusaen_Accuracy_Accuracy <- DamhusaenDF_Accuracy[[2]]
 
 ###### Look
-View(Damningen_PI_PI)
-View(Damningen_PI_Accuracy)
-View(Damningen_Accuracy_PI)
-View(Damningen_Accuracy_Accuracy)
-
-View(Damhusaen_PI_PI)
-View(Damhusaen_PI_Accuracy)
-View(Damhusaen_Accuracy_PI)
-View(Damhusaen_Accuracy_Accuracy)
+# View(Damningen_PI_PI)
+# View(Damningen_PI_Accuracy)
+# View(Damningen_Accuracy_PI)
+# View(Damningen_Accuracy_Accuracy)
+# 
+# View(Damhusaen_PI_PI)
+# View(Damhusaen_PI_Accuracy)
+# View(Damhusaen_Accuracy_PI)
+# View(Damhusaen_Accuracy_Accuracy)
 
 
 
@@ -181,10 +181,10 @@ View(Damhusaen_Accuracy_Accuracy)
 # save(Damhusaen_Accuracy_Accuracy, file = "Evaluation/DDS/best_models/Tables/Damhusaen_Accuracy_Accuracy.Rdata")
 # 
 # 
-# save(DamningenList_PI, file = "Evaluation/DDS/best_models/Lists/DamningenList_PI.Rdata")
-# save(DamningenList_Accuracy, file = "Evaluation/DDS/best_models/Lists/DamningenList_Accuracy.Rdata")
-# save(DamhusaenList_PI, file = "Evaluation/DDS/best_models/Lists/DamhusaenList_PI.Rdata")
-# save(DamhusaenList_Accuracy, file = "Evaluation/DDS/best_models/Lists/DamhusaenList_Accuracy.Rdata")
+save(DamningenList_PI, file = "Evaluation/DDS/best_models/Lists/DamningenList_PI.Rdata")
+save(DamningenList_Accuracy, file = "Evaluation/DDS/best_models/Lists/DamningenList_Accuracy.Rdata")
+save(DamhusaenList_PI, file = "Evaluation/DDS/best_models/Lists/DamhusaenList_PI.Rdata")
+save(DamhusaenList_Accuracy, file = "Evaluation/DDS/best_models/Lists/DamhusaenList_Accuracy.Rdata")
 
 
 ### Print tables if desired

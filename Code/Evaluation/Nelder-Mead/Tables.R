@@ -159,14 +159,14 @@ Damhusaen_Accuracy_PI <- DamhusaenDF_Accuracy[[1]]
 Damhusaen_Accuracy_Accuracy <- DamhusaenDF_Accuracy[[2]]
 
 
-save(Damningen_PI_PI, file = "Evaluation/Nelder-Mead/best_models/Damningen_PI_PI.Rdata")
-save(Damningen_PI_Accuracy, file = "Evaluation/Nelder-Mead/best_models/Damningen_PI_Accuracy.Rdata")
-save(Damningen_Accuracy_PI, file = "Evaluation/Nelder-Mead/best_models/Damningen_Accuracy_PI.Rdata")
-save(Damningen_Accuracy_Accuracy, file = "Evaluation/Nelder-Mead/best_models/Damningen_Accuracy_Accuracy.Rdata")
-save(Damhusaen_PI_PI, file = "Evaluation/Nelder-Mead/best_models/Damhusaen_PI_PI.Rdata")
-save(Damhusaen_PI_Accuracy, file = "Evaluation/Nelder-Mead/best_models/Damhusaen_PI_Accuracy.Rdata")
-save(Damhusaen_Accuracy_PI, file = "Evaluation/Nelder-Mead/best_models/Damhusaen_Accuracy_PI.Rdata")
-save(Damhusaen_Accuracy_Accuracy, file = "Evaluation/Nelder-Mead/best_models/Damhusaen_Accuracy_Accuracy.Rdata")
+save(Damningen_PI_PI, file = "Evaluation/Nelder-Mead/best_models/tables/Damningen_PI_PI.Rdata")
+save(Damningen_PI_Accuracy, file = "Evaluation/Nelder-Mead/best_models/tables/Damningen_PI_Accuracy.Rdata")
+save(Damningen_Accuracy_PI, file = "Evaluation/Nelder-Mead/best_models/tables/Damningen_Accuracy_PI.Rdata")
+save(Damningen_Accuracy_Accuracy, file = "Evaluation/Nelder-Mead/best_models/tables/Damningen_Accuracy_Accuracy.Rdata")
+save(Damhusaen_PI_PI, file = "Evaluation/Nelder-Mead/best_models/tables/Damhusaen_PI_PI.Rdata")
+save(Damhusaen_PI_Accuracy, file = "Evaluation/Nelder-Mead/best_models/tables/Damhusaen_PI_Accuracy.Rdata")
+save(Damhusaen_Accuracy_PI, file = "Evaluation/Nelder-Mead/best_models/tables/Damhusaen_Accuracy_PI.Rdata")
+save(Damhusaen_Accuracy_Accuracy, file = "Evaluation/Nelder-Mead/best_models/tables/Damhusaen_Accuracy_Accuracy.Rdata")
 
 
 ###### Look
@@ -180,7 +180,10 @@ save(Damhusaen_Accuracy_Accuracy, file = "Evaluation/Nelder-Mead/best_models/Dam
 # View(Damhusaen_Accuracy_PI)
 # View(Damhusaen_Accuracy_Accuracy)
 
-
+save(DamningenList_PI, file = "Evaluation/Nelder-Mead/best_models/List/DamningenList_PI.Rdata")
+save(DamningenList_Accuracy, file = "Evaluation/Nelder-Mead/best_models/List/DamningenList_Accuracy.Rdata")
+save(DamhusaenList_PI, file = "Evaluation/Nelder-Mead/best_models/List/DamhusaenList_PI.Rdata")
+save(DamhusaenList_Accuracy, file = "Evaluation/Nelder-Mead/best_models/List/DamhusaenList_Accuracy.Rdata")
 
 
 
@@ -190,16 +193,37 @@ save(Damhusaen_Accuracy_Accuracy, file = "Evaluation/Nelder-Mead/best_models/Dam
 ### Print tables if desired
 digits1 <- as.vector(c(0,0,0,0,0,2,2,2), mode = "numeric")
 digits2 <- as.vector(c(0,0,0,0,0,2,2,2,2,2,2), mode = "numeric")
+digits <- as.vector(c(0,0,0,0,0,2,2,2,2,2,2, 2, 2, 2), mode = "numeric")
+
+#### Fix tables together
 
 
-xtable(Damningen_PI_PI, type = "latex", digits = digits1)
-#xtable(Damningen_PI_Accuracy, type = "latex", digits = digits2)
-#xtable(Damningen_Accuracy_PI, type = "latex", digits = digits1)
-xtable(Damningen_Accuracy_Accuracy, type = "latex", digits = digits2)
+####
 
-xtable(Damhusaen_PI_PI, type = "latex", digits = digits1)
-xtable(Damhusaen_PI_Accuracy, type = "latex", digits = digits2)
+damningenPI <- cbind(Damningen_PI_PI, Damningen_PI_Accuracy[,5:ncol(Damningen_PI_Accuracy)])
+xtable(damningenPI, type = "latex", digits = digits)
 
-xtable(Damhusaen_Accuracy_PI, type = "latex", digits = digits1)
-xtable(Damhusaen_Accuracy_Accuracy, type = "latex", digits = digits2)
+damningenAccuracy <-  cbind(Damningen_Accuracy_PI, Damningen_Accuracy_Accuracy[,5:ncol(Damningen_Accuracy_Accuracy)])
+xtable(damningenAccuracy, type = "latex", digits = digits)
+
+
+DamhusaenPI <- cbind(Damhusaen_PI_PI, Damhusaen_PI_Accuracy[,5:ncol(Damhusaen_PI_Accuracy)])
+xtable(DamhusaenPI, type = "latex", digits = digits)
+
+DamhusaenAccuracy <-  cbind(Damhusaen_Accuracy_PI, Damhusaen_Accuracy_Accuracy[,5:ncol(Damhusaen_Accuracy_Accuracy)])
+xtable(DamhusaenAccuracy, type = "latex", digits = digits)
+
+
+
+# xtable(Damningen_PI_PI, type = "latex", digits = digits1)
+# xtable(Damningen_PI_Accuracy, type = "latex", digits = digits2)
+# 
+# xtable(Damningen_Accuracy_PI, type = "latex", digits = digits1)
+# xtable(Damningen_Accuracy_Accuracy, type = "latex", digits = digits2)
+# 
+# xtable(Damhusaen_PI_PI, type = "latex", digits = digits1)
+# xtable(Damhusaen_PI_Accuracy, type = "latex", digits = digits2)
+# 
+# xtable(Damhusaen_Accuracy_PI, type = "latex", digits = digits1)
+# xtable(Damhusaen_Accuracy_Accuracy, type = "latex", digits = digits2)
 

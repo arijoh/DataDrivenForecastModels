@@ -219,6 +219,10 @@ plotViolin_PI <- function(data, title, zoom_to){
 
 PIplot <- plotViolin_PI(PI_melt, title = "PI distributions of Nelder-Mead and DDS\nfor different forecasting horizons")
 
+ggsave(filename = "../Figures/Results/Comparison/Evaluation/PI_distributions_optim.pdf", width = 8, height =5)
+PIplot
+dev.off()
+
 
 
 
@@ -249,21 +253,8 @@ plotViolin_Accuracy <- function(data, title, zoom_to){
 
 Aplot <- plotViolin_Accuracy(Accuracy_melt, title = "Accuracy distributions of Nelder-Mead and DDS\nfor different forecasting horizons", zoom_to = -1)
 
-
-
-
-ggsave(filename = "../Figures/Results/Comparison/Evaluation/PI_distributions_optim.pdf", width = 8, height =5)
-PIplot
-dev.off()
-
 ggsave(filename = "../Figures/Results/Comparison/Evaluation/Accuracy_distributions_optim.pdf",  width = 8, heigh = 4)
 Aplot
 dev.off()
-
-
-
-
-
-
 
 
