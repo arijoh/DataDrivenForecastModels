@@ -1,4 +1,4 @@
-setwd("/zhome/6e/9/133731/Desktop/Thesis/Thesis/Code")
+setwd("/zhome/6e/9/133731/Desktop/UpdateMS/Code")
 
 source(paste(getwd(),"/Evaluation/ATSevaluation.r", sep = ""))
 
