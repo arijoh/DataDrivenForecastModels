@@ -53,3 +53,22 @@ Type 'q()' to quit R.
 > ##################### Optimization for Dammning (station 1) ##################### 
 > start_time <- Sys.time()
 > results <- meta_optim(order, External_Regressor = TRUE, reg.nr = reg.nr, reg.lag = reg.lag)
+> end_time <- Sys.time()
+> results$reg.nr <-  reg.nr
+> results$reg.lag <- reg.lag
+> results$Time <- end_time -  start_time  ## We want to see time as well in the list
+> 
+> 
+> 
+> name <- paste("CO_ARIMAX_s2_c(", order[1], ", ", order[2], ", ", order[3], "reg.nr=", reg.nr, "reg.lag=", reg.lag, ")", sep = "")
+> assign(name, results)
+> filename <- paste("Coefficient_optimization/neldermead_optimization/Multi_step_predictions/Job_splitting/ARIMAX/S2/Lists/", name, ".rdata",sep = "")
+> save(results, file = filename)
+> 
+> 
+> 
+> 
+> 
+> proc.time()
+    user   system  elapsed 
+3946.323   11.223 3965.744 

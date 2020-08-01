@@ -1,0 +1,56 @@
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@n-62-21-103>
+Subject: Job 7850941: <My_Application> in cluster <dcc> Done
+
+Job <My_Application> was submitted from host <gbarlogin1> by user <s181320> in cluster <dcc> at Fri Jul 31 14:12:41 2020
+Job was executed on host(s) <n-62-21-103>, in queue <hpc>, as user <s181320> in cluster <dcc> at Fri Jul 31 19:14:32 2020
+</zhome/6e/9/133731> was used as the home directory.
+</zhome/6e/9/133731/Desktop/UpdateMS/Code/Coefficient_optimization/neldermead_optimization/Multi_step_predictions/Job_splitting/ARIMAX/S2> was used as the working directory.
+Started at Fri Jul 31 19:14:32 2020
+Terminated at Fri Jul 31 20:02:43 2020
+Results reported at Fri Jul 31 20:02:43 2020
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/bash -l
+#BSUB -env none
+### -- Name of the job ---
+#BSUB -J My_Application
+### -- estimated wall clock time (execution time): hh:mm:ss --
+#BSUB -W 12:00
+### -- number of processors/cores/nodes --
+#BSUB -M 2GB
+#BSUB -n 1
+#BSUB -o OandE/Output_%J.out
+#BSUB -e OandE/Error_%J.err
+#LSB_JOB_REPORT_MAIL=N
+/appl/R/bin/R-3.5.1 CMD BATCH --vanilla  "-1958" "/zhome/6e/9/133731/Desktop/UpdateMS/Code/Coefficient_optimization/neldermead_optimization/Multi_step_predictions/Job_splitting/ARIMAX/S2/CO_ARIMAX_s2.r" "/zhome/6e/9/133731/Desktop/UpdateMS/Code/Coefficient_optimization/neldermead_optimization/Multi_step_predictions/Job_splitting/ARIMAX/S2/OandE/job1958.Rout"
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   2889.97 sec.
+    Max Memory :                                 168 MB
+    Average Memory :                             138.25 MB
+    Total Requested Memory :                     2048.00 MB
+    Delta Memory :                               1880.00 MB
+    Max Swap :                                   -
+    Max Processes :                              5
+    Max Threads :                                6
+    Run time :                                   2890 sec.
+    Turnaround time :                            21002 sec.
+
+The output (if any) is above this job summary.
+
+
+
+PS:
+
+Read file <OandE/Error_7850941.err> for stderr output of this job.
+
