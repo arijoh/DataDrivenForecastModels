@@ -31,5 +31,5 @@ results <- evaluateLists(X)
 
 name <- paste("eval_ARIMA_S1_c(", X$order[1], ", ", X$order[2], ", ", X$order[3], ", ", "reg.nr=", X$reg.nr, "reg.lag=", X$reg.lag,  ")", sep = "")
 assign(name, results)
-filename <- paste("Evaluation/Evaluation_multistep/ARIMA/S1/Lists/", name, ".rdata",sep = "")
+filename <- paste("Evaluation/Nelder-Mead/Evaluation_multistep/ARIMA/S1/Lists/", name, ".rdata",sep = "")
 save(results, file = filename)

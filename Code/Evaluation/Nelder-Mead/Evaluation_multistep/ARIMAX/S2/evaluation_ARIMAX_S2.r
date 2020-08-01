@@ -28,7 +28,7 @@ results <- evaluateLists(X)
 
 name <- paste("eval_ARIMAX_S2_c(", X$order[1], ", ", X$order[2], ", ", X$order[3], ", ", "reg.nr=", X$reg.nr, "reg.lag=", X$reg.lag,  ")", sep = "")
 assign(name, results)
-filename <- paste("Evaluation/Evaluation_multistep/ARIMAX/S2/Lists/", name, ".rdata",sep = "")
+filename <- paste("Evaluation/Nelder-Mead/Evaluation_multistep/ARIMAX/S2/Lists/", name, ".rdata",sep = "")
 save(results, file = filename)
 
 
