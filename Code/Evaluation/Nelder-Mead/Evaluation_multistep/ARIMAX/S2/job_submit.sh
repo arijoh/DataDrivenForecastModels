@@ -10,4 +10,4 @@
 #BSUB -o OandE/Output_%J.out
 #BSUB -e OandE/Error_%J.err
 #LSB_JOB_REPORT_MAIL=N
-/appl/R/bin/R-3.6.3-mkl CMD BATCH --vanilla  "-2272" "/zhome/6e/9/133731/Desktop/Thesis/Thesis/Code/Evaluation/Evaluation_multistep/ARIMAX/S2/evaluation_ARIMAX_S2.r" "/zhome/6e/9/133731/Desktop/Thesis/Thesis/Code/Evaluation/Evaluation_multistep/ARIMAX/S2/OandE/job2272.Rout"
+/appl/R/bin/R-3.6.3-mkl CMD BATCH --vanilla  "-2269" "/zhome/6e/9/133731/Desktop/UpdateMS/Code/Evaluation/Nelder-Mead/Evaluation_multistep/ARIMAX/S2/evaluation_ARIMAX_S2.r" "/zhome/6e/9/133731/Desktop/UpdateMS/Code/Evaluation/Nelder-Mead/Evaluation_multistep/ARIMAX/S2/OandE/job2269.Rout"

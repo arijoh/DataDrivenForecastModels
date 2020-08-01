@@ -1,0 +1,56 @@
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@n-62-21-106>
+Subject: Job 7863037: <My_Application> in cluster <dcc> Done
+
+Job <My_Application> was submitted from host <gbarlogin1> by user <s181320> in cluster <dcc> at Sat Aug  1 18:56:33 2020
+Job was executed on host(s) <n-62-21-106>, in queue <hpc>, as user <s181320> in cluster <dcc> at Sat Aug  1 18:56:34 2020
+</zhome/6e/9/133731> was used as the home directory.
+</zhome/6e/9/133731/Desktop/UpdateMS/Code/Evaluation/Nelder-Mead/Evaluation_multistep/ARIMAX/S2> was used as the working directory.
+Started at Sat Aug  1 18:56:34 2020
+Terminated at Sat Aug  1 18:56:43 2020
+Results reported at Sat Aug  1 18:56:43 2020
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/bash -l
+#BSUB -env none
+### -- Name of the job ---
+#BSUB -J My_Application
+### -- estimated wall clock time (execution time): hh:mm:ss --
+#BSUB -W 12:00
+### -- number of processors/cores/nodes --
+#BSUB -M 2GB
+#BSUB -n 1
+#BSUB -o OandE/Output_%J.out
+#BSUB -e OandE/Error_%J.err
+#LSB_JOB_REPORT_MAIL=N
+/appl/R/bin/R-3.6.3-mkl CMD BATCH --vanilla  "-2259" "/zhome/6e/9/133731/Desktop/UpdateMS/Code/Evaluation/Nelder-Mead/Evaluation_multistep/ARIMAX/S2/evaluation_ARIMAX_S2.r" "/zhome/6e/9/133731/Desktop/UpdateMS/Code/Evaluation/Nelder-Mead/Evaluation_multistep/ARIMAX/S2/OandE/job2259.Rout"
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   7.38 sec.
+    Max Memory :                                 154 MB
+    Average Memory :                             127.33 MB
+    Total Requested Memory :                     2048.00 MB
+    Delta Memory :                               1894.00 MB
+    Max Swap :                                   -
+    Max Processes :                              5
+    Max Threads :                                6
+    Run time :                                   11 sec.
+    Turnaround time :                            10 sec.
+
+The output (if any) is above this job summary.
+
+
+
+PS:
+
+Read file <OandE/Error_7863037.err> for stderr output of this job.
+
