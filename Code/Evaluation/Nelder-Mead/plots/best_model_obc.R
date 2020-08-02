@@ -178,25 +178,23 @@ dataAccuracy$Type <- rep("Accuracy")
 data <- rbind(dataPI, dataAccuracy)
 
 
-
+data$Type <- factor(data$Type, levels = c("PI", "Accuracy"))
 
 plot <- ggplot(data, aes(x = sort, y = value, shape = Optimization, colour = variable, group = interaction(sort, variable)))+
   geom_point(position=position_dodge(0.75), size = 3)+
   scale_shape_manual(values = c(19, 17))+
   geom_line(position=position_dodge(0.75), size=1, colour = "black", alpha = 0.3) +
   scale_colour_manual(values = c("#86BA90", "#4A8FE7", "#F2AF29"))+
-  labs(fill = "Models", colour = "Model forecasting horizons")+
-  ggtitle("Best performing models based on\nAccuracy/PI for 30 min, 60 min, and 90 min forecasting horizon")+
+  labs(fill = "Models", colour = "Performance of selected model\non other forecating horizons", shape = "Objective function criteria")+
+  ggtitle("Models selected based on evaluation metric for different horizons")+
   facet_grid(cols = vars(Station), rows = vars(Type), scales = "free_y", switch = "y")+
-  xlab("Best perfoming model based on different forecasting horizons")+ylab("")+
+  xlab("Forcasting horizon")+ylab("")+
   scale_y_continuous(minor_breaks = seq(-15 , 1, 0.1), breaks = seq(-15, 1, 0.2))+
   theme_minimal()+
   theme(plot.title = element_text(size = 12), 
         text = element_text(size=12),
-        axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1.5),
-        legend.position = "bottom", legend.box="vertical", legend.margin=margin(), strip.placement = "outside")
-
-
+        axis.text.x = element_text(angle = 45, hjust = 0.75, vjust = 1),
+        legend.position = "bottom", legend.box="vertival", strip.placement = "outside")
 plot
 
 
@@ -204,7 +202,7 @@ plot
 
 
 
-ggsave(filename = "../Figures/Results/Nelder-Mead/Evaluation/best_models_ofc.pdf", width = 8, height = 5)
+ggsave(filename = "../Figures/Results/Nelder-Mead/Evaluation/best_models_ofc_NM.pdf", width = 8, height = 5)
 plot
 dev.off()
 

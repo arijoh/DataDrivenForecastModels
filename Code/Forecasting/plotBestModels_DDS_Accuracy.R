@@ -67,7 +67,7 @@ time <- index(data)
 
 from <- "2018-03-09 00:10:00"
 to <- "2018-03-09 12:00"
-model <- 1
+model <- 2
 plot <- plotModel(model = model, from = from, to = to)   #plotModel(types[4], i=1, from = from, to = to, )
 plot
 

@@ -1,9 +1,6 @@
 library(xtable)
 
-#### HERE WE GET THE TOP PERFORMING MODELS (NO MATTER THE MODEL TYPE, I.E. SINGLE/MULTI-STEP ARIMA/ARIMAX)
-#### THE BEST MODELS ARE SAVED AS DATA FRAME AND CAN BE PRINTED OUT TO LATEX TABLES
-
-
+## Singlestep
 files <- list.files(path = "Evaluation/Nelder-Mead/Evaluation_singlestep/ARIMA/S1/Lists", pattern = ".rdata", recursive = TRUE)
 ARIMA_ss_S1 <- lapply(paste("Evaluation/Nelder-Mead/Evaluation_singlestep/ARIMA/S1/Lists/",files, sep = ""), function(x) mget(load(x))$results)
 
@@ -56,8 +53,8 @@ DamhusaenList <- c(ARIMA_ss_S2, ARIMAX_ss_S2, ARIMA_ms_S2, ARIMAX_ms_S2)
 orderListPI <- function(x){
   values <- vector()
   for (i in (1:length(x))){
-    temp <- unlist(x[[i]]$PI[3])
-    if (is.null(temp) || (is.nan(temp))){
+    temp <- unlist((as.numeric(x[[i]]$PI[1]) + as.numeric(x[[i]]$PI[2]) + as.numeric(x[[i]]$PI[3]))/3)
+    if (is.null(temp) || (is.nan(temp)) || (length(temp) == 0)){
       values[i] <- NA
     }
     else{
@@ -71,8 +68,10 @@ orderListPI <- function(x){
 orderListAccuracy <- function(x){
   values <- vector()
   for (i in (1:length(x))){
-    temp <- unlist(x[[i]]$accuracy$accuracy90[1])
-    if (is.null(temp) || (is.nan(temp))){
+    temp <- unlist((as.numeric(x[[i]]$accuracy$accuracy30[1]) +
+                      as.numeric(x[[i]]$accuracy$accuracy60[1]) + 
+                      as.numeric(x[[i]]$accuracy$accuracy90[1])/3))
+    if (is.null(temp) || (is.nan(temp)) || (length(temp) == 0)){
       values[i] <- NA
     }
     else{
@@ -85,8 +84,8 @@ orderListAccuracy <- function(x){
 
 ### Best models based on PI and accuracy for each station
 DamningenList_PI <- orderListPI(DamningenList)
-DamningenList_Accuracy <- orderListAccuracy(DamningenList)
 DamhusaenList_PI <- orderListPI(DamhusaenList)
+DamningenList_Accuracy <- orderListAccuracy(DamningenList)
 DamhusaenList_Accuracy <- orderListAccuracy(DamhusaenList)
 
 
@@ -136,10 +135,10 @@ getData <- function(L, top){
   return(list(df1, df2))
 }
 
-top <- 10
+top <- 500
 DamningenDF_PI <- getData(DamningenList_PI, top = top)
-DamningenDF_Accuracy <- getData(DamningenList_Accuracy, top = top)
 DamhusaenDF_PI <- getData(DamhusaenList_PI, top = top)
+DamningenDF_Accuracy <- getData(DamningenList_Accuracy, top = top)
 DamhusaenDF_Accuracy <- getData(DamhusaenList_Accuracy, top = top)
 
 #### Definition;
@@ -149,24 +148,14 @@ DamhusaenDF_Accuracy <- getData(DamhusaenList_Accuracy, top = top)
 Damningen_PI_PI <- DamningenDF_PI[[1]]
 Damningen_PI_Accuracy <- DamningenDF_PI[[2]]
 
-Damningen_Accuracy_PI <- DamningenDF_Accuracy[[1]]
-Damningen_Accuracy_Accuracy <- DamningenDF_Accuracy[[2]]
-
 Damhusaen_PI_PI <- DamhusaenDF_PI[[1]]
 Damhusaen_PI_Accuracy <- DamhusaenDF_PI[[2]]
 
+Damningen_Accuracy_PI <- DamningenDF_Accuracy[[1]]
+Damningen_Accuracy_Accuracy <- DamningenDF_Accuracy[[2]]
+
 Damhusaen_Accuracy_PI <- DamhusaenDF_Accuracy[[1]]
 Damhusaen_Accuracy_Accuracy <- DamhusaenDF_Accuracy[[2]]
-
-
-save(Damningen_PI_PI, file = "Evaluation/Nelder-Mead/best_models/tables/Damningen_PI_PI.Rdata")
-save(Damningen_PI_Accuracy, file = "Evaluation/Nelder-Mead/best_models/tables/Damningen_PI_Accuracy.Rdata")
-save(Damningen_Accuracy_PI, file = "Evaluation/Nelder-Mead/best_models/tables/Damningen_Accuracy_PI.Rdata")
-save(Damningen_Accuracy_Accuracy, file = "Evaluation/Nelder-Mead/best_models/tables/Damningen_Accuracy_Accuracy.Rdata")
-save(Damhusaen_PI_PI, file = "Evaluation/Nelder-Mead/best_models/tables/Damhusaen_PI_PI.Rdata")
-save(Damhusaen_PI_Accuracy, file = "Evaluation/Nelder-Mead/best_models/tables/Damhusaen_PI_Accuracy.Rdata")
-save(Damhusaen_Accuracy_PI, file = "Evaluation/Nelder-Mead/best_models/tables/Damhusaen_Accuracy_PI.Rdata")
-save(Damhusaen_Accuracy_Accuracy, file = "Evaluation/Nelder-Mead/best_models/tables/Damhusaen_Accuracy_Accuracy.Rdata")
 
 
 ###### Look
@@ -180,12 +169,9 @@ save(Damhusaen_Accuracy_Accuracy, file = "Evaluation/Nelder-Mead/best_models/tab
 # View(Damhusaen_Accuracy_PI)
 # View(Damhusaen_Accuracy_Accuracy)
 
-save(DamningenList_PI, file = "Evaluation/Nelder-Mead/best_models/List/PI/DamningenList_PI.Rdata")
-save(DamningenList_Accuracy, file = "Evaluation/Nelder-Mead/best_models/List/PI/DamningenList_Accuracy.Rdata")
-save(DamhusaenList_PI, file = "Evaluation/Nelder-Mead/best_models/List/PI/DamhusaenList_PI.Rdata")
-save(DamhusaenList_Accuracy, file = "Evaluation/Nelder-Mead/best_models/List/PI/DamhusaenList_Accuracy.Rdata")
 
-
+save(DamningenList_PI, file = "Evaluation/Nelder-Mead/best_models/List/PI_AVG/DamningenList_PI.Rdata")
+save(DamhusaenList_PI, file = "Evaluation/Nelder-Mead/best_models/List/PI_AVG/DamhusaenList_PI.Rdata")
 
 
 
@@ -203,27 +189,7 @@ digits <- as.vector(c(0,0,0,0,0,2,2,2,2,2,2, 2, 2, 2), mode = "numeric")
 damningenPI <- cbind(Damningen_PI_PI, Damningen_PI_Accuracy[,5:ncol(Damningen_PI_Accuracy)])
 xtable(damningenPI, type = "latex", digits = digits)
 
-damningenAccuracy <-  cbind(Damningen_Accuracy_PI, Damningen_Accuracy_Accuracy[,5:ncol(Damningen_Accuracy_Accuracy)])
-xtable(damningenAccuracy, type = "latex", digits = digits)
-
-
 DamhusaenPI <- cbind(Damhusaen_PI_PI, Damhusaen_PI_Accuracy[,5:ncol(Damhusaen_PI_Accuracy)])
 xtable(DamhusaenPI, type = "latex", digits = digits)
 
-DamhusaenAccuracy <-  cbind(Damhusaen_Accuracy_PI, Damhusaen_Accuracy_Accuracy[,5:ncol(Damhusaen_Accuracy_Accuracy)])
-xtable(DamhusaenAccuracy, type = "latex", digits = digits)
-
-
-
-# xtable(Damningen_PI_PI, type = "latex", digits = digits1)
-# xtable(Damningen_PI_Accuracy, type = "latex", digits = digits2)
-# 
-# xtable(Damningen_Accuracy_PI, type = "latex", digits = digits1)
-# xtable(Damningen_Accuracy_Accuracy, type = "latex", digits = digits2)
-# 
-# xtable(Damhusaen_PI_PI, type = "latex", digits = digits1)
-# xtable(Damhusaen_PI_Accuracy, type = "latex", digits = digits2)
-# 
-# xtable(Damhusaen_Accuracy_PI, type = "latex", digits = digits1)
-# xtable(Damhusaen_Accuracy_Accuracy, type = "latex", digits = digits2)
 
