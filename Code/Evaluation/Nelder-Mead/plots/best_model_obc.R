@@ -186,13 +186,13 @@ plot <- ggplot(data, aes(x = sort, y = value, shape = Optimization, colour = var
   geom_line(position=position_dodge(0.75), size=1, colour = "black", alpha = 0.3) +
   scale_colour_manual(values = c("#86BA90", "#4A8FE7", "#F2AF29"))+
   labs(fill = "Models", colour = "Performance of selected model\non other forecating horizons", shape = "Objective function criteria")+
-  ggtitle("Models selected based on evaluation metric for different horizons")+
+  ggtitle("Models selected based on PI/accuracy for different horizons")+
   facet_grid(cols = vars(Station), rows = vars(Type), scales = "free_y", switch = "y")+
   xlab("Forcasting horizon")+ylab("")+
   scale_y_continuous(minor_breaks = seq(-15 , 1, 0.1), breaks = seq(-15, 1, 0.2))+
   theme_minimal()+
-  theme(plot.title = element_text(size = 12), 
-        text = element_text(size=12),
+  theme(plot.title = element_text(size = 16), 
+        text = element_text(size=14),
         axis.text.x = element_text(angle = 45, hjust = 0.75, vjust = 1),
         legend.position = "bottom", legend.box="vertival", strip.placement = "outside")
 plot

@@ -1,6 +1,6 @@
 library(ggplot2)
 library(reshape2)
-
+library(ggpubr)
 ## DDS read-in
 ## Singlestep
 files <- list.files(path = "Evaluation/DDS/Evaluation_singlestep/ARIMA/S1/Lists", pattern = ".rdata", recursive = TRUE)
@@ -174,6 +174,15 @@ rm(DamningenList_NM_PI, DamhusaenList_NM_PI, DamningenList_DDS_PI, DamhusaenList
 
 PI_melt <- melt(PI)
 
+temp <- PI_melt[PI_melt$variable == "30 minutes",]
+head(temp)
+temp <- temp[order(temp$value, decreasing = T),]
+
+hist(temp$value, breaks = seq(from = -5, to = 1, by = 0.01))
+d <- density(temp$value, na.rm = T, from = -5, to = 1) # returns the density data 
+plot(d) # plots the results
+
+
 plotViolin_PI <- function(data, title, zoom_to){
   p1 <- ggplot(data, aes(x = variable, y = value, fill = Optimization)) +
     geom_violin(position=position_dodge(0.75), scale = "width", width = 0.65) +
@@ -218,6 +227,8 @@ plotViolin_PI <- function(data, title, zoom_to){
 }
 
 PIplot <- plotViolin_PI(PI_melt, title = "PI distributions of Nelder-Mead and DDS\nfor different forecasting horizons")
+PIplot
+
 
 ggsave(filename = "../Figures/Results/Comparison/Evaluation/PI_distributions_optim.pdf", width = 8, height =5)
 PIplot

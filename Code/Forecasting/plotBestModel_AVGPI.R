@@ -579,16 +579,16 @@ plot <- plotModel(model_damning = model_damning, model_damhusaen = model_damhusa
 plot
 
 # selected models
-pdf(filename = "../Figures/Results/Nelder-Mead/Best_model_forecasts/PI_AVG/selectedModels.pdf",
-    height= 10, width = 11)
+ggsave("../Figures/Results/Nelder-Mead/Best_model_forecasts/PI_AVG/selectedModels.pdf",
+   height= 6, width = 8)
 plot
 dev.off()
 
 
 
-for (model in (1:5)){
-  plot <- plotModel(model = model, from = from, to = to)
-  filename <- paste("../Figures/Results/Nelder-Mead/Best_model_forecasts/PI/ARIMAX_", model, "_PI.pdf", sep = "")
+for (model in (1:10)){
+  plot <- plotModel(model_damning = model, model_damhusaen = model, from = from, to = to)
+  filename <- paste("../Figures/Results/Nelder-Mead/Best_model_forecasts/PI_AVG/model_", model, "_PI_AVG.pdf", sep = "")
   ggsave(filename = filename, height= 5, width = 8)
   print(plot)
   dev.off()

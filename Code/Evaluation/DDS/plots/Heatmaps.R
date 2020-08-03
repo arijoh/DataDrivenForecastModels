@@ -159,45 +159,107 @@ data_ms_S1$ofc <- rep("Multi-step")
 data_ms_S2$ofc <- rep("Multi-step")
 
 
-data <- rbind(data_ss_S1,
-              data_ss_S2,
-              data_ms_S1,
-              data_ms_S2)
+
+
 
 library(wesanderson)
-
-# Gradient color
 pal <- wes_palette("IsleofDogs2", 100, type = "continuous")
 
-data$reg.lag <- as.factor(data$reg.lag)
-data$reg.nr <- as.factor(data$reg.nr)
+
+data_ss_S1$reg.lag <- as.factor(data_ss_S1$reg.lag)
+data_ss_S1$reg.nr <- as.factor(data_ss_S1$reg.nr)
+
+data_ss_S2$reg.lag <- as.factor(data_ss_S2$reg.lag)
+data_ss_S2$reg.nr <- as.factor(data_ss_S2$reg.nr)
+
+data_ms_S1$reg.lag <- as.factor(data_ms_S1$reg.lag)
+data_ms_S1$reg.nr <- as.factor(data_ms_S1$reg.nr)
+
+data_ms_S2$reg.lag <- as.factor(data_ms_S2$reg.lag)
+data_ms_S2$reg.nr <- as.factor(data_ms_S2$reg.nr)
 
 
-data$Station <- factor(data$Station, levels = c("Dæmningen", "Damhusåen"))
-data$ofc <- factor(data$ofc, levels = c("Single-step", "Multi-step"))
-head(data)
-
-
-plot <- ggplot(data, aes(x = reg.lag, y = reg.nr, fill= (f))) + 
+ss_s1 <- ggplot(data_ss_S1, aes(x = reg.lag, y = reg.nr, fill= (f))) +
   geom_tile() +
   geom_text(aes(label = round(f, 2)))+
-  facet_grid(rows = vars(Station), cols = vars(ofc))+
-  ggtitle("Objective function value vs regressors")+
+  scale_fill_distiller(palette = "Spectral")+
+  ggtitle("Single-step Dæmningen")+
+  labs(fill="SS")+
+  theme_ipsum(grid = F, base_size = 8*2, axis_title_size = 8*2,  axis_text_size = 8*2, plot_title_size = 12, plot_margin = margin(5,5,5,5), base_family = "")
+ss_s2 <- ggplot(data_ss_S2, aes(x = reg.lag, y = reg.nr, fill= (f))) +
+  geom_tile() +
+  geom_text(aes(label = round(f, 2)))+
+  ggtitle("Single-step Damhusåen")+
+  labs(fill="SS")+
+  scale_fill_distiller(palette = "Spectral")+
+  theme_ipsum(grid = F, base_size = 8*2, axis_title_size = 8*2,  axis_text_size = 8*2, plot_title_size = 12, plot_margin = margin(5,5,5,5), base_family = "")
+ms_s1 <- ggplot(data_ms_S1, aes(x = reg.lag, y = reg.nr, fill= (f))) +
+  geom_tile() +
+  geom_text(aes(label = round(f, 2)))+
+  scale_fill_distiller(palette = "Spectral")+
+  ggtitle("Multi-step Dæmningen")+
+  labs(fill="SC")+
+  theme_ipsum(grid = F, base_size = 8*2, axis_title_size = 8*2,  axis_text_size = 8*2, plot_title_size = 12, plot_margin = margin(5,5,5,5), base_family = "")
+ms_s2 <- ggplot(data_ms_S2, aes(x = reg.lag, y = reg.nr, fill= (f))) +
+  geom_tile() +
+  geom_text(aes(label = round(f, 2)))+
+  ggtitle("Multi-step Damhusåen")+
+  labs(fill="SC")+
   scale_fill_distiller(palette = "Spectral")+
   theme_ipsum(grid = F, base_size = 8*2, axis_title_size = 8*2,  axis_text_size = 8*2, plot_title_size = 12, plot_margin = margin(5,5,5,5), base_family = "")
 
+
+
+plot <- ggarrange(ss_s1, ss_s2, ms_s1, ms_s2, nrow = 2, ncol = 2)
 plot
 
 
-
-
-
-
-
-ggsave(filename = "../Figures/Results/DDS/objfun_vs_regressors.pdf", width = 8, height = 5)
+ggsave(filename = "../Figures/Results/DDS/objfun_vs_regressors_DDS.pdf", width = 8, height = 5)
 plot
 dev.off()
 
+
+# 
+# 
+# data <- rbind(data_ss_S1,
+#               data_ss_S2,
+#               data_ms_S1,
+#               data_ms_S2)
+# 
+# library(wesanderson)
+# 
+# # Gradient color
+# pal <- wes_palette("IsleofDogs2", 100, type = "continuous")
+# 
+# data$reg.lag <- as.factor(data$reg.lag)
+# data$reg.nr <- as.factor(data$reg.nr)
+# 
+# 
+# data$Station <- factor(data$Station, levels = c("Dæmningen", "Damhusåen"))
+# data$ofc <- factor(data$ofc, levels = c("Single-step", "Multi-step"))
+# head(data)
+# 
+# 
+# plot <- ggplot(data, aes(x = reg.lag, y = reg.nr, fill= (f))) + 
+#   geom_tile() +
+#   geom_text(aes(label = round(f, 2)))+
+#   facet_grid(rows = vars(Station), cols = vars(ofc))+
+#   ggtitle("Objective function value vs regressors")+
+#   scale_fill_distiller(palette = "Spectral")+
+#   theme_ipsum(grid = F, base_size = 8*2, axis_title_size = 8*2,  axis_text_size = 8*2, plot_title_size = 12, plot_margin = margin(5,5,5,5), base_family = "")
+# 
+# plot
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# ggsave(filename = "../Figures/Results/DDS/objfun_vs_regressors.pdf", width = 8, height = 5)
+# plot
+# dev.off()
+# 
 
 
 

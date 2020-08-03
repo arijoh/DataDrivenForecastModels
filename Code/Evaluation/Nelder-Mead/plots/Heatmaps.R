@@ -181,16 +181,19 @@ data_ms_S2$reg.lag <- as.factor(data_ms_S2$reg.lag)
 data_ms_S2$reg.nr <- as.factor(data_ms_S2$reg.nr)
 
 
+
 ss_s1 <- ggplot(data_ss_S1, aes(x = reg.lag, y = reg.nr, fill= (f))) +
   geom_tile() +
   geom_text(aes(label = round(f, 2)))+
   scale_fill_distiller(palette = "Spectral")+
   ggtitle("Single-step Dæmningen")+
+  labs(fill="SS")+
   theme_ipsum(grid = F, base_size = 8*2, axis_title_size = 8*2,  axis_text_size = 8*2, plot_title_size = 12, plot_margin = margin(5,5,5,5), base_family = "")
 ss_s2 <- ggplot(data_ss_S2, aes(x = reg.lag, y = reg.nr, fill= (f))) +
   geom_tile() +
   geom_text(aes(label = round(f, 2)))+
   ggtitle("Single-step Damhusåen")+
+  labs(fill="SS")+
   scale_fill_distiller(palette = "Spectral")+
   theme_ipsum(grid = F, base_size = 8*2, axis_title_size = 8*2,  axis_text_size = 8*2, plot_title_size = 12, plot_margin = margin(5,5,5,5), base_family = "")
 ms_s1 <- ggplot(data_ms_S1, aes(x = reg.lag, y = reg.nr, fill= (f))) +
@@ -198,11 +201,13 @@ ms_s1 <- ggplot(data_ms_S1, aes(x = reg.lag, y = reg.nr, fill= (f))) +
   geom_text(aes(label = round(f, 2)))+
   scale_fill_distiller(palette = "Spectral")+
   ggtitle("Multi-step Dæmningen")+
+  labs(fill="SC")+
   theme_ipsum(grid = F, base_size = 8*2, axis_title_size = 8*2,  axis_text_size = 8*2, plot_title_size = 12, plot_margin = margin(5,5,5,5), base_family = "")
 ms_s2 <- ggplot(data_ms_S2, aes(x = reg.lag, y = reg.nr, fill= (f))) +
   geom_tile() +
   geom_text(aes(label = round(f, 2)))+
   ggtitle("Multi-step Damhusåen")+
+  labs(fill="SC")+
   scale_fill_distiller(palette = "Spectral")+
   theme_ipsum(grid = F, base_size = 8*2, axis_title_size = 8*2,  axis_text_size = 8*2, plot_title_size = 12, plot_margin = margin(5,5,5,5), base_family = "")
 
@@ -212,7 +217,7 @@ plot <- ggarrange(ss_s1, ss_s2, ms_s1, ms_s2, nrow = 2, ncol = 2)
 plot
 
 
-ggsave(filename = "../Figures/Results/Nelder-Mead/objfun_vs_regressors.pdf", width = 8, height = 5)
+ggsave(filename = "../Figures/Results/Nelder-Mead/objfun_vs_regressors_NM.pdf", width = 8, height = 5)
 plot
 dev.off()
 
