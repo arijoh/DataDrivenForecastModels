@@ -13,5 +13,6 @@ For the model selection, the following things are investigated:
 - Comparision of models that are fitted using a single-, and multi-step forecasts.
 
 
-Two different error measures will be used for model selection, Persistence Index skill-score (PI),  and accuracy in predicting a simplified version of ATS activation 
+Runoff forecasts for 30, 60, and 90-minute forecasting horizons will be considered. Two different error measures will be used for model selection, Persistence Index skill-score (PI),  and accuracy in predicting a simplified version of ATS activation 
+
 
