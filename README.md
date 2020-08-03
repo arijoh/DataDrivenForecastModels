@@ -8,10 +8,10 @@ In this thesis, an automated model selection of ARIMA type models, using meta-op
 For the model selection, the following things are investigated:
 
 
-	* How automated model selection can be carried out efficiently
-	* Comparison of models with/without precipitation as an input.
-	* How different optimization algorithms perform in the coefficient estimation (i.e. local/global-search).
-	* Comparision of models that are fitted using a single-, and multi-step forecasts.
+	* Item How automated model selection can be carried out efficiently
+	* Item Comparison of models with/without precipitation as an input.
+	* Item How different optimization algorithms perform in the coefficient estimation (i.e. local/global-search).
+	* Item Comparision of models that are fitted using a single-, and multi-step forecasts.
 
 
 Two different error measures will be used for model selection, Persistence Index skill-score (PI),  and accuracy in predicting a simplified version of ATS activation 
