@@ -1,17 +1,17 @@
 # Summary
 
-Hydrological systems benefit both economically and environmentally from high-quality models that can predict and prepare the system for an increase in runoff. Due to data-availability and advancement in machine learning, data-driven models, which are a  simplification of the conceptual models, have been gaining attention in recent years due to their speed and flexibility.\\
+Hydrological systems benefit both economically and environmentally from high-quality models that can predict and prepare the system for an increase in runoff. Due to data-availability and advancement in machine learning, data-driven models, which are a  simplification of the conceptual models, have been gaining attention in recent years due to their speed and flexibility.
 
-ARIMA is a statistical model that can be used for generating forecasts for hydrological systems. The order of the model is traditionally identified by manual inspection of the time series, but this manual inspection can both be tedious and time-consuming.\\
+ARIMA is a statistical model that can be used for generating forecasts for hydrological systems. The order of the model is traditionally identified by manual inspection of the time series, but this manual inspection can both be tedious and time-consuming.
 
-In this thesis, an automated model selection of ARIMA type models, using meta-optimization on two catchments in Copenhagen, is presented. \\
+In this thesis, an automated model selection of ARIMA type models, using meta-optimization on two catchments in Copenhagen, is presented. 
 For the model selection, the following things are investigated:
 
 
-	* Item How automated model selection can be carried out efficiently
-	* Item Comparison of models with/without precipitation as an input.
-	* Item How different optimization algorithms perform in the coefficient estimation (i.e. local/global-search).
-	* Item Comparision of models that are fitted using a single-, and multi-step forecasts.
+	* Item 1 How automated model selection can be carried out efficiently
+	* Item 2 Comparison of models with/without precipitation as an input.
+	* Item 3 How different optimization algorithms perform in the coefficient estimation (i.e. local/global-search).
+	* Item 4 Comparision of models that are fitted using a single-, and multi-step forecasts.
 
 
 Two different error measures will be used for model selection, Persistence Index skill-score (PI),  and accuracy in predicting a simplified version of ATS activation 
