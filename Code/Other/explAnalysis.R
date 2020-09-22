@@ -190,9 +190,9 @@ ymin = 0
 ymax = 30000
 full_plot <- plotTS(data = data, from = from, to = to, ymin = ymin, ymax = ymax, title = "Full dataset (precipitation and runoff)")
 
-ggsave(filename="../Figures/fulldataplot.pdf", width = 10, height =  4)
-full_plot
-dev.off()
+# ggsave(filename="../Figures/fulldataplot.pdf", width = 10, height =  4)
+# full_plot
+# dev.off()
 
 
 
@@ -258,9 +258,9 @@ ymax = 30000
 zoom_plot <- plotTS(data = data, from = from, to = to, ymin = ymin, ymax = ymax, title = "Rain event on 2018/12/08")
 zoom_plot
 
-ggsave(filename="../Figures/zoomdataplot.pdf", width = 10, height =  4)
-zoom_plot
-dev.off()
+# ggsave(filename="../Figures/zoomdataplot.pdf", width = 10, height =  4)
+# zoom_plot
+# dev.off()
 
 
 
@@ -367,12 +367,10 @@ full_plot_flatlines
 
 
 
-# svg(filename = "../Figures/full_plot_flatlines.svg", width = 10, height =  4)
+
+# ggsave(filename = "../Figures/fullplotflatlines.pdf", width = 10, height =  4)
 # full_plot_flatlines
 # dev.off()
-ggsave(filename = "../Figures/fullplotflatlines.pdf", width = 10, height =  4)
-full_plot_flatlines
-dev.off()
 
 
 
@@ -520,36 +518,95 @@ plotTS_zoom_wwindex <- function(data, from, wwindex, to, ymin, ymax, title){
 
 
 
-
-
-
-
-
-
 full_plot_wwindex <- plotTS_zoom_wwindex(data = data, wwindex = ww,from = from, to = to, ymin = ymin, ymax = ymax, title = "Dataset and wet weather index")
 
 
 
 
-# svg(filename = "../Figures/full_plot_wwindex.svg", width = 10, height =  4)
+
+# ggsave(filename="../Figures/fullplotwwindex.pdf", width = 10, height =  4)
 # full_plot_wwindex
 # dev.off()
-ggsave(filename="../Figures/fullplotwwindex.pdf", width = 10, height =  4)
-full_plot_wwindex
+
+
+
+
+
+
+
+
+
+
+###### Updated zommed figure for publication
+
+
+
+plotTS_zoom_wwindex <- function(data, from, wwindex, to, ymin, ymax, title){
+  
+  data <- window(data, start = from, end = to)
+  data_df <- as.data.frame(data)
+  timestamp <- as.POSIXct(rownames(data_df), format="%Y-%m-%d %H:%M")
+  rownames(data_df) <- 1:nrow(data_df)
+  data_1 <- data_df[,c(1,2)]
+  data_1 <- cbind(timestamp, data_1)
+  data_2 <- data_df[,c(1,3)]
+  data_2 <- cbind(timestamp, data_2)
+  colnames(data_1) <- c("Timestamp", "Precipitation", "Runoff")
+  colnames(data_2) <- c("Timestamp", "Precipitation", "Runoff")
+  data_1$Station <- rep("Dæmningen")
+  data_2$Station <- rep("Damhusåen")
+  data <- rbind(data_1, data_2)
+  
+  dy_r <- 0.25
+  yl=c(ymin, ymax)
+  yl_r=c(0, max(data$Precipitation, na.rm = T)) 
+  scalingFactor=20000/yl_r[2]
+  dummy_R=as.numeric(coredata(data$Precipitation)*scalingFactor)
+  in_R  = data.frame(x1=as.character(data$Timestamp),
+                     x2=c(as.character(data$Timestamp)[2:length(data$Timestamp)],as.character(data$Timestamp[length(data$Timestamp)]+60)),   
+                     y1=rep(yl[2],length(data$Timestamp)),   
+                     y2=(yl[2]-dummy_R))
+  
+  
+  yTick=c(seq(yl[2]/scalingFactor,yl[2]/scalingFactor-yl_r[2],-dy_r))
+  ylab=seq(0,(length(yTick)-1)*dy_r,dy_r)
+  
+  plot <- ggplot(data, aes(x = as.POSIXct(Timestamp, format="%Y-%m-%d %H:%M")))+
+    geom_rect(data=in_R, inherit.aes = F,aes(xmin=as.POSIXct(x1), xmax=as.POSIXct(x2), ymin=y1, ymax=y2), 
+              fill='#6bdcff', colour = "#787878",color=NA)+
+    geom_rect(data=wwindex, inherit.aes = F, aes(xmin = as.POSIXct(x1), xmax = as.POSIXct(x2),
+                                                 ymin = y1, ymax = y2),
+              fill='#BEBEBE', colour = "#BEBEBE",color=NA, alpha = 0.3)+
+    geom_point(aes(y = Runoff), color = "#505050", size = 0.4) + 
+    geom_line(aes(y = Runoff), color = "#505050")+
+    scale_x_datetime(breaks = date_breaks("24 hours"), date_labels = "%Y-%m-%d %H:%M")+
+    scale_y_continuous(limits = yl, expand = c(0, 0), breaks=seq(yl[1],yl[2],5000),
+                       sec.axis = sec_axis(~./scalingFactor, name = "Rain [mm/hr]          ", breaks=yTick,labels =ylab))+
+    facet_grid(cols = vars(Station))+
+    ylab("Runoff [m3/hr]")+xlab("Time")+
+    ggtitle(title)+
+    theme_pubclean()+
+    theme(panel.grid.major = element_line(size=.20,colour = "grey50"),
+          panel.grid.minor = element_blank(),
+          panel.ontop = FALSE,panel.background = element_rect(fill = NA,size = 0.2, linetype = "solid",colour = "black"),
+          legend.title = element_blank(),
+          plot.title = element_text(size = 14), text = element_text(size=14),
+          axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1))
+  
+  return(plot)
+}
+
+
+
+full_plot_wwindex_bw <- plotTS_zoom_wwindex(data = data, wwindex = ww,from = from, to = to, ymin = ymin, ymax = ymax, title = "Flow measurments, precipitation, and wet-weather index")
+full_plot_wwindex_bw
+
+
+
+
+ggsave(filename="../Figures/data_and_wwindex_bw.pdf", width = 10, height =  4)
+full_plot_wwindex_bw
 dev.off()
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
