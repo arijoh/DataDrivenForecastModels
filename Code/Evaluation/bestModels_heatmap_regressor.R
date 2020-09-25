@@ -73,7 +73,7 @@ orderListPI <- function(x, fh){
 
 
 
-### Best models based on PI and accuracy for each station
+### Best models based on PI ordered by differetn forecasting horizon
 DamningenList_ARIMA_30 <- orderListPI(DamningenList_ARIMA, fh = 1)
 DamningenList_ARIMA_60 <- orderListPI(DamningenList_ARIMA, fh = 2)
 DamningenList_ARIMA_90 <- orderListPI(DamningenList_ARIMA, fh = 3)
@@ -95,9 +95,8 @@ DamhusaenList_ARIMAX_90 <- orderListPI(DamhusaenList_ARIMAX, fh = 3)
 #### Construct table
 ## ARIMA
 table_ARIMA <- as.data.frame(matrix(NA, nrow = 2, ncol = 3))
-rownames(table_ARIMA) <- c("Damningen", "Damhusaen")
+rownames(table_ARIMA) <- c("Dæmningen", "Damhusåen")
 colnames(table_ARIMA) <- c("30 min", "60 min", "90 min")
-table_ARIMA
 
 table_ARIMA[1,1] <- DamningenList_ARIMA_30[[1]]$PI$PI30
 table_ARIMA[1,2] <- DamningenList_ARIMA_60[[1]]$PI$PI60
@@ -111,9 +110,8 @@ table_ARIMA
 
 ## ARIMAX
 table_ARIMAX <- as.data.frame(matrix(NA, nrow = 2, ncol = 3))
-rownames(table_ARIMAX) <- c("Damningen", "Damhusaen")
+rownames(table_ARIMAX) <-c("Dæmningen", "Damhusåen")
 colnames(table_ARIMAX) <- c("30 min", "60 min", "90 min")
-table_ARIMAX
 
 table_ARIMAX[1,1] <- DamningenList_ARIMAX_30[[1]]$PI$PI30
 table_ARIMAX[1,2] <- DamningenList_ARIMAX_60[[1]]$PI$PI60
@@ -128,12 +126,10 @@ table_ARIMAX
 
 
 library(tidyverse)
-
 dt_ARIMA <- table_ARIMA %>%
   rownames_to_column() %>%
   gather(colname, value, -rowname)
 head(dt_ARIMA)
-
 
 dt_ARIMAX <- table_ARIMAX %>%
   rownames_to_column() %>%
@@ -146,40 +142,32 @@ dt_ARIMAX$Type <- "ARIMAX"
 dt <- rbind(dt_ARIMA, dt_ARIMAX)
 dt
 
+dt$rowname <- factor(dt$rowname, levels = c("Dæmningen", "Damhusåen"))
+
 library(ggplot2)
-
-
 plot <- ggplot(dt, aes(x = colname, y = Type, fill =  value))+
   geom_tile()+
   facet_grid(cols = vars(rowname))+
   geom_text(aes(label = round(value, 2)))+
   scale_fill_gradient(low = "white",high = "#808080", na.value = "red")+
-  theme_bw()
+  scale_x_discrete(expand=c(0,0)) + 
+  scale_y_discrete(expand=c(0,0)) +
+  theme_bw()+
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), 
+        panel.spacing = unit(0, "lines"))+
+  ylab("Model type") + xlab("Forecasting horizon") + labs(fill = "PI")+
+  ggtitle("Best performing models with/without regressor")
 
 plot
 
 
-## clean up prior code....
-## Make plot more beautiful.....
+
+pdf(file = "../Figures/Results/DDS/Heatmap_regressors.pdf", height = 2.5, width = 5)
+plot
+dev.off()
 
 
-
-#### Similar thing for single vs multistep ??
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+ 
 
 
 
