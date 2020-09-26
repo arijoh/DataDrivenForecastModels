@@ -1,4 +1,4 @@
-plotModel <- function(model, from, to){
+plotModel <- function(model, from, to, type){
   multistep_forecast <- function(ts, norm_const_station, order, coefficients, External_Regressors, reg.nr, reg.lag){
     multistepARIMA <- function(ts, order, coefficients, Xreg){
       step1 <- function(ts, step1res, Xreg){
@@ -400,10 +400,10 @@ plotModel <- function(model, from, to){
     ggplot(data_plot, aes(x = as.POSIXct(index(data_plot))))+
       geom_rect(data=in_R, inherit.aes = F,aes(xmin=as.POSIXct(x1), xmax=as.POSIXct(x2), ymin=y1, ymax=y2), 
                 fill='#787878', colour = "#787878", alpha=0.3,color=NA) +
-      geom_point(aes(y = forecast30, color = "Forecast"), size = 0.4) + 
-      geom_line(aes(y = forecast30, color = "Forecast", group = lastvalue30), linetype = "solid", size = 0.3)+
-      geom_point(aes(y = station, color = "Measured"), size = 0.4) + 
-      geom_line(aes(y = station, color = "Measured"), linetype = "solid", size = 0.4) +
+      #geom_point(aes(y = forecast30, color = "Forecast"), size = 1,  shape = 17) + 
+      geom_line(aes(y = forecast30, color = "Forecast", group = lastvalue90), linetype = "dotted", size = 0.5)+
+      geom_point(aes(y = station, color = "Measured"), size = 0.3) + 
+      geom_line(aes(y = station, color = "Measured"), linetype = "solid", size = 0.3) +
       scale_x_datetime(labels = date_format("%H:%M"))+
       scale_y_continuous(limits = yl, expand = c(0, 0), breaks=seq(yl[1],yl[2],5000),
                          sec.axis = sec_axis(~./scalingFactor, name = "Rain [mm/hr]  ", breaks=yTick,labels =ylab))  +
@@ -414,10 +414,11 @@ plotModel <- function(model, from, to){
             panel.grid.minor = element_blank(),
             panel.ontop = FALSE,panel.background = element_rect(fill = NA,size = 0.2, linetype = "solid",colour = "black"), 
             legend.title = element_blank(),
-            plot.title = element_text(size = 12), text = element_text(size=12),
+            plot.title = element_text(size = 10),
+            axis.title = element_text(size = 8),
             axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1))+
-      scale_color_manual(values=c("Forecast" = "#808080", "Measured" = "#303030"))+
-      guides(color = guide_legend(override.aes = list(linetype = c("solid", "solid"))))
+      scale_color_manual(values=c("Measured" = "#808080", "Forecast" = "#303030"))+
+      guides(color = guide_legend(override.aes = list(linetype = c("solid", "dotted"))))
   }
   
   
@@ -431,14 +432,15 @@ plotModel <- function(model, from, to){
   reg.lag_dammning <- data_dammning$reg.lag
   order_dammning <- data_dammning$order
   coefficients_dammning <- data_dammning$par
-  type_damningen <- paste(data_dammning$model, " ", data_dammning$ofc, sep = "")
-  
+  #type_damningen <- paste(data_dammning$model, " ", data_dammning$ofc, sep = "")
+  type_damningen <- data_dammning$ofc
   
   reg.nr_damhusaen <- data_damhusaen$reg.nr
   reg.lag_damhusaen <- data_damhusaen$reg.lag
   order_damhusaen <- data_damhusaen$order
   coefficients_damhusaen <- data_damhusaen$par
-  type_damhusaen <- paste(data_damhusaen$model, " ", data_damhusaen$ofc, sep = "")
+  #type_damhusaen <- paste(data_damhusaen$model, " ", data_damhusaen$ofc, sep = "")
+  type_damhusaen <- data_damhusaen$ofc
   
   if (is.null(reg.nr_dammning) && is.null(reg.lag_dammning)){
     External_Regressors_dammning <- FALSE
@@ -492,7 +494,7 @@ plotModel <- function(model, from, to){
   p1 <- plotMulti(data_plot_S1, ymin, ymax, title = title_dammning)
   p2 <- plotMulti(data_plot_S2, ymin, ymax, title = title_damhusaen)
   plot <- ggarrange(p1, p2, ncol = 1, nrow = 2, common.legend = TRUE, legend = "bottom")
-  plot <- annotate_figure(plot, top = text_grob(paste("Forecasts on ", as.Date(index(data_plot_S1)[1]), sep = ""), size = 14, vjust = 0.35))
+  plot <- annotate_figure(plot, top = text_grob(paste(type, " forecasts on ", as.Date(index(data_plot_S1)[1]), sep = ""), size = 12, vjust = 0.35))
   
   return(plot)
 }

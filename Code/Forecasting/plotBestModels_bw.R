@@ -49,11 +49,14 @@ time <- index(data)
 from <- "2018-03-09 00:10:00"
 to <- "2018-03-09 12:00"
 model <- 1
-plot <- plotModel(model = model, from = from, to = to) 
-plot
+plot_ARIMA <- plotModel(model = model, from = from, to = to, type = "ARIMA") 
+plot_ARIMA
+
+
+
 
 for (model in (1:5)){
-  plot <- plotModel(model = model, from = from, to = to)
+  plot <- plotModel(model = model, from = from, to = to, type = "ARIMA")
   filename <- paste("../Figures/Results/DDS/Best_model_forecasts/PI/BW_ARIMA_", model, "_PI.pdf", sep = "")
   ggsave(filename = filename, height= 5, width = 8)
   print(plot)
@@ -61,6 +64,22 @@ for (model in (1:5)){
 }
 
 rm(list = ls())
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #### Plot best models for ARIMAX
 
@@ -105,16 +124,18 @@ time <- index(data)
 from <- "2018-03-09 00:10:00"
 to <- "2018-03-09 12:00"
 model <- 1
-plot <- plotModel(model = model, from = from, to = to) 
-plot
+plot_ARIMAX <- plotModel(model = model, from = from, to = to, type = "ARIMAX") 
+plot_ARIMAX
 
 for (model in (1:5)){
-  plot <- plotModel(model = model, from = from, to = to)
+  plot <- plotModel(model = model, from = from, to = to, type = "ARIMAX")
   filename <- paste("../Figures/Results/DDS/Best_model_forecasts/PI/BW_ARIMAX_", model, "_PI.pdf", sep = "")
   ggsave(filename = filename, height= 5, width = 8)
   print(plot)
   dev.off()
 }
+
+
 
 
 

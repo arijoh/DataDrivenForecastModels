@@ -190,6 +190,9 @@ ymin = 0
 ymax = 30000
 full_plot <- plotTS(data = data, from = from, to = to, ymin = ymin, ymax = ymax, title = "Full dataset (precipitation and runoff)")
 
+
+
+
 # ggsave(filename="../Figures/fulldataplot.pdf", width = 10, height =  4)
 # full_plot
 # dev.off()
@@ -576,7 +579,7 @@ plotTS_zoom_wwindex <- function(data, from, wwindex, to, ymin, ymax, title){
               fill='#6bdcff', colour = "#787878",color=NA)+
     geom_rect(data=wwindex, inherit.aes = F, aes(xmin = as.POSIXct(x1), xmax = as.POSIXct(x2),
                                                  ymin = y1, ymax = y2),
-              fill='#BEBEBE', colour = "#BEBEBE",color=NA, alpha = 0.3)+
+              fill='#A9A9A9', colour = "#A9A9A9",color=NA, alpha = 0.3)+
     geom_point(aes(y = Runoff), color = "#505050", size = 0.4) + 
     geom_line(aes(y = Runoff), color = "#505050")+
     scale_x_datetime(breaks = date_breaks("24 hours"), date_labels = "%Y-%m-%d %H:%M")+
@@ -591,6 +594,7 @@ plotTS_zoom_wwindex <- function(data, from, wwindex, to, ymin, ymax, title){
           panel.ontop = FALSE,panel.background = element_rect(fill = NA,size = 0.2, linetype = "solid",colour = "black"),
           legend.title = element_blank(),
           plot.title = element_text(size = 14), text = element_text(size=14),
+          axis.title = element_text(size = 10), axis.text = element_text(size = 10),
           axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1))
   
   return(plot)
