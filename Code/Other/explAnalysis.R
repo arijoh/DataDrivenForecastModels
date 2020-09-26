@@ -579,8 +579,8 @@ plotTS_zoom_wwindex <- function(data, from, wwindex, to, ymin, ymax, title){
               fill='#6bdcff', colour = "#787878",color=NA)+
     geom_rect(data=wwindex, inherit.aes = F, aes(xmin = as.POSIXct(x1), xmax = as.POSIXct(x2),
                                                  ymin = y1, ymax = y2),
-              fill='#A9A9A9', colour = "#A9A9A9",color=NA, alpha = 0.3)+
-    geom_point(aes(y = Runoff), color = "#505050", size = 0.4) + 
+              fill='#808080', colour = "#808080",color=NA, alpha = 0.5)+
+    geom_point(aes(y = Runoff), color = "#505050", size = 0.2) + 
     geom_line(aes(y = Runoff), color = "#505050")+
     scale_x_datetime(breaks = date_breaks("24 hours"), date_labels = "%Y-%m-%d %H:%M")+
     scale_y_continuous(limits = yl, expand = c(0, 0), breaks=seq(yl[1],yl[2],5000),
@@ -611,7 +611,7 @@ full_plot_wwindex_bw
 ggsave(filename="../Figures/data_and_wwindex_bw.pdf", width = 10, height =  4)
 full_plot_wwindex_bw
 dev.off()
-
+ 
 
 
 
