@@ -399,11 +399,11 @@ plotModel <- function(model, from, to, type){
     
     ggplot(data_plot, aes(x = as.POSIXct(index(data_plot))))+
       geom_rect(data=in_R, inherit.aes = F,aes(xmin=as.POSIXct(x1), xmax=as.POSIXct(x2), ymin=y1, ymax=y2), 
-                fill='#787878', colour = "#787878", alpha=0.3,color=NA) +
+                fill='#0394fc', colour = "#246ea3", alpha=0.3,color=NA) +
       #geom_point(aes(y = forecast30, color = "Forecast"), size = 1,  shape = 17) + 
-      geom_line(aes(y = forecast30, color = "Forecast", group = lastvalue90), linetype = "dotted", size = 0.5)+
-      geom_point(aes(y = station, color = "Measured"), size = 0.3) + 
-      geom_line(aes(y = station, color = "Measured"), linetype = "solid", size = 0.3) +
+      geom_line(aes(y = forecast30, color = "Forecast", group = lastvalue90))+
+      #geom_point(aes(y = station, color = "Measured"), size = 0.3) + 
+      geom_line(aes(y = station, color = "Measured"), linetype = "dotted", size = 1.15) +
       scale_x_datetime(labels = date_format("%H:%M"))+
       scale_y_continuous(limits = yl, expand = c(0, 0), breaks=seq(yl[1],yl[2],5000),
                          sec.axis = sec_axis(~./scalingFactor, name = "Rain [mm/hr]  ", breaks=yTick,labels =ylab))  +
@@ -417,7 +417,7 @@ plotModel <- function(model, from, to, type){
             plot.title = element_text(size = 10),
             axis.title = element_text(size = 8),
             axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1))+
-      scale_color_manual(values=c("Measured" = "#808080", "Forecast" = "#303030"))+
+      scale_color_manual(values=c("Measured" = "black", "Forecast" = "#fc0303"))+
       guides(color = guide_legend(override.aes = list(linetype = c("solid", "dotted"))))
   }
   
