@@ -136,7 +136,7 @@ getData <- function(L, top){
   return(list(df1, df2))
 }
 
-top <- 100
+top <- 10
 DamningenDF_PI <- getData(DamningenList_PI, top = top)
 DamningenDF_Accuracy <- getData(DamningenList_Accuracy, top = top)
 DamhusaenDF_PI <- getData(DamhusaenList_PI, top = top)
@@ -181,10 +181,10 @@ Damhusaen_Accuracy_Accuracy <- DamhusaenDF_Accuracy[[2]]
 # save(Damhusaen_Accuracy_Accuracy, file = "Evaluation/DDS/best_models/Tables/Damhusaen_Accuracy_Accuracy.Rdata")
 # 
 # 
-save(DamningenList_PI, file = "Evaluation/DDS/best_models/Lists/DamningenList_PI.Rdata")
-save(DamningenList_Accuracy, file = "Evaluation/DDS/best_models/Lists/DamningenList_Accuracy.Rdata")
-save(DamhusaenList_PI, file = "Evaluation/DDS/best_models/Lists/DamhusaenList_PI.Rdata")
-save(DamhusaenList_Accuracy, file = "Evaluation/DDS/best_models/Lists/DamhusaenList_Accuracy.Rdata")
+#save(DamningenList_PI, file = "Evaluation/DDS/best_models/Lists/DamningenList_PI.Rdata")
+#save(DamningenList_Accuracy, file = "Evaluation/DDS/best_models/Lists/DamningenList_Accuracy.Rdata")
+#save(DamhusaenList_PI, file = "Evaluation/DDS/best_models/Lists/DamhusaenList_PI.Rdata")
+#save(DamhusaenList_Accuracy, file = "Evaluation/DDS/best_models/Lists/DamhusaenList_Accuracy.Rdata")
 
 
 ### Print tables if desired

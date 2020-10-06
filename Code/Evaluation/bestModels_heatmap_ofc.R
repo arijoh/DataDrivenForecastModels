@@ -1,4 +1,5 @@
-
+library(tidyverse)
+library(ggplot2)
 #### HERE WE GET THE TOP PERFORMING MODELS (NO MATTER THE MODEL TYPE, I.E. SINGLE/MULTI-STEP ARIMA/ARIMAX)
 #### THE BEST MODELS ARE SAVED AS DATA FRAME AND CAN BE PRINTED OUT TO LATEX TABLES
 
@@ -54,114 +55,215 @@ ARIMAX_ms_S2 <- labelList(ARIMAX_ms_S2, ofc_ = "multi-step", model_ = "ARIMAX")
 DamhusaenList_singlestep <- c(ARIMA_ss_S2, ARIMAX_ss_S2)
 DamhusaenList_multistep <- c(ARIMA_ms_S2, ARIMAX_ms_S2)
 
-##
-orderListPI <- function(x, fh){
-  values <- vector()
-  for (i in (1:length(x))){
-    temp <- unlist(x[[i]]$PI[fh])
-    if (is.null(temp) || (is.nan(temp))){
-      values[i] <- NA
+
+
+
+
+
+pullData <- function(score){
+  orderListPI <- function(x, fh){
+    values <- vector()
+    for (i in (1:length(x))){
+      temp <- unlist(x[[i]]$PI[fh])
+      if (is.null(temp) || (is.nan(temp))){
+        values[i] <- NA
+      }
+      else{
+        values[i] <- as.numeric(temp) 
+      }
     }
-    else{
-      values[i] <- as.numeric(temp) 
-    }
+    orderedList <- x[order(values, decreasing = TRUE)]
+    return(orderedList)
   }
-  orderedList <- x[order(values, decreasing = TRUE)]
-  return(orderedList)
+  orderListAccuracy <- function(x, fh){
+    values <- vector()
+    for (i in (1:length(x))){
+      temp <- unlist(x[[i]]$accuracy[[fh]]$accuracy_correct)
+      if (is.null(temp) || (is.nan(temp))){
+        values[i] <- NA
+      }
+      else{
+        values[i] <- as.numeric(temp) 
+      }
+    }
+    orderedList <- x[order(values, decreasing = TRUE)]
+    return(orderedList)
+  }
+  
+  if (score == "PI"){
+    ### Best models based on PI ordered by differetn forecasting horizon
+    DamningenList_singlestep_30 <- orderListPI(DamningenList_singlestep, fh = 1)
+    DamningenList_singlestep_60 <- orderListPI(DamningenList_singlestep, fh = 2)
+    DamningenList_singlestep_90 <- orderListPI(DamningenList_singlestep, fh = 3)
+    
+    DamningenList_multistep_30 <- orderListPI(DamningenList_multistep, fh = 1)
+    DamningenList_multistep_60 <- orderListPI(DamningenList_multistep, fh = 2)
+    DamningenList_multistep_90 <- orderListPI(DamningenList_multistep, fh = 3)
+    
+    DamhusaenList_singlestep_30 <- orderListPI(DamhusaenList_singlestep, fh = 1)
+    DamhusaenList_singlestep_60 <- orderListPI(DamhusaenList_singlestep, fh = 2)
+    DamhusaenList_singlestep_90 <- orderListPI(DamhusaenList_singlestep, fh = 3)
+    
+    DamhusaenList_multistep_30 <- orderListPI(DamhusaenList_multistep, fh = 1)
+    DamhusaenList_multistep_60 <- orderListPI(DamhusaenList_multistep, fh = 2)
+    DamhusaenList_multistep_90 <- orderListPI(DamhusaenList_multistep, fh = 3)
+    
+  
+    #### Construct table
+    ## singlestep
+    table_singlestep <- as.data.frame(matrix(NA, nrow = 2, ncol = 3))
+    rownames(table_singlestep) <- c("Dæmningen", "Damhusåen")
+    colnames(table_singlestep) <- c("30 min", "60 min", "90 min")
+    
+    table_singlestep[1,1] <- DamningenList_singlestep_30[[1]]$PI$PI30
+    table_singlestep[1,2] <- DamningenList_singlestep_60[[1]]$PI$PI60
+    table_singlestep[1,3] <- DamningenList_singlestep_90[[1]]$PI$PI90
+    
+    table_singlestep[2,1] <- DamhusaenList_singlestep_30[[1]]$PI$PI30
+    table_singlestep[2,2] <- DamhusaenList_singlestep_60[[1]]$PI$PI60
+    table_singlestep[2,3] <- DamhusaenList_singlestep_90[[1]]$PI$PI90
+    
+    ## multistep
+    table_multistep <- as.data.frame(matrix(NA, nrow = 2, ncol = 3))
+    rownames(table_multistep) <- c("Dæmningen", "Damhusåen")
+    colnames(table_multistep) <- c("30 min", "60 min", "90 min")
+    
+    table_multistep[1,1] <- DamningenList_multistep_30[[1]]$PI$PI30
+    table_multistep[1,2] <- DamningenList_multistep_60[[1]]$PI$PI60
+    table_multistep[1,3] <- DamningenList_multistep_90[[1]]$PI$PI90
+    
+    table_multistep[2,1] <- DamhusaenList_multistep_30[[1]]$PI$PI30
+    table_multistep[2,2] <- DamhusaenList_multistep_60[[1]]$PI$PI60
+    table_multistep[2,3] <- DamhusaenList_multistep_90[[1]]$PI$PI90
+
+    dt_singlestep <- table_singlestep %>%
+      rownames_to_column() %>%
+      gather(colname, value, -rowname)
+    
+    dt_multistep <- table_multistep %>%
+      rownames_to_column() %>%
+      gather(colname, value, -rowname)
+    
+    dt_singlestep$Type <- "Single-step"
+    dt_multistep$Type <- "Multi-step"
+    
+    dt <- rbind(dt_singlestep, dt_multistep)
+    
+    dt$rowname <- factor(dt$rowname, levels = c("Dæmningen", "Damhusåen"))
+  }
+  else if (score == "Accuracy"){
+    ### Best models based on PI ordered by differetn forecasting horizon
+    DamningenList_singlestep_30 <- orderListAccuracy(DamningenList_singlestep, fh = 1)
+    DamningenList_singlestep_60 <- orderListAccuracy(DamningenList_singlestep, fh = 2)
+    DamningenList_singlestep_90 <- orderListAccuracy(DamningenList_singlestep, fh = 3)
+    
+    DamningenList_multistep_30 <- orderListAccuracy(DamningenList_multistep, fh = 1)
+    DamningenList_multistep_60 <- orderListAccuracy(DamningenList_multistep, fh = 2)
+    DamningenList_multistep_90 <- orderListAccuracy(DamningenList_multistep, fh = 3)
+    
+    DamhusaenList_singlestep_30 <- orderListAccuracy(DamhusaenList_singlestep, fh = 1)
+    DamhusaenList_singlestep_60 <- orderListAccuracy(DamhusaenList_singlestep, fh = 2)
+    DamhusaenList_singlestep_90 <- orderListAccuracy(DamhusaenList_singlestep, fh = 3)
+    
+    DamhusaenList_multistep_30 <- orderListAccuracy(DamhusaenList_multistep, fh = 1)
+    DamhusaenList_multistep_60 <- orderListAccuracy(DamhusaenList_multistep, fh = 2)
+    DamhusaenList_multistep_90 <- orderListAccuracy(DamhusaenList_multistep, fh = 3)
+    
+    
+    #### Construct table
+    ## singlestep
+    table_singlestep <- as.data.frame(matrix(NA, nrow = 2, ncol = 3))
+    rownames(table_singlestep) <- c("Dæmningen", "Damhusåen")
+    colnames(table_singlestep) <- c("30 min", "60 min", "90 min")
+    
+    table_singlestep[1,1] <- DamningenList_singlestep_30[[1]]$accuracy$accuracy30$accuracy_correct
+    table_singlestep[1,2] <- DamningenList_singlestep_60[[1]]$accuracy$accuracy60$accuracy_correct
+    table_singlestep[1,3] <- DamningenList_singlestep_90[[1]]$accuracy$accuracy90$accuracy_correct
+    
+    table_singlestep[2,1] <- DamhusaenList_singlestep_30[[1]]$accuracy$accuracy30$accuracy_correct
+    table_singlestep[2,2] <- DamhusaenList_singlestep_60[[1]]$accuracy$accuracy60$accuracy_correct
+    table_singlestep[2,3] <- DamhusaenList_singlestep_90[[1]]$accuracy$accuracy90$accuracy_correct
+    
+    ## multistep
+    table_multistep <- as.data.frame(matrix(NA, nrow = 2, ncol = 3))
+    rownames(table_multistep) <- c("Dæmningen", "Damhusåen")
+    colnames(table_multistep) <- c("30 min", "60 min", "90 min")
+    
+    table_multistep[1,1] <- DamningenList_multistep_30[[1]]$accuracy$accuracy30$accuracy_correct
+    table_multistep[1,2] <- DamningenList_multistep_60[[1]]$accuracy$accuracy60$accuracy_correct
+    table_multistep[1,3] <- DamningenList_multistep_90[[1]]$accuracy$accuracy90$accuracy_correct
+    
+    table_multistep[2,1] <- DamhusaenList_multistep_30[[1]]$accuracy$accuracy30$accuracy_correct
+    table_multistep[2,2] <- DamhusaenList_multistep_60[[1]]$accuracy$accuracy60$accuracy_correct
+    table_multistep[2,3] <- DamhusaenList_multistep_90[[1]]$accuracy$accuracy90$accuracy_correct
+    
+    dt_singlestep <- table_singlestep %>%
+      rownames_to_column() %>%
+      gather(colname, value, -rowname)
+    
+    dt_multistep <- table_multistep %>%
+      rownames_to_column() %>%
+      gather(colname, value, -rowname)
+    
+    dt_singlestep$Type <- "Single-step"
+    dt_multistep$Type <- "Multi-step"
+    
+    dt <- rbind(dt_singlestep, dt_multistep)
+    
+    dt$rowname <- factor(dt$rowname, levels = c("Dæmningen", "Damhusåen"))
+    
+  }
+  else{
+    print("Provide error: PI or Accuracy")
+  }
+  return(dt)
 }
 
 
-
-### Best models based on PI ordered by differetn forecasting horizon
-DamningenList_singlestep_30 <- orderListPI(DamningenList_singlestep, fh = 1)
-DamningenList_singlestep_60 <- orderListPI(DamningenList_singlestep, fh = 2)
-DamningenList_singlestep_90 <- orderListPI(DamningenList_singlestep, fh = 3)
-
-DamningenList_multistep_30 <- orderListPI(DamningenList_multistep, fh = 1)
-DamningenList_multistep_60 <- orderListPI(DamningenList_multistep, fh = 2)
-DamningenList_multistep_90 <- orderListPI(DamningenList_multistep, fh = 3)
-
-DamhusaenList_singlestep_30 <- orderListPI(DamhusaenList_singlestep, fh = 1)
-DamhusaenList_singlestep_60 <- orderListPI(DamhusaenList_singlestep, fh = 2)
-DamhusaenList_singlestep_90 <- orderListPI(DamhusaenList_singlestep, fh = 3)
-
-DamhusaenList_multistep_30 <- orderListPI(DamhusaenList_multistep, fh = 1)
-DamhusaenList_multistep_60 <- orderListPI(DamhusaenList_multistep, fh = 2)
-DamhusaenList_multistep_90 <- orderListPI(DamhusaenList_multistep, fh = 3)
-
-
-
-#### Construct table
-## singlestep
-table_singlestep <- as.data.frame(matrix(NA, nrow = 2, ncol = 3))
-rownames(table_singlestep) <- c("Dæmningen", "Damhusåen")
-colnames(table_singlestep) <- c("30 min", "60 min", "90 min")
-
-table_singlestep[1,1] <- DamningenList_singlestep_30[[1]]$PI$PI30
-table_singlestep[1,2] <- DamningenList_singlestep_60[[1]]$PI$PI60
-table_singlestep[1,3] <- DamningenList_singlestep_90[[1]]$PI$PI90
-
-table_singlestep[2,1] <- DamhusaenList_singlestep_30[[1]]$PI$PI30
-table_singlestep[2,2] <- DamhusaenList_singlestep_60[[1]]$PI$PI60
-table_singlestep[2,3] <- DamhusaenList_singlestep_90[[1]]$PI$PI90
-
-table_singlestep
-
-## multistep
-table_multistep <- as.data.frame(matrix(NA, nrow = 2, ncol = 3))
-rownames(table_multistep) <- c("Dæmningen", "Damhusåen")
-colnames(table_multistep) <- c("30 min", "60 min", "90 min")
-
-table_multistep[1,1] <- DamningenList_multistep_30[[1]]$PI$PI30
-table_multistep[1,2] <- DamningenList_multistep_60[[1]]$PI$PI60
-table_multistep[1,3] <- DamningenList_multistep_90[[1]]$PI$PI90
-
-table_multistep[2,1] <- DamhusaenList_multistep_30[[1]]$PI$PI30
-table_multistep[2,2] <- DamhusaenList_multistep_60[[1]]$PI$PI60
-table_multistep[2,3] <- DamhusaenList_multistep_90[[1]]$PI$PI90
-
-table_multistep
+plotThis <- function(df, error){
+  if (error == "PI"){
+    plot <- ggplot(df, aes(x = colname, y = Type, fill =  value))+
+      geom_tile()+
+      facet_grid(cols = vars(rowname))+
+      geom_text(aes(label = round(value, 2)))+
+      scale_fill_gradient(low = "white",high = "#808080", na.value = "red")+
+      scale_x_discrete(expand=c(0,0)) + 
+      scale_y_discrete(expand=c(0,0)) +
+      theme_bw()+
+      theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), 
+            panel.spacing = unit(0, "lines"))+
+      ylab("") + xlab("Forecasting horizon") + labs(fill = "PI")+
+      ggtitle("")
+  } else if (error == "Accuracy"){
+    plot <- ggplot(df, aes(x = colname, y = Type, fill =  value))+
+      geom_tile()+
+      facet_grid(cols = vars(rowname))+
+      geom_text(aes(label = round(value, 2)))+
+      scale_fill_gradient(low = "white",high = "#808080", na.value = "red")+
+      scale_x_discrete(expand=c(0,0)) + 
+      scale_y_discrete(expand=c(0,0)) +
+      theme_bw()+
+      theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), 
+            panel.spacing = unit(0, "lines"))+
+      ylab("") + xlab("Forecasting horizon") + labs(fill = "Accuracy")+
+      ggtitle("")
+  } else {plot <- NULL}
+  
+  return(plot)
+}
 
 
+df_PI <- pullData("PI")
+plot_PI <- plotThis(df_PI, error = "PI")
 
-library(tidyverse)
-dt_singlestep <- table_singlestep %>%
-  rownames_to_column() %>%
-  gather(colname, value, -rowname)
-head(dt_singlestep)
+df_Accuracy <- pullData("Accuracy")
+plot_Accuracy <- plotThis(df_Accuracy, error = "Accuracy")
 
-dt_multistep <- table_multistep %>%
-  rownames_to_column() %>%
-  gather(colname, value, -rowname)
-head(dt_multistep)
-
-dt_singlestep$Type <- "Single-step"
-dt_multistep$Type <- "Multi-step"
-
-dt <- rbind(dt_singlestep, dt_multistep)
-dt
-
-dt$rowname <- factor(dt$rowname, levels = c("Dæmningen", "Damhusåen"))
-
-library(ggplot2)
-plot <- ggplot(dt, aes(x = colname, y = Type, fill =  value))+
-  geom_tile()+
-  facet_grid(cols = vars(rowname))+
-  geom_text(aes(label = round(value, 2)))+
-  scale_fill_gradient(low = "white",high = "#808080", na.value = "red")+
-  scale_x_discrete(expand=c(0,0)) + 
-  scale_y_discrete(expand=c(0,0)) +
-  theme_bw()+
-  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), 
-        panel.spacing = unit(0, "lines"))+
-  ylab("OFC") + xlab("Forecasting horizon") + labs(fill = "PI")+
-  ggtitle("Best performing models for single/multi-step OFC")
-
+plot <- annotate_figure(ggarrange(plot_PI, plot_Accuracy, nrow = 2), 
+                        top = text_grob("Best perfoming models for single/multistep o.f.c", size = 14))
 plot
 
-
-
-pdf(file = "../Figures/Results/DDS/Heatmap_ofc.pdf", height = 2.5, width = 5)
+pdf(file = "../Figures/Results/DDS/Heatmap_ofc.pdf", height = 4, width = 5)
 plot
 dev.off()
   
