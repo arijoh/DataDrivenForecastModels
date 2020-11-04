@@ -427,7 +427,7 @@ plotModel <- function(model1_damningen, model2_damningen, model1_damhusaen, mode
     ymin <- 0
     ymax <- max(df, na.rm = T)
     yl=c(ymin, ymax)
-    yl_r=c(0, max(df$Precipitation*precipitation_norm, na.rm = T)) 
+    yl_r=c(0, max(df$Precipitation, na.rm = T)) 
     scalingFactor=10000/yl_r[2]
     dummy_R=as.numeric(coredata(df$Precipitation)*scalingFactor)
     in_R  = data.frame(x1=as.character(index(df)),
@@ -435,7 +435,7 @@ plotModel <- function(model1_damningen, model2_damningen, model1_damhusaen, mode
                        y1=rep(yl[2],length(index(df))),   
                        y2=(yl[2]-dummy_R))
     
-    dy_r=0.2
+    dy_r=0.1
     yTick=c(seq(yl[2]/scalingFactor,yl[2]/scalingFactor-yl_r[2],-dy_r))
     ylab=seq(0,(length(yTick)-1)*dy_r,dy_r)
 
@@ -447,7 +447,7 @@ plotModel <- function(model1_damningen, model2_damningen, model1_damhusaen, mode
       geom_line(aes(y = Damningen, color = "Measured"), linetype = "dotted", size = 1.15)+
       scale_x_datetime(labels = date_format("%H:%M"))+
       scale_y_continuous(limits = yl, expand = c(0, 0), breaks=seq(yl[1],yl[2],5000),
-                         sec.axis = sec_axis(~./scalingFactor, name = "Rain [mm/hr]  ", breaks=yTick,labels = ylab)) +
+                         sec.axis = sec_axis(~./scalingFactor, name = "Rain [mm/hr]  ", breaks=yTick,labels =ylab))  +
       ylab("Runoff [m3/hr]")+xlab("Time") +
       ggtitle(titles[1])+
       theme_pubclean()+
@@ -460,7 +460,7 @@ plotModel <- function(model1_damningen, model2_damningen, model1_damhusaen, mode
             axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1))+
       scale_color_manual(values=c("Measured" = "black", "Forecast" = "#fc0303"))+
       guides(color = guide_legend(override.aes = list(linetype = c("solid", "dotted"))))
-
+    
     p2 <- ggplot(df, aes(x = as.POSIXct(index(df))))+
       geom_rect(data=in_R, inherit.aes = F,aes(xmin=as.POSIXct(x1), xmax=as.POSIXct(x2), ymin=y1, ymax=y2), 
                 fill='#0394fc', colour = "#246ea3", alpha=0.3,color=NA)+
@@ -575,7 +575,7 @@ plotModel <- function(model1_damningen, model2_damningen, model1_damhusaen, mode
   prepareData <- function(f1, f2, f3, f4){
     ### This function only extracts 90 minute forecast!!
     
-    observations <- cbind(data$Precipitation, f1$Damningen, f3$Damhusaen)
+    observations <- cbind(data$Precipitation*precipitation_norm, f1$Damningen, f3$Damhusaen)
     
     ### here!!
     select_ <- c("lastvalue90", "forecast90")
