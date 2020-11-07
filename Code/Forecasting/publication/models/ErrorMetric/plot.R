@@ -1,6 +1,8 @@
 library(ggplot2)
 library(xts)
 library(scales)
+library(ggpubr)
+
 Sys.setenv(TZ = "GMT")
 
 d <- read.csv("../Data/Validation_data/d_validation.txt", header = TRUE, sep = "\t")
@@ -435,7 +437,7 @@ plotModel <- function(model1_damningen, model2_damningen, model1_damhusaen, mode
                        y1=rep(yl[2],length(index(df))),   
                        y2=(yl[2]-dummy_R))
     
-    dy_r=0.1
+    dy_r=0.2
     yTick=c(seq(yl[2]/scalingFactor,yl[2]/scalingFactor-yl_r[2],-dy_r))
     ylab=seq(0,(length(yTick)-1)*dy_r,dy_r)
 
@@ -527,9 +529,9 @@ plotModel <- function(model1_damningen, model2_damningen, model1_damhusaen, mode
       guides(color = guide_legend(override.aes = list(linetype = c("solid", "dotted"))))
     
     
-    library(ggpubr)
-    p <- ggarrange(p1, p2, p3, p4, common.legend = T, legend = "bottom")
-    p
+    p <- annotate_figure(ggarrange(p1, p2, p3, p4, common.legend = T, legend = "none"),
+                         top = text_grob("Best perfoming models selected on PI/Accuracy", size = 14))
+    plot
     
     return(p)
   }
@@ -595,10 +597,10 @@ plotModel <- function(model1_damningen, model2_damningen, model1_damhusaen, mode
   }
   getTitles <- function(m1,m2,m3,m4, titles){
     
-    titles[1] <- paste(titles[1], "\n",  m1$model, " - ", m1$ofc, " PI = ", m1$PI$PI90, " for 90 minute horizon.", sep = "")
-    titles[2] <- paste(titles[2], "\n",  m2$model, " - ", m2$ofc, " Accuracy = ", m2$accuracy$accuracy90$accuracy_correct, " for 90 minute horizon", sep = "")
-    titles[3] <- paste(titles[3], "\n",  m3$model, " - ", m3$ofc, " PI = ", m3$PI$PI90, " for 90 minute horizon", sep = "")
-    titles[4] <- paste(titles[4], "\n",  m4$model, " - ", m4$ofc, " Accuracy = ", m4$accuracy$accuracy90$accuracy_correct, " for 90 minute horizon", sep = "")
+    titles[1] <- paste(titles[1], "\n",  m1$model, " - ", m1$ofc, " PI = ", round(m1$PI$PI90,2), sep = "")
+    titles[2] <- paste(titles[2], "\n",  m2$model, " - ", m2$ofc, " Accuracy = ", round(m2$accuracy$accuracy90$accuracy_correct,2), sep = "")
+    titles[3] <- paste(titles[3], "\n",  m3$model, " - ", m3$ofc, " PI = ", round(m3$PI$PI90,2), " for 90 minute horizon", sep = "")
+    titles[4] <- paste(titles[4], "\n",  m4$model, " - ", m4$ofc, " Accuracy = ", round(m4$accuracy$accuracy90$accuracy_correct,2), sep = "")
     
     return(titles)
   }
@@ -612,7 +614,7 @@ plotModel <- function(model1_damningen, model2_damningen, model1_damhusaen, mode
   #### Data for Damhusaen w. model 2
   forecast_model2_damhusaen <- forecast(model2_damhusaen, "Damhusaen")
 
-  titles <- getTitles(model1_damningen, model2_damningen, model1_damhusaen, model1_damhusaen, titles)
+  titles <- getTitles(model1_damningen, model2_damningen, model1_damhusaen, model2_damhusaen, titles)
   ## Merge all data together and sent it to a plot function
   df <- prepareData(forecast_model1_damningen, forecast_model2_damningen, forecast_model1_damhusaen, forecast_model2_damhusaen)
   return(plot(df))
