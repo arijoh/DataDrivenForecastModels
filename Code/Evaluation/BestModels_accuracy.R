@@ -154,19 +154,21 @@ plotThis <- function(data){
   data <- melt(data)
   plot <- ggplot(data)+
     geom_line(aes(x = variable, y = value, group = Type, colour = Type))+
-    geom_point(aes(x = variable, y = value, colour = Type))+
+    geom_point(aes(x = variable, y = value, colour = Type, shape = Type))+
     ylab("Accuracy")+xlab("Forecasting horizon")+
     facet_grid(cols = vars(Station))+
-    ggtitle("Accuracy of models...")+
+    ggtitle("Accuracy of models selected on different criteria")+
     labs(colour = "Model selected on")+
     ylim(0,1)+
+    scale_colour_manual(name = 'Model selected on', values = c("grey", "#636363", "#636363", "#636363", "black"))+
+    scale_shape_manual(name = 'Model selected on', values = c(0, 1, 2, 16, 0))+
     theme_bw()+
     theme(panel.grid.major = element_line(size=.20,colour = "grey50"),
           panel.grid.minor = element_blank(),
           panel.ontop = FALSE,panel.background = element_rect(fill = NA,size = 0.2, linetype = "solid",colour = "black"), 
           plot.title = element_text(size = 12), text = element_text(size=12),
           axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1),
-          legend.position = "bottom")
+          legend.position = "right")
   return(plot)
 }
 
@@ -177,15 +179,7 @@ plot
 
 
 
-
-# library(ggpubr)
-# plot <- ggarrange(p1, p2, ncol = 2, nrow = 1, common.legend = TRUE, legend = "bottom")
-# plot <- annotate_figure(plot, top = text_grob("Accuracy based on different criteria", size = 14, vjust = 0.35))
-# plot
-
-
-
-pdf(file = "../Figures/Results/DDS/bestModels_accuracy.pdf", height = 6, width = 7)
+pdf(file = "../Figures/Results/DDS/bestModels_accuracy.pdf", height = 3, width = 7)
 plot
 dev.off()
 

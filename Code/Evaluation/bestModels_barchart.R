@@ -55,7 +55,138 @@ DamhusaenList <- c(ARIMA_ss_S2, ARIMAX_ss_S2, ARIMA_ms_S2, ARIMAX_ms_S2)
 
 
 
-### Selecting on what forecasting horizon???
+pullData <- function(List){
+  orderListPI <- function(x, fh){
+    values <- vector()
+    for (i in (1:length(x))){
+      temp <- unlist(x[[i]]$PI[fh])
+      if (is.null(temp) || (is.nan(temp))){
+        values[i] <- NA
+      }
+      else{
+        values[i] <- as.numeric(temp)
+      }
+    }
+    orderedList <- x[order(values, decreasing = TRUE)]
+    return(orderedList)
+  }
+  orderListAccuracy <- function(x, fh){
+    values <- vector()
+    for (i in (1:length(x))){
+      temp <- unlist(x[[i]]$accuracy[[fh]]$accuracy_correct)
+      if (is.null(temp) || (is.nan(temp))){
+        values[i] <- NA
+      }
+      else{
+        values[i] <- as.numeric(temp) 
+      }
+    }
+    orderedList <- x[order(values, decreasing = TRUE)]
+    return(orderedList)
+  }
+  orderListAVGPI <- function(x){
+    values <- vector()
+    for (i in (1:length(x))){
+      temp <- unlist((as.numeric(x[[i]]$PI[1]) + as.numeric(x[[i]]$PI[2]) + as.numeric(x[[i]]$PI[3]))/3)
+      if (is.null(temp) || (is.nan(temp)) || (length(temp) == 0)){
+        values[i] <- NA
+      }
+      else{
+        values[i] <- as.numeric(temp) 
+      }
+    }
+    orderedList <- x[order(values, decreasing = TRUE)]
+    return(orderedList)
+  }
+  
+  #PI30 <- orderListPI(List, 1)[[1]]$accuracy ## Best model based on PI30
+  #PI60 <- orderListPI(List, 2)[[1]]$accuracy ## Best model based on PI30
+  PI90 <- orderListPI(List, 3) ## Best model based on PI30
+  PIAVG <- orderListAVGPI(List) ## Best model based on PI30
+  #Accuracy30_best <- orderListAccuracy(List, 1)[[1]]$accuracy$accuracy30$accuracy_correct
+  #Accuracy60_best <- orderListAccuracy(List, 2)[[1]]$accuracy$accuracy60$accuracy_correct
+  ACC90 <- orderListAccuracy(List, 3)
+  
+  countOFC <- function(List){
+    count_ss <- 0
+    count_ms <- 0
+    for (i in (1:10)){
+      if (List[[i]]$ofc == "single-step"){
+        count_ss <- count_ss + 1
+      }else
+        if (List[[i]]$ofc == "multi-step"){
+          count_ms <- count_ms + 1
+        }
+    }
+    return(c(count_ss, count_ms))
+  }
+  
+  PI90_count <- countOFC(PI90)
+  PIAVG_count <- countOFC(PIAVG)
+  ACC90_count <- countOFC(ACC90)
+  
+  df <- data.frame(matrix(NA, nrow = 3, ncol = 2))
+  colnames(df) <- c("Single-step", "Multi-step")
+  rownames(df) <- c("PI90", "PIAVG", "A90")
+
+  df[1, 1] <- PI90_count[1]
+  df[1, 2] <- PI90_count[2]
+
+  df[2, 1] <- PIAVG_count[1]
+  df[2, 2] <- PIAVG_count[2]
+  
+
+  df[3, 1] <- ACC90_count[1]
+  df[3, 2] <- ACC90_count[2]
+  
+  return(df)
+}
+
+
+DamningenData <- pullData(DamningenList)
+DamhusaenData <- pullData(DamhusaenList)
+
+DamningenData <- pullData(DamningenList)
+DamhusaenData <- pullData(DamhusaenList)
+### Seems to work??
+
+DamningenData$Station <- "Dæmningen"
+DamhusaenData$Station <- "Damhusåen"
+DamningenData$Type <- rownames(DamningenData) 
+DamhusaenData$Type <- rownames(DamhusaenData) 
+df <- rbind(DamningenData, DamhusaenData)
+df
+
+
+library(reshape)
+df <- melt(df)
+
+
+plot <- ggplot(df, aes(x = Type, y = value, fill = variable))+
+  geom_bar(stat="identity", position=position_dodge())+
+  ylab("Count")+xlab("Selected on")+
+  facet_grid(cols = vars(Station))+
+  ggtitle("Number of single/multi step fitted models among the top 10\nperforming models based on A90. PI90 and PIAVG")+
+  labs(fill = "Objectice\nfunction\ncriteria")+
+  scale_fill_manual(values = c('grey', '#636363'))+
+  theme_bw()+
+  theme(panel.grid.major = element_line(size=.20,colour = "grey50"),
+        panel.grid.minor = element_blank(),
+        panel.ontop = FALSE,panel.background = element_rect(fill = NA,size = 0.2, linetype = "solid",colour = "black"), 
+        plot.title = element_text(size = 12), text = element_text(size=12),
+        axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1),
+        legend.position = "right")
+
+plot
+
+pdf(file = "../Figures/Results/DDS/barplot_ofc.pdf", height = 3, width = 7)
+plot
+dev.off()
+
+
+
+
+
 
 
 

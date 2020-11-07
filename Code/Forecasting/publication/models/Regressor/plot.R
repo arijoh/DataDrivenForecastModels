@@ -454,6 +454,7 @@ plotModel <- function(model1_damningen, model2_damningen, model1_damhusaen, mode
                          sec.axis = sec_axis(~./scalingFactor, name = "Rain [mm/hr]  ", breaks=yTick,labels =ylab))  +
       #coord_cartesian(ylim = c(yl[1], yl[2]))+
       ylab("Runoff [m3/hr]")+xlab("Time") +
+      labs(tag='C1')+
       ggtitle(titles[1])+
       theme_pubclean()+
       theme(panel.grid.major = element_line(size=.20,colour = "grey50"),
@@ -477,6 +478,7 @@ plotModel <- function(model1_damningen, model2_damningen, model1_damhusaen, mode
                          sec.axis = sec_axis(~./scalingFactor, name = "Rain [mm/hr]  ", breaks=yTick,labels =ylab))  +
       #coord_cartesian(ylim = c(yl[1], yl[2]))+
       ylab("Runoff [m3/hr]")+xlab("Time") +
+      labs(tag='C2')+
       ggtitle(titles[2])+
       theme_pubclean()+
       theme(panel.grid.major = element_line(size=.20,colour = "grey50"),
@@ -500,6 +502,7 @@ plotModel <- function(model1_damningen, model2_damningen, model1_damhusaen, mode
                          sec.axis = sec_axis(~./scalingFactor, name = "Rain [mm/hr]  ", breaks=yTick,labels =ylab))  +
       #coord_cartesian(ylim = c(yl[1], yl[2]))+
       ylab("Runoff [m3/hr]")+xlab("Time") +
+      labs(tag='C3')+
       ggtitle(titles[3])+
       theme_pubclean()+
       theme(panel.grid.major = element_line(size=.20,colour = "grey50"),
@@ -525,6 +528,7 @@ plotModel <- function(model1_damningen, model2_damningen, model1_damhusaen, mode
       ylab("Runoff [m3/hr]")+xlab("Time") +
       ggtitle(titles[4])+
       theme_pubclean()+
+      labs(tag='C4')+
       theme(panel.grid.major = element_line(size=.20,colour = "grey50"),
             panel.grid.minor = element_blank(),
             panel.ontop = FALSE,panel.background = element_rect(fill = NA,size = 0.2, linetype = "solid",colour = "black"), 

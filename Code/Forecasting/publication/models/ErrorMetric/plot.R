@@ -451,6 +451,7 @@ plotModel <- function(model1_damningen, model2_damningen, model1_damhusaen, mode
       scale_y_continuous(limits = yl, expand = c(0, 0), breaks=seq(yl[1],yl[2],5000),
                          sec.axis = sec_axis(~./scalingFactor, name = "Rain [mm/hr]  ", breaks=yTick,labels =ylab))  +
       ylab("Runoff [m3/hr]")+xlab("Time") +
+      labs(tag = "A1")+
       ggtitle(titles[1])+
       theme_pubclean()+
       theme(panel.grid.major = element_line(size=.20,colour = "grey50"),
@@ -473,6 +474,7 @@ plotModel <- function(model1_damningen, model2_damningen, model1_damhusaen, mode
                          sec.axis = sec_axis(~./scalingFactor, name = "Rain [mm/hr]  ", breaks=yTick,labels =ylab))  +
       coord_cartesian(ylim = c(0, 20000))+
       ylab("Runoff [m3/hr]")+xlab("Time") +
+      labs(tag = "A2")+
       ggtitle(titles[2])+
       theme_pubclean()+
       theme(panel.grid.major = element_line(size=.20,colour = "grey50"),
@@ -494,6 +496,7 @@ plotModel <- function(model1_damningen, model2_damningen, model1_damhusaen, mode
       scale_y_continuous(limits = yl, expand = c(0, 0), breaks=seq(yl[1],yl[2],5000),
                          sec.axis = sec_axis(~./scalingFactor, name = "Rain [mm/hr]  ", breaks=yTick,labels =ylab))  +
       ylab("Runoff [m3/hr]")+xlab("Time") +
+      labs(tag = "A3")+
       ggtitle(titles[3])+
       theme_pubclean()+
       theme(panel.grid.major = element_line(size=.20,colour = "grey50"),
@@ -516,6 +519,7 @@ plotModel <- function(model1_damningen, model2_damningen, model1_damhusaen, mode
                          sec.axis = sec_axis(~./scalingFactor, name = "Rain [mm/hr]  ", breaks=yTick,labels =ylab))  +
       coord_cartesian(ylim = c(0, 20000))+
       ylab("Runoff [m3/hr]")+xlab("Time") +
+      labs(tag = "A4")+
       ggtitle(titles[4])+
       theme_pubclean()+
       theme(panel.grid.major = element_line(size=.20,colour = "grey50"),
@@ -599,7 +603,7 @@ plotModel <- function(model1_damningen, model2_damningen, model1_damhusaen, mode
     
     titles[1] <- paste(titles[1], "\n",  m1$model, " - ", m1$ofc, " PI = ", round(m1$PI$PI90,2), sep = "")
     titles[2] <- paste(titles[2], "\n",  m2$model, " - ", m2$ofc, " Accuracy = ", round(m2$accuracy$accuracy90$accuracy_correct,2), sep = "")
-    titles[3] <- paste(titles[3], "\n",  m3$model, " - ", m3$ofc, " PI = ", round(m3$PI$PI90,2), " for 90 minute horizon", sep = "")
+    titles[3] <- paste(titles[3], "\n",  m3$model, " - ", m3$ofc, " PI = ", round(m3$PI$PI90,2), sep = "")
     titles[4] <- paste(titles[4], "\n",  m4$model, " - ", m4$ofc, " Accuracy = ", round(m4$accuracy$accuracy90$accuracy_correct,2), sep = "")
     
     return(titles)
