@@ -608,10 +608,10 @@ plotModel <- function(model1_damningen, model2_damningen, model1_damhusaen, mode
   }
   getTitles <- function(m1,m2,m3,m4, titles){
     
-    titles[1] <- paste(titles[1], "\n", m1$ofc, " PI = ", round(m1$PI$PI90,2), " for 90 minute horizon.", sep = "")
-    titles[2] <- paste(titles[2], "\n", m2$ofc, " PI = ", round(m2$PI$PI90,2), " for 90 minute horizon", sep = "")
-    titles[3] <- paste(titles[3], "\n", m3$ofc, " PI = ", round(m3$PI$PI90,2), " for 90 minute horizon", sep = "")
-    titles[4] <- paste(titles[4], "\n", m4$ofc, " PI = ", round(m4$PI$PI90,2), " for 90 minute horizon", sep = "")
+    titles[1] <- paste(titles[1], "\n", m1$ofc, " PI = ", round(m1$PI$PI90,2), sep = "")
+    titles[2] <- paste(titles[2], "\n", m2$ofc, " PI = ", round(m2$PI$PI90,2), sep = "")
+    titles[3] <- paste(titles[3], "\n", m3$ofc, " PI = ", round(m3$PI$PI90,2), sep = "")
+    titles[4] <- paste(titles[4], "\n", m4$ofc, " PI = ", round(m4$PI$PI90,2), sep = "")
     
     return(titles)
   }

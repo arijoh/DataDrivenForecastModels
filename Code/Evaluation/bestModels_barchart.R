@@ -99,12 +99,12 @@ pullData <- function(List){
     return(orderedList)
   }
   
-  #PI30 <- orderListPI(List, 1)[[1]]$accuracy ## Best model based on PI30
-  #PI60 <- orderListPI(List, 2)[[1]]$accuracy ## Best model based on PI30
+  PI30 <- orderListPI(List, 1)[[1]]## Best model based on PI30
+  PI60 <- orderListPI(List, 2)[[1]] ## Best model based on PI30
   PI90 <- orderListPI(List, 3) ## Best model based on PI30
   PIAVG <- orderListAVGPI(List) ## Best model based on PI30
-  #Accuracy30_best <- orderListAccuracy(List, 1)[[1]]$accuracy$accuracy30$accuracy_correct
-  #Accuracy60_best <- orderListAccuracy(List, 2)[[1]]$accuracy$accuracy60$accuracy_correct
+  ACC30 <- orderListAccuracy(List, 1)
+  ACC60 <- orderListAccuracy(List, 2)
   ACC90 <- orderListAccuracy(List, 3)
   
   countOFC <- function(List){
@@ -120,24 +120,38 @@ pullData <- function(List){
     }
     return(c(count_ss, count_ms))
   }
-  
+  PI30_count <- countOFC(PI30)
+  PI60_count <- countOFC(PI60)
   PI90_count <- countOFC(PI90)
   PIAVG_count <- countOFC(PIAVG)
+  ACC30_count <- countOFC(ACC30)
+  ACC60_count <- countOFC(ACC60)
   ACC90_count <- countOFC(ACC90)
   
-  df <- data.frame(matrix(NA, nrow = 3, ncol = 2))
+  df <- data.frame(matrix(NA, nrow = 7, ncol = 2))
   colnames(df) <- c("Single-step", "Multi-step")
-  rownames(df) <- c("PI90", "PIAVG", "A90")
+  rownames(df) <- c("PI30", "PI60","PI90", "PIAVG", "A30", "A60", "A90")
 
-  df[1, 1] <- PI90_count[1]
-  df[1, 2] <- PI90_count[2]
-
-  df[2, 1] <- PIAVG_count[1]
-  df[2, 2] <- PIAVG_count[2]
+  df[1, 1] <- PI30_count[1]
+  df[1, 2] <- PI30_count[2]
   
+  df[2, 1] <- PI60_count[1]
+  df[2, 2] <- PI60_count[2]
+  
+  df[3, 1] <- PI90_count[1]
+  df[3, 2] <- PI90_count[2]
 
-  df[3, 1] <- ACC90_count[1]
-  df[3, 2] <- ACC90_count[2]
+  df[4, 1] <- PIAVG_count[1]
+  df[4, 2] <- PIAVG_count[2]
+  
+  df[5, 1] <- ACC30_count[1]
+  df[5, 2] <- ACC30_count[2]
+  
+  df[6, 1] <- ACC60_count[1]
+  df[6, 2] <- ACC60_count[2]
+
+  df[7, 1] <- ACC90_count[1]
+  df[7, 2] <- ACC90_count[2]
   
   return(df)
 }

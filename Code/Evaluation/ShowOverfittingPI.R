@@ -153,18 +153,18 @@ plot <- ggplot(df)+
         geom_line(aes(x = variable, y = value, group = Type, colour = Type))+
         geom_point(aes(x = variable, y = value, colour = Type, shape = Type))+
         facet_grid(cols = vars(Station))+
-        scale_colour_manual(values = c("#636363", "#636363", "#636363", "black"))+
-        scale_shape_manual(values = c(0, 1, 2, 16))+
+        scale_colour_manual(name = 'Selected on', values = c("#636363", "#636363", "#636363", "black"))+
+        scale_shape_manual(name = 'Selected on', values = c(0, 1, 2, 16))+
         xlab("Forecasting horizon")+ylab("Persistence Index (PI)")+
-        ylim(c(-0.2, 1))
-        ggtitle("Overfitting of PI for longer forecasting horizons")+
+        ylim(c(-0.2, 1))+
+        ggtitle("Perfomance of models selected on different PI skill-score measures")+
         theme_bw()+
         theme(panel.grid.major = element_line(size=.20,colour = "grey50"),
               panel.grid.minor = element_blank(),
-              panel.ontop = FALSE,panel.background = element_rect(fill = NA,size = 0.2, linetype = "solid",colour = "black"), 
+              panel.ontop = FALSE, panel.background = element_rect(fill = NA,size = 0.2, linetype = "solid",colour = "black"), 
               plot.title = element_text(size = 12), text = element_text(size=12),
               axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1),
-              legend.position = "bottom")
+              legend.position = "right")
 
 plot
 

@@ -160,8 +160,8 @@ plotThis <- function(data){
     ggtitle("Accuracy of models selected on different criteria")+
     labs(colour = "Model selected on")+
     ylim(0,1)+
-    scale_colour_manual(name = 'Model selected on', values = c("grey", "#636363", "#636363", "#636363", "black"))+
-    scale_shape_manual(name = 'Model selected on', values = c(0, 1, 2, 16, 0))+
+    scale_colour_manual(name = 'Selected on', values = c("grey", "#636363", "#636363", "#636363", "black"))+
+    scale_shape_manual(name = 'Selected on', values = c(0, 1, 2, 16, 0))+
     theme_bw()+
     theme(panel.grid.major = element_line(size=.20,colour = "grey50"),
           panel.grid.minor = element_blank(),
