@@ -14,7 +14,7 @@ source("Forecasting/publication/models/Objective_function_criteria/Plot.R")
 # m1_damhusaen <- DamhusaenList_ss[[i]]
 # m2_damhusaen <- DamhusaenList_ms[[i]]
 # 
-# titles <- c("Damningen - ss", "Damningen - ms", "Damhusaen - ss", "Damhusaen - ms")
+# titles <- c("Dæmningen - ss", "Dæmningen - ms", "Damhusåen - ss", "Damhusåen - ms")
 # 
 # 
 # 
@@ -36,7 +36,7 @@ for (i in 1:10){
   m2_Damningen <- DamningenList_ms[[i]]
   m1_Damhusaen <- DamhusaenList_ss[[i]]
   m2_Damhusaen <- DamhusaenList_ms[[i]]
-  titles <- c("Damningen - Single-step", "Damningen - Multi-step", "Damhusaen - Single-step", "Damhusaen - Multi-step")
+  titles <- c("Dæmningen - Single-step", "Dæmningen - Multi-step", "Damhusåen - Single-step", "Damhusåen - Multi-step")
   p <- plotModel(m1_Damningen, m2_Damningen, m1_Damhusaen, m2_Damhusaen, titles)
   
   filename <- paste("Forecasting/publication/models/Objective_function_criteria/Figures/model_ofc_", i, ".pdf", sep = "")

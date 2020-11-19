@@ -1,5 +1,8 @@
 library(tidyverse)
 library(ggplot2)
+library(ggpubr)
+library(reshape2)
+
 #### HERE WE GET THE TOP PERFORMING MODELS (NO MATTER THE MODEL TYPE, I.E. SINGLE/MULTI-STEP ARIMA/ARIMAX)
 #### THE BEST MODELS ARE SAVED AS DATA FRAME AND CAN BE PRINTED OUT TO LATEX TABLES
 
@@ -40,50 +43,24 @@ labelList <- function(L, ofc_, model_){
 }
 
 ## take together all models for station
-ARIMA_ss_S1 <-labelList(ARIMA_ss_S1, ofc_ = "single-step", model_ = "ARIMA")
+ARIMA_ss_S1 <- labelList(ARIMA_ss_S1, ofc_ = "single-step", model_ = "ARIMA")
 ARIMAX_ss_S1 <- labelList(ARIMAX_ss_S1, ofc_ = "single-step", model_ = "ARIMAX")
 ARIMA_ms_S1 <- labelList(ARIMA_ms_S1, ofc_ = "multi-step", model_ = "ARIMA")
 ARIMAX_ms_S1 <- labelList(ARIMAX_ms_S1, ofc_ = "multi-step", model_ = "ARIMAX")
-DamningenList <- c(ARIMA_ss_S1, ARIMAX_ss_S1, ARIMA_ms_S1, ARIMAX_ms_S1)
+DamningenList_ARIMA <- c(ARIMA_ss_S1, ARIMA_ms_S1)
+DamningenList_ARIMAX <- c(ARIMAX_ss_S1, ARIMAX_ms_S1)
 
 
 ARIMA_ss_S2 <- labelList(ARIMA_ss_S2, ofc_ = "single-step", model_ = "ARIMA")
 ARIMAX_ss_S2 <- labelList(ARIMAX_ss_S2, ofc_ = "single-step", model_ = "ARIMAX")
 ARIMA_ms_S2 <- labelList(ARIMA_ms_S2, ofc_ = "multi-step", model_ = "ARIMA")
 ARIMAX_ms_S2 <- labelList(ARIMAX_ms_S2, ofc_ = "multi-step", model_ = "ARIMAX")
-DamhusaenList <- c(ARIMA_ss_S2, ARIMAX_ss_S2, ARIMA_ms_S2, ARIMAX_ms_S2)
+DamhusaenList_ARIMA <- c(ARIMA_ss_S2, ARIMA_ms_S2)
+DamhusaenList_ARIMAX <- c(ARIMAX_ss_S2, ARIMAX_ms_S2)
 
 
 
-pullData <- function(List){
-  orderListPI <- function(x, fh){
-    values <- vector()
-    for (i in (1:length(x))){
-      temp <- unlist(x[[i]]$PI[fh])
-      if (is.null(temp) || (is.nan(temp))){
-        values[i] <- NA
-      }
-      else{
-        values[i] <- as.numeric(temp)
-      }
-    }
-    orderedList <- x[order(values, decreasing = TRUE)]
-    return(orderedList)
-  }
-  orderListAccuracy <- function(x, fh){
-    values <- vector()
-    for (i in (1:length(x))){
-      temp <- unlist(x[[i]]$accuracy[[fh]]$accuracy_correct)
-      if (is.null(temp) || (is.nan(temp))){
-        values[i] <- NA
-      }
-      else{
-        values[i] <- as.numeric(temp) 
-      }
-    }
-    orderedList <- x[order(values, decreasing = TRUE)]
-    return(orderedList)
-  }
+pullData <- function(){
   orderListAVGPI <- function(x){
     values <- vector()
     for (i in (1:length(x))){
@@ -99,106 +76,89 @@ pullData <- function(List){
     return(orderedList)
   }
   
-  PI30 <- orderListPI(List, 1)## Best model based on PI30
-  PI60 <- orderListPI(List, 2) ## Best model based on PI30
-  PI90 <- orderListPI(List, 3) ## Best model based on PI30
-  PIAVG <- orderListAVGPI(List) ## Best model based on PI30
-  ACC30 <- orderListAccuracy(List, 1)
-  ACC60 <- orderListAccuracy(List, 2)
-  ACC90 <- orderListAccuracy(List, 3)
-  
-  countOFC <- function(List){
-    count_ss <- 0
-    count_ms <- 0
-    for (i in (1:10)){
-      if (List[[i]]$ofc == "single-step"){
-        count_ss <- count_ss + 1
-      }else
-        if (List[[i]]$ofc == "multi-step"){
-          count_ms <- count_ms + 1
-        }
-    }
-    return(c(count_ss, count_ms))
-  }
-  PI30_count <- countOFC(PI30)
-  PI60_count <- countOFC(PI60)
-  PI90_count <- countOFC(PI90)
-  PIAVG_count <- countOFC(PIAVG)
-  ACC30_count <- countOFC(ACC30)
-  ACC60_count <- countOFC(ACC60)
-  ACC90_count <- countOFC(ACC90)
-  
-  df <- data.frame(matrix(NA, nrow = 7, ncol = 2))
-  colnames(df) <- c("Single-step", "Multi-step")
-  rownames(df) <- c("PI30", "PI60","PI90", "PIAVG", "A30", "A60", "A90")
 
-  df[1, 1] <- PI30_count[1]
-  df[1, 2] <- PI30_count[2]
+    
+  ### Best models based on PI ordered by differetn forecasting horizon
+  DamningenList_ARIMA <- orderListAVGPI(DamningenList_ARIMA)
+  DamningenList_ARIMAX <- orderListAVGPI(DamningenList_ARIMAX)
+  DamhusaenList_ARIMA<- orderListAVGPI(DamhusaenList_ARIMA)
+  DamhusaenList_ARIMAX <- orderListAVGPI(DamhusaenList_ARIMAX)
   
-  df[2, 1] <- PI60_count[1]
-  df[2, 2] <- PI60_count[2]
   
-  df[3, 1] <- PI90_count[1]
-  df[3, 2] <- PI90_count[2]
-
-  df[4, 1] <- PIAVG_count[1]
-  df[4, 2] <- PIAVG_count[2]
+  #### Construct tables
+  table_Damningen <- as.data.frame(matrix(NA, nrow = 5, ncol = 2))
+  colnames(table_Damningen) <- c("ARIMA", "ARIMAX")
+  table_Damningen$Station <- 'Dæmningen'
+  table_Damningen$Nr <- 1:5
+  table_Damhusaen <- as.data.frame(matrix(NA, nrow = 5, ncol = 2))
+  colnames(table_Damhusaen) <- c("ARIMA", "ARIMAX")
+  table_Damhusaen$Station <- 'Damhusåen'
+  table_Damhusaen$Nr <- 1:5
   
-  df[5, 1] <- ACC30_count[1]
-  df[5, 2] <- ACC30_count[2]
+  table_Damningen[1,1] <- mean(sapply(DamningenList_ARIMA[[1]]$PI, mean))
+  table_Damningen[2,1] <- mean(sapply(DamningenList_ARIMA[[2]]$PI, mean))
+  table_Damningen[3,1] <- mean(sapply(DamningenList_ARIMA[[3]]$PI, mean))
+  table_Damningen[4,1] <- mean(sapply(DamningenList_ARIMA[[4]]$PI, mean))
+  table_Damningen[5,1] <- mean(sapply(DamningenList_ARIMA[[5]]$PI, mean))
   
-  df[6, 1] <- ACC60_count[1]
-  df[6, 2] <- ACC60_count[2]
-
-  df[7, 1] <- ACC90_count[1]
-  df[7, 2] <- ACC90_count[2]
+  table_Damningen[1,2] <- mean(sapply(DamningenList_ARIMAX[[1]]$PI, mean))
+  table_Damningen[2,2] <- mean(sapply(DamningenList_ARIMAX[[2]]$PI, mean))
+  table_Damningen[3,2] <- mean(sapply(DamningenList_ARIMAX[[3]]$PI, mean))
+  table_Damningen[4,2] <- mean(sapply(DamningenList_ARIMAX[[4]]$PI, mean))
+  table_Damningen[5,2] <- mean(sapply(DamningenList_ARIMAX[[5]]$PI, mean))
   
-  return(df)
+  table_Damhusaen[1,1] <- mean(sapply(DamhusaenList_ARIMA[[1]]$PI, mean))
+  table_Damhusaen[2,1] <- mean(sapply(DamhusaenList_ARIMA[[2]]$PI, mean))
+  table_Damhusaen[3,1] <- mean(sapply(DamhusaenList_ARIMA[[3]]$PI, mean))
+  table_Damhusaen[4,1] <- mean(sapply(DamhusaenList_ARIMA[[4]]$PI, mean))
+  table_Damhusaen[5,1] <- mean(sapply(DamhusaenList_ARIMA[[5]]$PI, mean))
+  
+  table_Damhusaen[1,2] <- mean(sapply(DamhusaenList_ARIMAX[[1]]$PI, mean))
+  table_Damhusaen[2,2] <- mean(sapply(DamhusaenList_ARIMAX[[2]]$PI, mean))
+  table_Damhusaen[3,2] <- mean(sapply(DamhusaenList_ARIMAX[[3]]$PI, mean))
+  table_Damhusaen[4,2] <- mean(sapply(DamhusaenList_ARIMAX[[4]]$PI, mean))
+  table_Damhusaen[5,2] <- mean(sapply(DamhusaenList_ARIMAX[[5]]$PI, mean))
+  
+  
+  data <- rbind(table_Damningen, table_Damhusaen)
+  data <- melt(data, id.vars = c("Nr", "Station"))
+  
+  return(data)
 }
 
 
-DamningenData <- pullData(DamningenList)
-DamhusaenData <- pullData(DamhusaenList)
-
-
-DamningenData$Station <- "Dæmningen"
-DamhusaenData$Station <- "Damhusåen"
-
-
-DamningenData$`Forecasting horizon` <- c("30 min", "60 min", "90 min", 'Avg', "30 min", "60 min", "90 min")
-DamningenData$`Error metric` <- c('PI', 'PI', 'PI', 'PI', 'Accuracy', 'Accuracy', 'Accuracy')
-
-DamhusaenData$`Forecasting horizon` <- c("30 min", "60 min", "90 min", 'Avg', "30 min", "60 min", "90 min")
-DamhusaenData$`Error metric` <- c('PI', 'PI', 'PI', 'PI', 'Accuracy', 'Accuracy', 'Accuracy')
-
-df <- rbind(DamningenData, DamhusaenData)
+df <- pullData()
 df
 
-
-library(reshape)
-df <- melt(df)
-
-
-plot <- ggplot(df, aes(x = interaction(`Forecasting horizon`, `Error metric`), y = value, fill = variable))+
+plot <- ggplot(df, aes(x = interaction(Nr), y = value, fill =  variable))+
   geom_bar(stat="identity", position=position_dodge())+
-  ylab("Count")+xlab("Selected on")+
   facet_grid(cols = vars(Station))+
-  ggtitle("Objective function criteria of the 10 best performing models")+
-  labs(fill = "Objectice\nfunction\ncriteria")+
-  scale_fill_manual(values = c('grey', '#636363'))+
+  scale_x_discrete(labels=c("1","2","3", "4","5"))+
+  ylim(0,1)+
+  scale_fill_manual(values = c("#adadad", "#666666"))+
   theme_bw()+
+  ylab("PIAVG") + xlab("Model Nr") + labs(fill = "Model type")+
+  ggtitle("Comparison top-5 models with and without regressors based on PIAVG")+
   theme(panel.grid.major = element_line(size=.20,colour = "grey50"),
         panel.grid.minor = element_blank(),
         panel.ontop = FALSE,panel.background = element_rect(fill = NA,size = 0.2, linetype = "solid",colour = "black"), 
         plot.title = element_text(size = 12), text = element_text(size=12),
-        axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1),
+        axis.text.x = element_text(angle = 0, hjust = 1, vjust = 1),
         legend.position = "right")
-
 plot
 
-pdf(file = "../Figures/Results/DDS/barplot_ofc.pdf", height = 3, width = 7)
+
+pdf(file = "../Figures/Results/DDS/Barchart_regressors.pdf", height = 3, width = 7)
 plot
 dev.off()
+  
+
+
+
+
+
+
+
 
 
 

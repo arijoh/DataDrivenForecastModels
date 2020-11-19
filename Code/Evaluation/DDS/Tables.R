@@ -93,12 +93,10 @@ DamhusaenList_Accuracy <- orderListAccuracy(DamhusaenList)
 ## Move lists to dataframe
 getData <- function(L, top){
   df1 <- data.frame(matrix(NA, nrow = top, ncol = 7))
-  df2 <- data.frame(matrix(NA, nrow = top, ncol = 10))
+  df2 <- data.frame(matrix(NA, nrow = top, ncol = 7))
   colnames(df1) <- c("ofc", "order", "reg.nr", "reg.lag", "PI30", "PI60", "PI90")
-  colnames(df2) <- c("ofc", "order", "reg.nr", "reg.lag", "accuracy of correct (30 min)", "accuracy of correct or early (30 min)",
-                     "accuracy of correct (60 min)", "accuracy of correct or early (60 min)",
-                     "accuracy of correct (90 min)", "accuracy of correct or early (90 min)")
-  nsig <- 5
+  colnames(df2) <- c("ofc", "order", "reg.nr", "reg.lag", "A30", "A60", "A90")
+  nsig <- 2
   
   for (i in (1:top)){
     
@@ -125,12 +123,9 @@ getData <- function(L, top){
     df1$PI60[i] <- signif(unlist(L[[i]]$PI[2]), digits = nsig)
     df1$PI90[i] <- signif(unlist(L[[i]]$PI[3]), digits = nsig)
     
-    df2$`accuracy of correct (30 min)`[i] <- signif(unlist(L[[i]]$accuracy$accuracy30[1]), digits = nsig)
-    df2$`accuracy of correct or early (30 min)`[i] <- signif(unlist(L[[i]]$accuracy$accuracy30[2]), digits = nsig) 
-    df2$`accuracy of correct (60 min)`[i] <- signif(unlist(L[[i]]$accuracy$accuracy60[1]), digits = nsig)
-    df2$`accuracy of correct or early (60 min)`[i] <- signif(unlist(L[[i]]$accuracy$accuracy60[2]), digits = nsig)
-    df2$`accuracy of correct (90 min)`[i] <- signif(unlist(L[[i]]$accuracy$accuracy90[1]), digits = nsig)
-    df2$`accuracy of correct or early (90 min)`[i] <- signif(unlist(L[[i]]$accuracy$accuracy90[2]), digits = nsig)
+    df2$A30[i] <- signif(unlist(L[[i]]$accuracy$accuracy30[1]), digits = nsig)
+    df2$A60[i] <- signif(unlist(L[[i]]$accuracy$accuracy60[1]), digits = nsig)
+    df2$A90[i] <- signif(unlist(L[[i]]$accuracy$accuracy90[1]), digits = nsig)
   }
   
   return(list(df1, df2))
@@ -188,9 +183,8 @@ Damhusaen_Accuracy_Accuracy <- DamhusaenDF_Accuracy[[2]]
 
 
 ### Print tables if desired
-digits1 <- as.vector(c(0,0,0,0,0,2,2,2), mode = "numeric")
-digits2 <- as.vector(c(0,0,0,0,0,2,2,2,2,2,2), mode = "numeric")
-digits <- as.vector(c(0,0,0,0,0,2,2,2,2,2,2, 2, 2, 2), mode = "numeric")
+digits <- as.vector(c(0,0,0,0,0,2,2,2,2,2,2), mode = "numeric")
+
 
 #### Fix tables together
 
@@ -198,17 +192,21 @@ digits <- as.vector(c(0,0,0,0,0,2,2,2,2,2,2, 2, 2, 2), mode = "numeric")
 ####
 
 damningenPI <- cbind(Damningen_PI_PI, Damningen_PI_Accuracy[,5:ncol(Damningen_PI_Accuracy)])
-xtable(damningenPI, type = "latex", digits = digits)
+write.table(damningenPI, file = "Evaluation/DDS/Table_DamningenPI.txt", sep = ";", quote = FALSE, row.names = F)
+#xtable(damningenPI, digits = digits)
 
 damningenAccuracy <-  cbind(Damningen_Accuracy_PI, Damningen_Accuracy_Accuracy[,5:ncol(Damningen_Accuracy_Accuracy)])
-xtable(damningenAccuracy, type = "latex", digits = digits)
+write.table(damningenAccuracy, file = "Evaluation/DDS/Table_DamningenAccuracy.txt", sep = ";", quote = FALSE, row.names = F)
+#xtable(damningenAccuracy, type = "latex", digits = digits)
 
 
 DamhusaenPI <- cbind(Damhusaen_PI_PI, Damhusaen_PI_Accuracy[,5:ncol(Damhusaen_PI_Accuracy)])
-xtable(DamhusaenPI, type = "latex", digits = digits)
+write.table(DamhusaenPI, file = "Evaluation/DDS/Table_DamhusaenPI.txt", sep = ";", quote = FALSE, row.names = F)
+#xtable(DamhusaenPI, type = "latex", digits = digits)
 
 DamhusaenAccuracy <-  cbind(Damhusaen_Accuracy_PI, Damhusaen_Accuracy_Accuracy[,5:ncol(Damhusaen_Accuracy_Accuracy)])
-xtable(DamhusaenAccuracy, type = "latex", digits = digits)
+write.table(DamhusaenAccuracy, file = "Evaluation/DDS/Table_DamhusaenAccuracy.txt", sep = ";", quote = FALSE, row.names = F)
+#xtable(DamhusaenAccuracy, type = "latex", digits = digits)
 
 
 

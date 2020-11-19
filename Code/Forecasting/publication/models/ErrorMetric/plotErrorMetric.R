@@ -14,7 +14,7 @@ source("Forecasting/publication/models/ErrorMetric/Plot.R")
 # m1_damhusaen <- DamhusaenList_PI[[i]]
 # m2_damhusaen <- DamhusaenList_Accuracy[[i]]
 # 
-# titles <- c("Damningen - PI ", "Damningen - Accuracy", "Damhusaen - PI", "Damhusaen - Accuracy")
+# titles <- c("Dæmningen - PI ", "Dæmningen - Accuracy", "Damhusåen - PI", "Damhusåen - Accuracy")
 # 
 # 
 # 
@@ -37,7 +37,7 @@ for (i in 1:10){
   m1_damhusaen <- DamhusaenList_PI[[i]]
   m2_damhusaen <- DamhusaenList_Accuracy[[i]]
   
-  titles <- c("Damningen - PI", "Damningen - Accuracy", "Damhusaen - PI", "Damhusaen - Accuracy")
+  titles <- c("Dæmningen - PI ", "Dæmningen - Accuracy", "Damhusåen - PI", "Damhusåen - Accuracy")
   p <- plotModel(m1_Damningen, m2_Damningen, m1_damhusaen, m2_damhusaen, titles)
   
   filename <- paste("Forecasting/publication/models/ErrorMetric/Figures/model_error_metrics_", i, ".pdf", sep = "")

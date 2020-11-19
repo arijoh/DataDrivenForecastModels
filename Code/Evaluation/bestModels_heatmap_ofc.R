@@ -229,6 +229,7 @@ plotThis <- function(df, error){
       scale_fill_gradient(low = "white",high = "#808080", na.value = "red")+
       scale_x_discrete(expand=c(0,0)) + 
       scale_y_discrete(expand=c(0,0)) +
+      labs(tag = "A", size = 12)+
       theme_bw()+
       theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), 
             panel.spacing = unit(0, "lines"))+
@@ -242,6 +243,7 @@ plotThis <- function(df, error){
       scale_fill_gradient(low = "white",high = "#808080", na.value = "red")+
       scale_x_discrete(expand=c(0,0)) + 
       scale_y_discrete(expand=c(0,0)) +
+      labs(tag = "B")+
       theme_bw()+
       theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), 
             panel.spacing = unit(0, "lines"))+
@@ -260,7 +262,7 @@ df_Accuracy <- pullData("Accuracy")
 plot_Accuracy <- plotThis(df_Accuracy, error = "Accuracy")
 
 plot <- annotate_figure(ggarrange(plot_PI, plot_Accuracy, nrow = 2), 
-                        top = text_grob("Best perfoming models for single/multistep o.f.c", size = 14))
+                        top = text_grob("Comparing objective function criteria", size = 12))
 plot
 
 pdf(file = "../Figures/Results/DDS/Heatmap_ofc.pdf", height = 4, width = 5)

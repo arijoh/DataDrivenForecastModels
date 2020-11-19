@@ -490,6 +490,8 @@ plotTS_zoom_wwindex <- function(data, from, wwindex, to, ymin, ymax, title){
                      y2=(yl[2]-dummy_R))
   
   
+  
+  
   yTick=c(seq(yl[2]/scalingFactor,yl[2]/scalingFactor-yl_r[2],-dy_r))
   ylab=seq(0,(length(yTick)-1)*dy_r,dy_r)
   
@@ -499,12 +501,12 @@ plotTS_zoom_wwindex <- function(data, from, wwindex, to, ymin, ymax, title){
     geom_rect(data=wwindex, inherit.aes = F, aes(xmin = as.POSIXct(x1), xmax = as.POSIXct(x2),
                                                    ymin = y1, ymax = y2),
               fill='#ff5252', colour = "#ff5252",color=NA, alpha = 0.3)+
-    geom_point(aes(y = Runoff), color = "#009603", size = 0.8) + 
+    #geom_point(aes(y = Runoff), color = "#009603", size = 0.25) + 
     geom_line(aes(y = Runoff), color = "#10C312")+
     scale_x_datetime(breaks = date_breaks("24 hours"), date_labels = "%Y-%m-%d %H:%M")+
     scale_y_continuous(limits = yl, expand = c(0, 0), breaks=seq(yl[1],yl[2],5000),
                        sec.axis = sec_axis(~./scalingFactor, name = "Rain [mm/hr]          ", breaks=yTick,labels =ylab))+
-    facet_grid(cols = vars(Station))+
+    facet_grid(rows = vars(Station))+
     ylab("Runoff [m3/hr]")+xlab("Time")+
     ggtitle(title)+
     theme_pubclean()+
@@ -520,16 +522,16 @@ plotTS_zoom_wwindex <- function(data, from, wwindex, to, ymin, ymax, title){
 
 
 
-
-full_plot_wwindex <- plotTS_zoom_wwindex(data = data, wwindex = ww,from = from, to = to, ymin = ymin, ymax = ymax, title = "Dataset and wet weather index")
-
-
-
+title <- "Flow measurements, precipitation, and valid rain events"
+full_plot_wwindex <- plotTS_zoom_wwindex(data = data, wwindex = ww,from = from, to = to, ymin = ymin, ymax = ymax, title = title)
+full_plot_wwindex
 
 
-# ggsave(filename="../Figures/fullplotwwindex.pdf", width = 10, height =  4)
-# full_plot_wwindex
-# dev.off()
+
+
+ggsave(filename="../Figures/zoom_plotwwindex.pdf", width = 6, height =  4)
+full_plot_wwindex
+dev.off()
 
 
 
