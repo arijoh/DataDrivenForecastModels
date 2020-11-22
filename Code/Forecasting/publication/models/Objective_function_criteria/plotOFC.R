@@ -42,7 +42,7 @@ for (i in 1:10){
   filename <- paste("Forecasting/publication/models/Objective_function_criteria/Figures/model_ofc_", i, ".pdf", sep = "")
   print(filename)
 
-  ggsave(filename = filename, height= 5, width = 9)
+  ggsave(filename = filename, height= 5, width = 10)
   p
   dev.off()
 

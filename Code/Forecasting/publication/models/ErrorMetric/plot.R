@@ -540,7 +540,7 @@ plotModel <- function(model1_damningen, model2_damningen, model1_damhusaen, mode
     
     
     p <- annotate_figure(ggarrange(p1, p2, p3, p4, common.legend = T, legend = "none"),
-                         top = text_grob("Best perfoming models selected on PI/Accuracy", size = 14))
+                         top = text_grob("Models selected on PI/Accuracy", size = 14))
     plot
     
     return(p)

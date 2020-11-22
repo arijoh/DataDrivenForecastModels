@@ -27,6 +27,13 @@ source("Forecasting/publication/models/ErrorMetric/Plot.R")
 # 
 # p <- plotModel(m1_Damningen, m2_Damningen, m1_damhusaen, m2_damhusaen, titles) ## returns a plot that combines all four models
 # p
+# 
+# filename <- "Forecasting/publication/models/ErrorMetric/Figures/test.pdf"
+# print(filename)
+# 
+# ggsave(filename = filename, height= 5, width = 10)
+# p
+# dev.off()
 
 
 
@@ -43,7 +50,7 @@ for (i in 1:10){
   filename <- paste("Forecasting/publication/models/ErrorMetric/Figures/model_error_metrics_", i, ".pdf", sep = "")
   print(filename)
   
-  ggsave(filename = filename, height= 5, width = 9)
+  ggsave(filename = filename, height= 5, width = 10)
   p
   dev.off()
 }
