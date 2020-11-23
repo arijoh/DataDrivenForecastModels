@@ -178,7 +178,14 @@ df
 library(reshape)
 df <- melt(df)
 
+integer_breaks = function(range) {
+  bmax = ceiling(range[2])
+  bmin = floor(range[1])
+  if (bmax - bmin < 7) return(bmin:bmax)
+  pretty(range)
+}
 
+library(scales)
 plot <- ggplot(df, aes(x = interaction(`Forecasting horizon`, `Error metric`), y = value, fill = variable))+
   geom_bar(stat="identity", position=position_dodge())+
   ylab("Count")+xlab("Selected on")+
@@ -186,6 +193,7 @@ plot <- ggplot(df, aes(x = interaction(`Forecasting horizon`, `Error metric`), y
   ggtitle("Objective function criteria of the 10 best performing models")+
   labs(fill = "Objectice\nfunction\ncriteria")+
   scale_fill_manual(values = c('grey', '#636363'))+
+  scale_y_continuous(breaks = integer_breaks)+
   theme_bw()+
   theme(panel.grid.major = element_line(size=.20,colour = "grey50"),
         panel.grid.minor = element_blank(),
@@ -193,7 +201,6 @@ plot <- ggplot(df, aes(x = interaction(`Forecasting horizon`, `Error metric`), y
         plot.title = element_text(size = 12), text = element_text(size=12),
         axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1),
         legend.position = "right")
-
 plot
 
 pdf(file = "../Figures/Results/DDS/barplot_ofc.pdf", height = 3, width = 7)
