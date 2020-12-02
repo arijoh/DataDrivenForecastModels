@@ -26,7 +26,13 @@ source("Forecasting/publication/models/Objective_function_criteria/Plot.R")
 # 
 # 
 # p <- plotModel(m1_Damningen, m2_Damningen, m1_damhusaen, m2_damhusaen, titles) ## returns a plot that combines all four models
+# filename <- "Forecasting/publication/models/Objective_function_criteria/Figures/test.tiff"
+# print(filename)
+# 
+# 
+# tiff(filename = filename, units = "mm", width = 190, height = 80, res = 500)
 # p
+# dev.off()
 
 
 
@@ -39,27 +45,14 @@ for (i in 1:10){
   titles <- c("Dæmningen - Single-step", "Dæmningen - Multi-step", "Damhusåen - Single-step", "Damhusåen - Multi-step")
   p <- plotModel(m1_Damningen, m2_Damningen, m1_Damhusaen, m2_Damhusaen, titles)
   
-  filename <- paste("Forecasting/publication/models/Objective_function_criteria/Figures/model_ofc_", i, ".pdf", sep = "")
+  filename <- paste("Forecasting/publication/models/Objective_function_criteria/Figures/model_ofc_", i, ".tiff", sep = "")
   print(filename)
 
-  ggsave(filename = filename, height= 5, width = 10)
-  p
+  tiff(filename = filename, units = "mm", width = 140, height = 70, res = 500)
+  print(p)
   dev.off()
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

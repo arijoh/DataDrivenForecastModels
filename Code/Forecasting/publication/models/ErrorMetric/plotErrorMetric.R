@@ -26,19 +26,17 @@ source("Forecasting/publication/models/ErrorMetric/Plot.R")
 # 
 # 
 # p <- plotModel(m1_Damningen, m2_Damningen, m1_damhusaen, m2_damhusaen, titles) ## returns a plot that combines all four models
-# p
 # 
-# filename <- "Forecasting/publication/models/ErrorMetric/Figures/test.pdf"
+# 
+# filename <- "Forecasting/publication/models/ErrorMetric/Figures/test.tiff"
 # print(filename)
 # 
-# ggsave(filename = filename, height= 5, width = 10)
+# 
+# tiff(filename = filename, units = "mm", width = 190, height = 80, res = 1000)
 # p
 # dev.off()
 
-
-
 for (i in 1:10){
-  print(i)
   m1_Damningen <- DamningenList_PI[[i]]
   m2_Damningen <- DamningenList_Accuracy[[i]]
   m1_damhusaen <- DamhusaenList_PI[[i]]
@@ -47,11 +45,11 @@ for (i in 1:10){
   titles <- c("Dæmningen - PI ", "Dæmningen - Accuracy", "Damhusåen - PI", "Damhusåen - Accuracy")
   p <- plotModel(m1_Damningen, m2_Damningen, m1_damhusaen, m2_damhusaen, titles)
   
-  filename <- paste("Forecasting/publication/models/ErrorMetric/Figures/model_error_metrics_", i, ".pdf", sep = "")
+  filename <- paste("Forecasting/publication/models/ErrorMetric/Figures/model_error_metrics_", i, ".tiff", sep = "")
   print(filename)
-  
-  ggsave(filename = filename, height= 5, width = 10)
-  p
+
+  tiff(filename = filename, units = "mm", width = 140, height = 85, res = 500)
+  print(p)
   dev.off()
 }
 

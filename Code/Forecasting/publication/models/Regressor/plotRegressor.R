@@ -26,7 +26,14 @@ source("Forecasting/publication/models/Regressor/Plot.R")
 # 
 # 
 # p <- plotModel(m1_Damningen, m2_Damningen, m1_Damhusaen, m2_Damhusaen, titles) ## returns a plot that combines all four models
+# 
+# filename <- "Forecasting/publication/models/Regressor/Figures/test.tiff"
+# print(filename)
+# 
+# 
+# tiff(filename = filename, units = "mm", width = 190, height = 80, res = 500)
 # p
+# dev.off()
 
 
 
@@ -37,31 +44,16 @@ for (i in 1:10){
   m1_damhusaen <- DamhusaenList_ARIMA[[i]]
   m2_damhusaen <- DamhusaenList_ARIMAX[[i]]
   
-  
   titles <- c("Dæmningen - ARIMA", "Dæmningen - ARIMAX", "Damhusåen - ARIMA", "Damhusåen - ARIMAX")
   p <- plotModel(m1_Damningen, m2_Damningen, m1_damhusaen, m2_damhusaen, titles)
   
-  filename <- paste("Forecasting/publication/models/Regressor/Figures/model_regressors_", i, ".pdf", sep = "")
+  filename <- paste("Forecasting/publication/models/Regressor/Figures/model_regressors_", i, ".tiff", sep = "")
   print(filename)
   
-  ggsave(filename = filename, height= 5, width = 10)
-  p
+  tiff(filename = filename, units = "mm", width = 140, height = 70, res = 500)
+  print(p)
   dev.off()
 
 }
  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
