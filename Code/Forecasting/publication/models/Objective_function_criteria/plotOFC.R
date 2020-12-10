@@ -14,7 +14,7 @@ source("Forecasting/publication/models/Objective_function_criteria/Plot.R")
 # m1_damhusaen <- DamhusaenList_ss[[i]]
 # m2_damhusaen <- DamhusaenList_ms[[i]]
 # 
-# titles <- c("Dæmningen - ss", "Dæmningen - ms", "Damhusåen - ss", "Damhusåen - ms")
+# titles <- c("Dæmningen - single-step", "Damhusåen - single-step", "Dæmningen - multi-step", "Damhusåen - multi-step")
 # 
 # 
 # 
@@ -42,13 +42,13 @@ for (i in 1:10){
   m2_Damningen <- DamningenList_ms[[i]]
   m1_Damhusaen <- DamhusaenList_ss[[i]]
   m2_Damhusaen <- DamhusaenList_ms[[i]]
-  titles <- c("Dæmningen - Single-step", "Dæmningen - Multi-step", "Damhusåen - Single-step", "Damhusåen - Multi-step")
+  titles <- c("Dæmningen - single-step", "Damhusåen - single-step", "Dæmningen - multi-step", "Damhusåen - multi-step")
   p <- plotModel(m1_Damningen, m2_Damningen, m1_Damhusaen, m2_Damhusaen, titles)
   
   filename <- paste("Forecasting/publication/models/Objective_function_criteria/Figures/model_ofc_", i, ".tiff", sep = "")
   print(filename)
 
-  tiff(filename = filename, units = "mm", width = 140, height = 70, res = 500)
+  tiff(filename = filename, units = "mm", width = 190, height = 80, res = 500)
   print(p)
   dev.off()
 

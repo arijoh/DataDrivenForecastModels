@@ -540,9 +540,6 @@ plotModel <- function(model1_damningen, model2_damningen, model1_damhusaen, mode
       scale_color_manual(values=c("Measured" = "black", "Forecast" = "#fc0303"))+
       guides(color = guide_legend(override.aes = list(linetype = c("solid", "blank"))))
     
-    p4
-    
-    
     p <- egg::ggarrange(p1, p2, p3, p4, ncol = 2, nrow = 2, 
                         left = text_grob("Runoff [m3/hr]", size = 12, rot = 90),
                         right = text_grob("Precipitation [mm/hr]", size = 12, rot = 270),

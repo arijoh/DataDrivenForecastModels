@@ -451,22 +451,21 @@ plotModel <- function(model1_damningen, model2_damningen, model1_damhusaen, mode
       geom_point(aes(y = Damningen, color = "Measured"), size = pointsize)+
       scale_x_datetime(labels = date_format("%H:%M"))+
       scale_y_continuous(limits = yl, expand = c(0, 0), breaks=seq(yl[1],yl[2],10000),
-                         sec.axis = sec_axis(~./scalingFactor, name = "Rain [mm/hr]  ", breaks=yTick,labels =ylab))  +
-      ylab("Runoff [m3/hr]")+xlab("Time") +
-      labs(tag = "B1")+
+                         sec.axis = sec_axis(~./scalingFactor, name = "", breaks = NULL, labels = NULL))+ #breaks=yTick,labels =ylab
       ggtitle(titles[1])+
       theme_pubclean()+
       theme(panel.grid.major = element_line(size=.20,colour = "grey50"),
             panel.grid.minor = element_blank(),
-            panel.ontop = FALSE,panel.background = element_rect(fill = NA,size = 0.2, linetype = "solid",colour = "black"), 
-            legend.title = element_blank(),
-            plot.title = element_text(size = 8),
-            plot.tag = element_text(size = 8),
-            axis.title = element_text(size = 8),
-            axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1, face = "plain"), plot.margin = unit(c(-0.1, 0, 0, 0), "cm"))+
+            panel.ontop = FALSE, panel.background = element_rect(fill = NA,size = 0.2, linetype = "solid",colour = "black"), 
+            #legend.title = element_blank(),
+            plot.title = element_text(size = 10),
+            plot.tag = element_text(size = 10),
+            axis.title = element_blank(), axis.text.x = element_blank(), legend.position = "none", 
+            plot.margin = unit(c(0.5,0.25,0,0.5), "cm"))+
       scale_color_manual(values=c("Measured" = "black", "Forecast" = "#fc0303"))+
-      guides(color = guide_legend(override.aes = list(linetype = c("solid", "dotted"))))
-    
+      guides(color = guide_legend(override.aes = list(linetype = c("solid", "blank"))))
+
+
     p2 <- ggplot(df, aes(x = as.POSIXct(index(df))))+
       geom_rect(data=in_R, inherit.aes = F,aes(xmin=as.POSIXct(x1), xmax=as.POSIXct(x2), ymin=y1, ymax=y2), 
                 fill='#0394fc', colour = "#246ea3", alpha=0.3,color=NA)+
@@ -474,23 +473,21 @@ plotModel <- function(model1_damningen, model2_damningen, model1_damhusaen, mode
       geom_point(aes(y = forecast_m1_damhusaen, colour = "Forecast"), size = pointsize)+
       geom_point(aes(y = Damhusaen, color = "Measured"), size = pointsize)+
       scale_x_datetime(labels = date_format("%H:%M"))+
-      scale_y_continuous(limits = yl, expand = c(0, 0), breaks=seq(yl[1],yl[2],10000),
-                         sec.axis = sec_axis(~./scalingFactor, name = "Rain [mm/hr]  ", breaks=yTick,labels =ylab))  +
-      ylab("Runoff [m3/hr]")+xlab("Time") +
-      labs(tag = "B2")+
-      ggtitle(titles[3])+
+      scale_y_continuous(limits = yl, expand = c(0, 0), breaks = NULL,
+                         sec.axis = sec_axis(~./scalingFactor, name = "", breaks=yTick,labels =ylab)) +
+      ggtitle(titles[2])+
       theme_pubclean()+
       theme(panel.grid.major = element_line(size=.20,colour = "grey50"),
             panel.grid.minor = element_blank(),
             panel.ontop = FALSE,panel.background = element_rect(fill = NA,size = 0.2, linetype = "solid",colour = "black"), 
-            legend.title = element_blank(),
-            plot.title = element_text(size = 8),
-            plot.tag = element_text(size = 8),
-            axis.title = element_text(size = 8),
-            axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1, face = "plain"), plot.margin = unit(c(-0.1, 0, 0, 0), "cm"))+
+            #legend.title = element_blank(),
+            plot.title = element_text(size = 10),
+            plot.tag = element_text(size = 10),
+            axis.title = element_blank(), axis.text.x = element_blank(), legend.position = "none", 
+            plot.margin = unit(c(0.5,0.5,0,1), "cm"))+
       scale_color_manual(values=c("Measured" = "black", "Forecast" = "#fc0303"))+
-      guides(color = guide_legend(override.aes = list(linetype = c("solid", "dotted"))))
-    
+      guides(color = guide_legend(override.aes = list(linetype = c("solid", "blank"))))
+
     p3 <- ggplot(df, aes(x = as.POSIXct(index(df))))+
       geom_rect(data=in_R, inherit.aes = F,aes(xmin=as.POSIXct(x1), xmax=as.POSIXct(x2), ymin=y1, ymax=y2), 
                 fill='#0394fc', colour = "#246ea3", alpha=0.3,color=NA)+
@@ -498,23 +495,23 @@ plotModel <- function(model1_damningen, model2_damningen, model1_damhusaen, mode
       geom_point(aes(y = forecast_m2_damningen, colour = "Forecast"), size = pointsize)+
       geom_point(aes(y = Damningen, color = "Measured"), size = pointsize)+
       scale_x_datetime(labels = date_format("%H:%M"))+
-      scale_y_continuous(limits = yl, expand = c(0, 0), breaks=seq(yl[1],yl[2],10000),
-                         sec.axis = sec_axis(~./scalingFactor, name = "Rain [mm/hr]  ", breaks=yTick,labels =ylab))  +
-      #coord_cartesian(ylim = c(0, 20000))+
-      ylab("Runoff [m3/hr]")+xlab("Time") +
-      labs(tag = "B3")+
-      ggtitle(titles[2])+
+      scale_y_continuous(breaks=seq(yl[1],yl[2],10000),
+                         sec.axis = sec_axis(~./scalingFactor, name = "Rain [mm/hr]  ", breaks=NULL,labels =NULL))  +
+      coord_cartesian(ylim = c(0, 20000))+
+      ggtitle(titles[3])+
       theme_pubclean()+
       theme(panel.grid.major = element_line(size=.20,colour = "grey50"),
             panel.grid.minor = element_blank(),
             panel.ontop = FALSE,panel.background = element_rect(fill = NA,size = 0.2, linetype = "solid",colour = "black"), 
-            legend.title = element_blank(),
-            plot.title = element_text(size = 8),
-            plot.tag = element_text(size = 8),
-            axis.title = element_text(size = 8),
-            axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1, face = "plain"), plot.margin = unit(c(-0.1, 0, 0, 0), "cm"))+
+            #legend.title = element_blank(),
+            plot.title = element_text(size = 10), 
+            plot.tag = element_text(size = 10),
+            axis.title = element_blank(),
+            axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1, face = "plain"), legend.position = "none",
+            plot.margin = unit(c(0.5,0.25,0.1,0.5), "cm"))+
       scale_color_manual(values=c("Measured" = "black", "Forecast" = "#fc0303"))+
-      guides(color = guide_legend(override.aes = list(linetype = c("solid", "dotted"))))
+      guides(color = guide_legend(override.aes = list(linetype = c("solid", "blank"))))
+
     
     
     p4 <- ggplot(df, aes(x = as.POSIXct(index(df))))+
@@ -524,28 +521,33 @@ plotModel <- function(model1_damningen, model2_damningen, model1_damhusaen, mode
       geom_point(aes(y = forecast_m2_damhusaen, colour = "Forecast"), size = pointsize)+
       geom_point(aes(y = Damhusaen, color = "Measured"), size = pointsize)+
       scale_x_datetime(labels = date_format("%H:%M"))+
-      scale_y_continuous(limits = yl, expand = c(0, 0), breaks=seq(yl[1],yl[2],10000),
-                         sec.axis = sec_axis(~./scalingFactor, name = "Rain [mm/hr]  ", breaks=yTick,labels =ylab))  +
-      #coord_cartesian(ylim = c(0, 20000))+
-      ylab("Runoff [m3/hr]")+xlab("Time") +
-      labs(tag = "B4")+
+      scale_y_continuous(breaks=NULL,
+                         sec.axis = sec_axis(~./scalingFactor, name = "Rain [mm/hr]  ", breaks=yTick, labels=ylab))  +
+      coord_cartesian(ylim = c(0, 20200))+
       ggtitle(titles[4])+
       theme_pubclean()+
       theme(panel.grid.major = element_line(size=.20,colour = "grey50"),
             panel.grid.minor = element_blank(),
             panel.ontop = FALSE,panel.background = element_rect(fill = NA,size = 0.2, linetype = "solid",colour = "black"), 
-            legend.title = element_blank(),
-            plot.title = element_text(size = 8),
-            plot.tag = element_text(size = 8),
-            axis.title = element_text(size = 8),
-            axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1, face = "plain"), plot.margin = unit(c(-0.1, 0, 0, 0), "cm"))+
+            #legend.title = element_blank(),
+            plot.title = element_text(size = 10),
+            plot.tag = element_text(size = 10),
+            axis.title = element_blank(), 
+            axis.ticks.y.left = element_blank(),
+            axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1, face = "plain"), legend.position = "none", 
+            plot.margin = unit(c(0.5,0.5,0.1,1), "cm"))+
       scale_color_manual(values=c("Measured" = "black", "Forecast" = "#fc0303"))+
-      guides(color = guide_legend(override.aes = list(linetype = c("solid", "dotted"))))
+      guides(color = guide_legend(override.aes = list(linetype = c("solid", "blank"))))
     
     
-    p <-  annotate_figure(ggarrange(p1, p2, p3, p4, common.legend = T, legend = "none"),
-                          top = text_grob("models coefficients estimated using single / multi-step objective function criteria", size = 10))
-
+        p <- egg::ggarrange(p1, p2, p3, p4, ncol = 2, nrow = 2, 
+                        left = text_grob("Runoff [m3/hr]", size = 12, rot = 90),
+                        right = text_grob("Precipitation [mm/hr]", size = 12, rot = 270),
+                        bottom =  text_grob("Time", size = 10),
+                        top = text_grob("Models coefficients estimated using single / multi-step objective function criteria", size = 12),
+                        labels = c("B1", "B2", "B3", "B4"), label.args = list(gp = grid::gpar(fontsize = 12), vjust = 2)
+    )
+ 
     
     return(p)
   }
