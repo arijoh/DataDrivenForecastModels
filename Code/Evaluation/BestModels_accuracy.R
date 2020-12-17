@@ -140,14 +140,18 @@ pullData <- function(List){
 DamningenData <- pullData(DamningenList)
 DamhusaenData <- pullData(DamhusaenList)
 ### Seems to work??
-
+library(reshape)
 DamningenData$Station <- "Dæmningen"
 DamhusaenData$Station <- "Damhusåen"
 DamningenData$Type <- rownames(DamningenData) 
 DamhusaenData$Type <- rownames(DamhusaenData) 
 data <- rbind(DamningenData, DamhusaenData)
+data
 
-library(reshape)
+
+#Remove accuracy
+data <- data[-c(5, 10), ]
+data
 
 plotThis <- function(data){
 
@@ -155,18 +159,18 @@ plotThis <- function(data){
   plot <- ggplot(data)+
     geom_line(aes(x = variable, y = value, group = Type, colour = Type))+
     geom_point(aes(x = variable, y = value, colour = Type, shape = Type))+
-    ylab("Accuracy")+xlab("Forecasting horizon")+
+    ylab("CSI")+xlab("Forecasting horizon")+
     facet_grid(cols = vars(Station))+
-    ggtitle("Accuracy of models selected on different criteria")+
+    ggtitle("CSI of models selected on different criteria")+
     labs(colour = "Model selected on")+
     ylim(0,1)+
-    scale_colour_manual(name = 'Selected on', values = c("grey", "#636363", "#636363", "#636363", "black"))+
-    scale_shape_manual(name = 'Selected on', values = c(0, 1, 2, 16, 0))+
+    scale_colour_manual(name = 'Selected on', values = c("#636363", "#636363", "#636363", "black"))+
+    scale_shape_manual(name = 'Selected on', values = c(1, 2, 16, 0))+
     theme_bw()+
     theme(panel.grid.major = element_line(size=.20,colour = "grey50"),
           panel.grid.minor = element_blank(),
           panel.ontop = FALSE,panel.background = element_rect(fill = NA,size = 0.2, linetype = "solid",colour = "black"), 
-          plot.title = element_text(size = 12), text = element_text(size=12),
+          plot.title = element_text(size = 10), text = element_text(size=10),
           axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1),
           legend.position = "right")
   return(plot)
@@ -179,7 +183,7 @@ plot
 
 
 
-pdf(file = "../Figures/Results/DDS/bestModels_accuracy.pdf", height = 3, width = 7)
+tiff(file = "../Figures/Results/DDS/bestModels_accuracy.tiff", height = 75, width = 140, unit = "mm", res = 500)
 plot
 dev.off()
 

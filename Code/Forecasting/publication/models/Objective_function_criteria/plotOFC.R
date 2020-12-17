@@ -42,7 +42,7 @@ for (i in 1:10){
   m2_Damningen <- DamningenList_ms[[i]]
   m1_Damhusaen <- DamhusaenList_ss[[i]]
   m2_Damhusaen <- DamhusaenList_ms[[i]]
-  titles <- c("Dæmningen - single-step", "Damhusåen - single-step", "Dæmningen - multi-step", "Damhusåen - multi-step")
+  titles <- c("Single-Step (SSE)", "Single-Step (SSE)", "Multi-Step (SC)", "Multi-Step (SC)")
   p <- plotModel(m1_Damningen, m2_Damningen, m1_Damhusaen, m2_Damhusaen, titles)
   
   filename <- paste("Forecasting/publication/models/Objective_function_criteria/Figures/model_ofc_", i, ".tiff", sep = "")

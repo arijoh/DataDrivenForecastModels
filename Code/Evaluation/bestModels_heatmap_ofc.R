@@ -144,8 +144,8 @@ pullData <- function(score){
       rownames_to_column() %>%
       gather(colname, value, -rowname)
     
-    dt_singlestep$Type <- "Single-step"
-    dt_multistep$Type <- "Multi-step"
+    dt_singlestep$Type <- "Single-step\n(SSE)"
+    dt_multistep$Type <- "Multi-step\n(SC)"
     
     dt <- rbind(dt_singlestep, dt_multistep)
     
@@ -205,8 +205,8 @@ pullData <- function(score){
       rownames_to_column() %>%
       gather(colname, value, -rowname)
     
-    dt_singlestep$Type <- "Single-step"
-    dt_multistep$Type <- "Multi-step"
+    dt_singlestep$Type <- "Single-step\n(SSE)"
+    dt_multistep$Type <- "Multi-step\n(SC)"
     
     dt <- rbind(dt_singlestep, dt_multistep)
     
@@ -229,12 +229,15 @@ plotThis <- function(df, error){
       scale_fill_gradient(low = "white",high = "#808080", na.value = "red")+
       scale_x_discrete(expand=c(0,0)) + 
       scale_y_discrete(expand=c(0,0)) +
-      labs(tag = "A", size = 12)+
+      labs(tag = "A")+
       theme_bw()+
-      theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), 
-            panel.spacing = unit(0, "lines"))+
-      ylab("") + xlab("Forecasting horizon") + labs(fill = "PI")+
-      ggtitle("")
+      theme(plot.margin = unit(c(0,0,0,0), "cm"),
+            plot.title = element_text(size = 9), 
+            plot.tag = element_text(size = 9),
+            panel.grid.major = element_blank(), panel.grid.minor = element_blank(), 
+            panel.spacing = unit(0, "lines"),
+            legend.position = "bottom")+
+      ylab("") + xlab("Forecasting horizon") + labs(fill = "PI")
   } else if (error == "Accuracy"){
     plot <- ggplot(df, aes(x = colname, y = Type, fill =  value))+
       geom_tile()+
@@ -245,10 +248,12 @@ plotThis <- function(df, error){
       scale_y_discrete(expand=c(0,0)) +
       labs(tag = "B")+
       theme_bw()+
-      theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), 
-            panel.spacing = unit(0, "lines"))+
-      ylab("") + xlab("Forecasting horizon") + labs(fill = "Accuracy")+
-      ggtitle("")
+      theme(plot.title = element_text(size = 9), 
+            plot.tag = element_text(size = 9),
+            panel.grid.major = element_blank(), panel.grid.minor = element_blank(), 
+            panel.spacing = unit(0, "lines"),
+            legend.position = "bottom")+
+      ylab("") + xlab("Forecasting horizon") + labs(fill = "CSI")
   } else {plot <- NULL}
   
   return(plot)
@@ -261,11 +266,11 @@ plot_PI <- plotThis(df_PI, error = "PI")
 df_Accuracy <- pullData("Accuracy")
 plot_Accuracy <- plotThis(df_Accuracy, error = "Accuracy")
 
-plot <- annotate_figure(ggarrange(plot_PI, plot_Accuracy, nrow = 2), 
-                        top = text_grob("Comparing objective function criteria", size = 12))
+plot <- annotate_figure(ggarrange(plot_PI, plot_Accuracy, nrow = 1, ncol = 2), 
+                        top = text_grob("Comparing objective function criteria", size = 10))
 plot
 
-pdf(file = "../Figures/Results/DDS/Heatmap_ofc.pdf", height = 4, width = 5)
+tiff(file = "../Figures/Results/DDS/Heatmap_ofc.tiff", height = 70, width = 190, unit = "mm", res = 300)
 plot
 dev.off()
   

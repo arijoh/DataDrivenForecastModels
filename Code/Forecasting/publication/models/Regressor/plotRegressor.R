@@ -15,7 +15,7 @@ source("Forecasting/publication/models/Regressor/Plot.R")
 # m1_Damhusaen <- DamhusaenList_ARIMA[[i]]
 # m2_Damhusaen <- DamhusaenList_ARIMAX[[i]]
 # 
-# titles <- c("Dæmningen - ARIMA", "Damhusåen - ARIMA", "Dæmningen - ARIMAX", "Damhusåen - ARIMAX")
+# titles <- c("No rainfall input (ARIMA)", "No rainfall input (ARIMA)", "Rainfall input (ARIMAX)", "Rainfall input (ARIMAX)")
 # 
 # 
 # 
@@ -27,12 +27,15 @@ source("Forecasting/publication/models/Regressor/Plot.R")
 # 
 # 
 # p <- plotModel(m1_Damningen, m2_Damningen, m1_Damhusaen, m2_Damhusaen, titles) ## returns a plot that combines all four models
+# p <- annotate_figure(p, "       ")
+# p <- annotate_figure(p, "Dæmningen                                                                Damhusåen")
+# p
 # 
 # filename <- "Forecasting/publication/models/Regressor/Figures/test.tiff"
 # print(filename)
 # 
 # 
-# tiff(filename = filename, units = "mm", width = 190, height = 80, res = 500)
+# tiff(filename = filename, units = "mm", width = 190, height = 100, res = 500)
 # p
 # dev.off()
 
@@ -45,13 +48,15 @@ for (i in 1:10){
   m1_damhusaen <- DamhusaenList_ARIMA[[i]]
   m2_damhusaen <- DamhusaenList_ARIMAX[[i]]
   
-  titles <- c("Dæmningen - ARIMA", "Damhusåen - ARIMA", "Dæmningen - ARIMAX", "Damhusåen - ARIMAX")
+  titles <- c("No rainfall input (ARIMA)", "No rainfall input (ARIMA)", "Rainfall input (ARIMAX)", "Rainfall input (ARIMAX)")
   p <- plotModel(m1_Damningen, m2_Damningen, m1_damhusaen, m2_damhusaen, titles)
-  
+  p <- annotate_figure(p, "       ")
+  p <- annotate_figure(p, "Dæmningen                                                                Damhusåen")
+
   filename <- paste("Forecasting/publication/models/Regressor/Figures/model_regressors_", i, ".tiff", sep = "")
   print(filename)
   
-  tiff(filename = filename, units = "mm", width = 190, height = 80, res = 500)
+  tiff(filename = filename, units = "mm", width = 190, height = 100, res = 500)
   print(p)
   dev.off()
 

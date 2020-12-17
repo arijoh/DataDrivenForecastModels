@@ -60,98 +60,166 @@ DamhusaenList_ARIMAX <- c(ARIMAX_ss_S2, ARIMAX_ms_S2)
 
 
 
-pullData <- function(){
-  orderListAVGPI <- function(x){
-    values <- vector()
-    for (i in (1:length(x))){
-      temp <- unlist((as.numeric(x[[i]]$PI[1]) + as.numeric(x[[i]]$PI[2]) + as.numeric(x[[i]]$PI[3]))/3)
-      if (is.null(temp) || (is.nan(temp)) || (length(temp) == 0)){
-        values[i] <- NA
-      }
-      else{
-        values[i] <- as.numeric(temp) 
-      }
-    }
-    orderedList <- x[order(values, decreasing = TRUE)]
-    return(orderedList)
-  }
-  
 
-    
-  ### Best models based on PI ordered by differetn forecasting horizon
-  DamningenList_ARIMA <- orderListAVGPI(DamningenList_ARIMA)
-  DamningenList_ARIMAX <- orderListAVGPI(DamningenList_ARIMAX)
-  DamhusaenList_ARIMA<- orderListAVGPI(DamhusaenList_ARIMA)
-  DamhusaenList_ARIMAX <- orderListAVGPI(DamhusaenList_ARIMAX)
-  
-  
-  #### Construct tables
-  table_Damningen <- as.data.frame(matrix(NA, nrow = 5, ncol = 2))
-  colnames(table_Damningen) <- c("ARIMA", "ARIMAX")
-  table_Damningen$Station <- 'Dæmningen'
-  table_Damningen$Nr <- 1:5
-  table_Damhusaen <- as.data.frame(matrix(NA, nrow = 5, ncol = 2))
-  colnames(table_Damhusaen) <- c("ARIMA", "ARIMAX")
-  table_Damhusaen$Station <- 'Damhusåen'
-  table_Damhusaen$Nr <- 1:5
-  
-  table_Damningen[1,1] <- mean(sapply(DamningenList_ARIMA[[1]]$PI, mean))
-  table_Damningen[2,1] <- mean(sapply(DamningenList_ARIMA[[2]]$PI, mean))
-  table_Damningen[3,1] <- mean(sapply(DamningenList_ARIMA[[3]]$PI, mean))
-  table_Damningen[4,1] <- mean(sapply(DamningenList_ARIMA[[4]]$PI, mean))
-  table_Damningen[5,1] <- mean(sapply(DamningenList_ARIMA[[5]]$PI, mean))
-  
-  table_Damningen[1,2] <- mean(sapply(DamningenList_ARIMAX[[1]]$PI, mean))
-  table_Damningen[2,2] <- mean(sapply(DamningenList_ARIMAX[[2]]$PI, mean))
-  table_Damningen[3,2] <- mean(sapply(DamningenList_ARIMAX[[3]]$PI, mean))
-  table_Damningen[4,2] <- mean(sapply(DamningenList_ARIMAX[[4]]$PI, mean))
-  table_Damningen[5,2] <- mean(sapply(DamningenList_ARIMAX[[5]]$PI, mean))
-  
-  table_Damhusaen[1,1] <- mean(sapply(DamhusaenList_ARIMA[[1]]$PI, mean))
-  table_Damhusaen[2,1] <- mean(sapply(DamhusaenList_ARIMA[[2]]$PI, mean))
-  table_Damhusaen[3,1] <- mean(sapply(DamhusaenList_ARIMA[[3]]$PI, mean))
-  table_Damhusaen[4,1] <- mean(sapply(DamhusaenList_ARIMA[[4]]$PI, mean))
-  table_Damhusaen[5,1] <- mean(sapply(DamhusaenList_ARIMA[[5]]$PI, mean))
-  
-  table_Damhusaen[1,2] <- mean(sapply(DamhusaenList_ARIMAX[[1]]$PI, mean))
-  table_Damhusaen[2,2] <- mean(sapply(DamhusaenList_ARIMAX[[2]]$PI, mean))
-  table_Damhusaen[3,2] <- mean(sapply(DamhusaenList_ARIMAX[[3]]$PI, mean))
-  table_Damhusaen[4,2] <- mean(sapply(DamhusaenList_ARIMAX[[4]]$PI, mean))
-  table_Damhusaen[5,2] <- mean(sapply(DamhusaenList_ARIMAX[[5]]$PI, mean))
-  
-  
-  data <- rbind(table_Damningen, table_Damhusaen)
-  data <- melt(data, id.vars = c("Nr", "Station"))
-  
-  return(data)
+orderListAVGPI <- function(x){
+  values <- vector()
+  for (i in (1:length(x))){
+    temp <- unlist((as.numeric(x[[i]]$PI[1]) + as.numeric(x[[i]]$PI[2]) + as.numeric(x[[i]]$PI[3]))/3)
+    if (is.null(temp) || (is.nan(temp)) || (length(temp) == 0)){
+      values[i] <- NA
+    }
+    else{
+      values[i] <- as.numeric(temp) 
+    }
+  }
+  orderedList <- x[order(values, decreasing = TRUE)]
+  return(orderedList)
 }
 
 
-df <- pullData()
-df
+  
+### Best models based on PI ordered by differetn forecasting horizon
+DamningenList_ARIMA <- orderListAVGPI(DamningenList_ARIMA)
+DamningenList_ARIMAX <- orderListAVGPI(DamningenList_ARIMAX)
+DamhusaenList_ARIMA<- orderListAVGPI(DamhusaenList_ARIMA)
+DamhusaenList_ARIMAX <- orderListAVGPI(DamhusaenList_ARIMAX)
 
-plot <- ggplot(df, aes(x = interaction(Nr), y = value, fill =  variable))+
+
+#### Construct tables
+
+constructTable <- function(station, errorMeasure){
+  #Construct table
+  table <- as.data.frame(matrix(NA, nrow = 5, ncol = 2))
+  colnames(table) <- c("ARIMA", "ARIMAX")
+  table$Station <- station
+  table$Nr <- 1:5
+  
+  if (station == "Dæmningen"){
+    ListARIMA <- DamningenList_ARIMA
+    ListARIMAX <- DamningenList_ARIMAX
+  } else
+  if (station == "Damhusåen"){
+  ListARIMA <- DamhusaenList_ARIMA
+  ListARIMAX <- DamhusaenList_ARIMAX
+  }else{table <- NULL}
+  
+  
+
+  #Fill table
+  if (errorMeasure == "PI"){
+    table[1,1] <- mean(sapply(ListARIMA[[1]]$PI, mean))
+    table[2,1] <- mean(sapply(ListARIMA[[2]]$PI, mean))
+    table[3,1] <- mean(sapply(ListARIMA[[3]]$PI, mean))
+    table[4,1] <- mean(sapply(ListARIMA[[4]]$PI, mean))
+    table[5,1] <- mean(sapply(ListARIMA[[5]]$PI, mean))
+    
+    table[1,2] <- mean(sapply(ListARIMAX[[1]]$PI, mean))
+    table[2,2] <- mean(sapply(ListARIMAX[[2]]$PI, mean))
+    table[3,2] <- mean(sapply(ListARIMAX[[3]]$PI, mean))
+    table[4,2] <- mean(sapply(ListARIMAX[[4]]$PI, mean))
+    table[5,2] <- mean(sapply(ListARIMAX[[5]]$PI, mean))
+  }else
+  if (errorMeasure == "Accuracy"){
+    
+    table[1,1] <- mean(c(ListARIMA[[1]]$accuracy$accuracy30$accuracy_correct,
+                         ListARIMA[[1]]$accuracy$accuracy60$accuracy_correct,
+                         ListARIMA[[1]]$accuracy$accuracy90$accuracy_correct))
+    table[2,1] <- mean(c(ListARIMA[[2]]$accuracy$accuracy30$accuracy_correct,
+                         ListARIMA[[2]]$accuracy$accuracy60$accuracy_correct,
+                         ListARIMA[[2]]$accuracy$accuracy90$accuracy_correct))
+    table[3,1] <- mean(c(ListARIMA[[3]]$accuracy$accuracy30$accuracy_correct,
+                         ListARIMA[[3]]$accuracy$accuracy60$accuracy_correct,
+                         ListARIMA[[3]]$accuracy$accuracy90$accuracy_correct))
+    table[4,1] <- mean(c(ListARIMA[[4]]$accuracy$accuracy30$accuracy_correct,
+                         ListARIMA[[4]]$accuracy$accuracy60$accuracy_correct,
+                         ListARIMA[[4]]$accuracy$accuracy90$accuracy_correct))
+    table[5,1] <- mean(c(ListARIMA[[5]]$accuracy$accuracy30$accuracy_correct,
+                         ListARIMA[[5]]$accuracy$accuracy60$accuracy_correct,
+                         ListARIMA[[5]]$accuracy$accuracy90$accuracy_correct))
+    
+    table[1,2] <- mean(c(ListARIMAX[[1]]$accuracy$accuracy30$accuracy_correct,
+                         ListARIMAX[[1]]$accuracy$accuracy60$accuracy_correct,
+                         ListARIMAX[[1]]$accuracy$accuracy90$accuracy_correct))
+    table[2,2] <- mean(c(ListARIMAX[[2]]$accuracy$accuracy30$accuracy_correct,
+                         ListARIMAX[[2]]$accuracy$accuracy60$accuracy_correct,
+                         ListARIMAX[[2]]$accuracy$accuracy90$accuracy_correct))
+    table[3,2] <- mean(c(ListARIMAX[[3]]$accuracy$accuracy30$accuracy_correct,
+                         ListARIMAX[[3]]$accuracy$accuracy60$accuracy_correct,
+                         ListARIMAX[[3]]$accuracy$accuracy90$accuracy_correct))
+    table[4,2] <- mean(c(ListARIMAX[[4]]$accuracy$accuracy30$accuracy_correct,
+                         ListARIMAX[[4]]$accuracy$accuracy60$accuracy_correct,
+                         ListARIMAX[[4]]$accuracy$accuracy90$accuracy_correct))
+    table[5,2] <- mean(c(ListARIMAX[[5]]$accuracy$accuracy30$accuracy_correct,
+                         ListARIMAX[[5]]$accuracy$accuracy60$accuracy_correct,
+                         ListARIMAX[[5]]$accuracy$accuracy90$accuracy_correct))
+  }else{table <- NULL}
+
+  return(table)
+}
+
+
+
+tableDamningenPI <- constructTable(station = "Dæmningen", errorMeasure = "PI")
+tableDamningenAccuracy <- constructTable(station = "Dæmningen", errorMeasure = "Accuracy")
+
+tableDamhusaenPI <- constructTable(station = "Damhusåen", errorMeasure = "PI")
+tableDamhusaenAccuracy <- constructTable(station = "Damhusåen", errorMeasure = "Accuracy")
+
+
+
+data_PI <- rbind(tableDamningenPI, tableDamhusaenPI)
+data_Accuracy <- rbind(tableDamningenAccuracy, tableDamhusaenAccuracy)
+
+
+df_PI <- melt(data_PI, id.vars = c("Nr", "Station"))
+df_Accuracy <- melt(data_Accuracy, id.vars = c("Nr", "Station"))
+
+
+
+
+plot_PI <- ggplot(df_PI, aes(x = interaction(Nr), y = value, fill =  variable))+
   geom_bar(stat="identity", position=position_dodge())+
   facet_grid(cols = vars(Station))+
   scale_x_discrete(labels=c("1","2","3", "4","5"))+
-  ylim(0,1)+
+  scale_y_continuous(expand = c(0, 0), limits = c(0, 1.0))+
   scale_fill_manual(values = c("#adadad", "#666666"))+
   theme_bw()+
-  ylab("PIAVG") + xlab("Model Nr") + labs(fill = "Model type")+
-  ggtitle("Comparison top-5 models with and without regressors based on PIAVG")+
+  ylab("AVG-PI") + xlab("Model Nr") + labs(fill = "Model type")+
   theme(panel.grid.major = element_line(size=.20,colour = "grey50"),
         panel.grid.minor = element_blank(),
         panel.ontop = FALSE,panel.background = element_rect(fill = NA,size = 0.2, linetype = "solid",colour = "black"), 
-        plot.title = element_text(size = 12), text = element_text(size=12),
+        plot.title = element_text(size = 9), text = element_text(size=9),
+        axis.text.x = element_text(angle = 0, hjust = 1, vjust = 1),
+        axis.title = element_text(size = 9),
+        legend.position = "right")
+plot_PI
+
+plot_Accuracy <- ggplot(df_Accuracy, aes(x = interaction(Nr), y = value, fill =  variable))+
+  geom_bar(stat="identity", position=position_dodge())+
+  facet_grid(cols = vars(Station))+
+  scale_x_discrete(labels=c("1","2","3", "4","5"))+
+  scale_y_continuous(expand = c(0, 0), limits = c(0, 1.0))+
+  scale_fill_manual(values = c("#adadad", "#666666"))+
+  theme_bw()+
+  ylab("AVG-CSI") + xlab("Model Nr") + labs(fill = "Model type")+
+  theme(panel.grid.major = element_line(size=.20,colour = "grey50"),
+        panel.grid.minor = element_blank(),
+        panel.ontop = FALSE,panel.background = element_rect(fill = NA,size = 0.2, linetype = "solid",colour = "black"), 
+        plot.title = element_text(size = 9), text = element_text(size=9),
+        axis.title = element_text(size = 9),
         axis.text.x = element_text(angle = 0, hjust = 1, vjust = 1),
         legend.position = "right")
+plot_Accuracy
+
+plot <- annotate_figure(ggarrange(plot_PI, plot_Accuracy, ncol = 2, nrow = 1, common.legend = T, legend = "bottom"),
+                        text_grob("Comparison top-5 models with-\nand without regressors based on AVG-PI", size = 10))
 plot
 
 
-pdf(file = "../Figures/Results/DDS/Barchart_regressors.pdf", height = 3, width = 7)
+tiff(file = "../Figures/Results/DDS/Barchart_regressors.tiff", width = 140, height = 70, units = "mm", res = 300)
 plot
 dev.off()
-  
+
 
 
 

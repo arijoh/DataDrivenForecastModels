@@ -28,7 +28,6 @@ source("Forecasting/publication/models/ErrorMetric/Plot.R")
 # p <- plotModel(m1_Damningen, m2_Damningen, m1_damhusaen, m2_damhusaen, titles) ## returns a plot that combines all four models
 # p
 # 
-# #### Change dimensions of figures!! so that they are the same, just added horizontal alignment
 # 
 # filename <- "Forecasting/publication/models/ErrorMetric/Figures/test.tiff"
 # print(filename)
@@ -44,7 +43,7 @@ for (i in 1:10){
   m1_damhusaen <- DamhusaenList_PI[[i]]
   m2_damhusaen <- DamhusaenList_Accuracy[[i]]
   
-  titles <- c("Dæmningen - PI ", "Damhusåen - PI", "Dæmningen - Accuracy", "Damhusåen - Accuracy")
+  titles <- c("Persistence Index (PI)", "Persistence Index (PI)", "Critical Success Index (CSI)", "Critical Success Index (CSI)")
   p <- plotModel(m1_Damningen, m2_Damningen, m1_damhusaen, m2_damhusaen, titles)
   
   filename <- paste("Forecasting/publication/models/ErrorMetric/Figures/model_error_metrics_", i, ".tiff", sep = "")

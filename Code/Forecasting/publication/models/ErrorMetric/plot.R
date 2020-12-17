@@ -453,7 +453,7 @@ plotModel <- function(model1_damningen, model2_damningen, model1_damhusaen, mode
       geom_point(aes(y = Damningen, color = "Measured"), size = pointsize)+
       scale_x_datetime(labels = date_format("%H:%M"))+
       scale_y_continuous(limits = yl, expand = c(0, 0), breaks=seq(yl[1],yl[2],10000),
-                         sec.axis = sec_axis(~./scalingFactor, name = "", breaks = NULL, labels = NULL))+ #breaks=yTick,labels =ylab
+                         sec.axis = sec_axis(~./scalingFactor, name = "", breaks = yTick, labels = NULL))+ #breaks=yTick,labels =ylab
       ggtitle(titles[1])+
       theme_pubclean()+
       theme(panel.grid.major = element_line(size=.20,colour = "grey50"),
@@ -475,7 +475,7 @@ plotModel <- function(model1_damningen, model2_damningen, model1_damhusaen, mode
       geom_point(aes(y = forecast_m1_damhusaen, colour = "Forecast"), size = pointsize)+
       geom_point(aes(y = Damhusaen, color = "Measured"), size = pointsize)+
       scale_x_datetime(labels = date_format("%H:%M"))+
-      scale_y_continuous(limits = yl, expand = c(0, 0), breaks = NULL,
+      scale_y_continuous(limits = yl, expand = c(0, 0), breaks=seq(yl[1],yl[2],10000), labels = NULL,
                          sec.axis = sec_axis(~./scalingFactor, name = "", breaks=yTick,labels =ylab)) +
       ggtitle(titles[2])+
       theme_pubclean()+
@@ -498,8 +498,8 @@ plotModel <- function(model1_damningen, model2_damningen, model1_damhusaen, mode
       geom_point(aes(y = Damningen, color = "Measured"), size = pointsize)+
       scale_x_datetime(labels = date_format("%H:%M"))+
       scale_y_continuous(breaks=seq(yl[1],yl[2],10000),
-                         sec.axis = sec_axis(~./scalingFactor, name = "Rain [mm/hr]  ", breaks=NULL,labels =NULL))  +
-      coord_cartesian(ylim = c(0, 20000))+
+                         sec.axis = sec_axis(~./scalingFactor, name = "Rain [mm/hr]  ", breaks=yTick,labels =NULL))  +
+      coord_cartesian(ylim = c(0, 20200))+
       ggtitle(titles[3])+
       theme_pubclean()+
       theme(panel.grid.major = element_line(size=.20,colour = "grey50"),
@@ -522,7 +522,7 @@ plotModel <- function(model1_damningen, model2_damningen, model1_damhusaen, mode
       geom_point(aes(y = forecast_m2_damhusaen, colour = "Forecast"), size = pointsize)+
       geom_point(aes(y = Damhusaen, color = "Measured"), size = pointsize)+
       scale_x_datetime(labels = date_format("%H:%M"))+
-      scale_y_continuous(breaks=NULL,
+      scale_y_continuous(expand = c(0, 0), breaks=seq(yl[1],yl[2],10000), labels = NULL,
                          sec.axis = sec_axis(~./scalingFactor, name = "Rain [mm/hr]  ", breaks=yTick, labels=ylab))  +
       coord_cartesian(ylim = c(0, 20200))+
       ggtitle(titles[4])+
@@ -534,7 +534,7 @@ plotModel <- function(model1_damningen, model2_damningen, model1_damhusaen, mode
             plot.title = element_text(size = 10),
             plot.tag = element_text(size = 10),
             axis.title = element_blank(), 
-            axis.ticks.y.left = element_blank(),
+            #axis.ticks.y.left = element_blank(),
             axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1, face = "plain"), legend.position = "none", 
             plot.margin = unit(c(0.5,0.5,0.1,1), "cm"))+
       scale_color_manual(values=c("Measured" = "black", "Forecast" = "#fc0303"))+
@@ -544,7 +544,7 @@ plotModel <- function(model1_damningen, model2_damningen, model1_damhusaen, mode
                         left = text_grob("Runoff [m3/hr]", size = 12, rot = 90),
                         right = text_grob("Precipitation [mm/hr]", size = 12, rot = 270),
                         bottom =  text_grob("Time", size = 10),
-                        top = text_grob("Models selected on PI/Accuracy", size = 12),
+                        top = text_grob("Models selected on PI/CSI", size = 12),
                         labels = c("C1", "C2", "C3", "C4"), label.args = list(gp = grid::gpar(fontsize = 12), vjust = 2)
     )
     return(p)
