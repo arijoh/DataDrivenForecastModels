@@ -129,7 +129,7 @@ pullData <- function(List){
   ACC90_count <- countOFC(ACC90)
   
   df <- data.frame(matrix(NA, nrow = 7, ncol = 2))
-  colnames(df) <- c("Single-step", "Multi-step")
+  colnames(df) <- c("Single-step (SSE)", "Multi-step (SC)")
   rownames(df) <- c("PI30", "PI60","PI90", "PIAVG", "A30", "A60", "A90")
 
   df[1, 1] <- PI30_count[1]
@@ -166,10 +166,10 @@ DamhusaenData$Station <- "Damhusåen"
 
 
 DamningenData$`Forecasting horizon` <- c("30 min", "60 min", "90 min", 'Avg', "30 min", "60 min", "90 min")
-DamningenData$`Error metric` <- c('PI', 'PI', 'PI', 'PI', 'Accuracy', 'Accuracy', 'Accuracy')
+DamningenData$`Error metric` <- c('PI', 'PI', 'PI', 'PI', 'CSI', 'CSI', 'CSI')
 
 DamhusaenData$`Forecasting horizon` <- c("30 min", "60 min", "90 min", 'Avg', "30 min", "60 min", "90 min")
-DamhusaenData$`Error metric` <- c('PI', 'PI', 'PI', 'PI', 'Accuracy', 'Accuracy', 'Accuracy')
+DamhusaenData$`Error metric` <- c('PI', 'PI', 'PI', 'PI', 'CSI', 'CSI', 'CSI')
 
 df <- rbind(DamningenData, DamhusaenData)
 df
@@ -191,22 +191,22 @@ plot <- ggplot(df, aes(x = interaction(`Forecasting horizon`, `Error metric`), y
   ylab("Count")+xlab("Selected on")+
   facet_grid(cols = vars(Station))+
   ggtitle("Objective function criteria of the 10 best performing models")+
-  labs(fill = "Objectice\nfunction\ncriteria")+
+  labs(fill = "Objectice function criteria")+
   scale_fill_manual(values = c('grey', '#636363'))+
   scale_y_continuous(breaks = integer_breaks)+
   theme_bw()+
   theme(panel.grid.major = element_line(size=.20,colour = "grey50"),
         panel.grid.minor = element_blank(),
         panel.ontop = FALSE,panel.background = element_rect(fill = NA,size = 0.2, linetype = "solid",colour = "black"), 
-        plot.title = element_text(size = 12), text = element_text(size=12),
+        plot.title = element_text(size = 10), text = element_text(size=10),
         axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1),
-        legend.position = "right")
+        legend.position = "bottom")
 plot
 
-pdf(file = "../Figures/Results/DDS/barplot_ofc.pdf", height = 3, width = 7)
+tiff(file = "../Figures/Results/DDS/barplot_ofc.tiff", height = 75, width = 140, unit = "mm", res = 500)
 plot
 dev.off()
-
+ 
 
 
 

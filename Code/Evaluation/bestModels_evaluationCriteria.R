@@ -109,7 +109,7 @@ pullData <- function(List){
   PIAVG <- orderListAVGPI(List)[[1]]$PI ## Best model based on PI30
   
   df <- data.frame(matrix(NA, nrow = 4, ncol = 3))
-  colnames(df) <- c("30 minutes", "60 minutes", "90 minutes")
+  colnames(df) <- c("30", "60", "90")
   rownames(df) <- c("PI30", "PI60", "PI90", "PIAVG")
   
   df[1, 1] <- as.numeric(PI30$PI30)
@@ -264,7 +264,7 @@ pullData <- function(List){
   Accuracy90_best <- orderListAccuracy(List, 3)[[1]]$accuracy$accuracy90$accuracy_correct
   
   df <- data.frame(matrix(NA, nrow = 5, ncol = 3))
-  colnames(df) <- c("30 minutes", "60 minutes", "90 minutes")
+  colnames(df) <- c("30", "60", "90")
   rownames(df) <- c("PI30", "PI60", "PI90", "PIAVG", "Accuracy")
   
   df[1, 1] <- as.numeric(PI30$accuracy30$accuracy_correct)
@@ -325,14 +325,14 @@ plot_overfit <- ggplot(df_overfit)+
   theme(panel.grid.major = element_line(size=.20,colour = "grey50"),
         panel.grid.minor = element_blank(),
         panel.ontop = FALSE, panel.background = element_rect(fill = NA,size = 0.2, linetype = "solid",colour = "black"), 
-        plot.title = element_text(size = 9), text = element_text(sidze = 9),
+        plot.title = element_text(size = 9), text = element_text(size = 9),
         axis.text.x = element_blank(),
         axis.title.x = element_blank())
 
 plot_accuracy <- ggplot(df_accuracy)+
   geom_line(aes(x = variable, y = value, group = Type, colour = Type))+
   geom_point(aes(x = variable, y = value, colour = Type, shape = Type))+
-  ylab("CSI")+xlab("Forecasting horizon")+
+  ylab("CSI")+xlab("Forecasting horizon (min)")+
   facet_grid(cols = vars(Station))+
   labs(colour = "Model selected on")+
   ylim(0,1)+
@@ -343,19 +343,21 @@ plot_accuracy <- ggplot(df_accuracy)+
         panel.grid.minor = element_blank(),
         panel.ontop = FALSE,panel.background = element_rect(fill = NA,size = 0.2, linetype = "solid",colour = "black"), 
         plot.title = element_text(size = 9), text = element_text(size=9),
-        axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1),
+        axis.text.x = element_text(angle = 0, hjust = 1, vjust = 1),
         legend.position = "right")
 
 plot_overfit
 plot_accuracy
 
+annotate_figure(plot_overfit, top = element_text("Perfomance of models selected on different PI skill-score measures", size = 12))
 
 library(ggpubr)
+library(ggplot2)
 p <- ggarrange(plot_overfit, plot_accuracy, ncol = 1, nrow = 2, common.legend = T, legend = "bottom", align = "v", heights = c(1,1))
-plot <- annotate_figure(p, element_text("Perfomance of models selected on different PI skill-score measures", size = 10))
+plot <- annotate_figure(p, top = text_grob("Perfomance of models selected on different PI skill-score measures", size = 10))
 plot
 
-tiff(file = "../Figures/Results/DDS/best_Models_evaluationCriteria.tiff", height = 120, width = 160, unit = "mm", res = 300)
+tiff(file = "../Figures/Results/DDS/best_Models_evaluationCriteria.tiff", height = 100, width = 160, unit = "mm", res = 300)
 plot
 dev.off()
 

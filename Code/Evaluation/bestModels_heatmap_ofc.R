@@ -231,8 +231,7 @@ plotThis <- function(df, error){
       scale_y_discrete(expand=c(0,0)) +
       labs(tag = "A")+
       theme_bw()+
-      theme(plot.margin = unit(c(0,0,0,0), "cm"),
-            plot.title = element_text(size = 9), 
+      theme(plot.title = element_text(size = 9), 
             plot.tag = element_text(size = 9),
             panel.grid.major = element_blank(), panel.grid.minor = element_blank(), 
             panel.spacing = unit(0, "lines"),
@@ -266,8 +265,9 @@ plot_PI <- plotThis(df_PI, error = "PI")
 df_Accuracy <- pullData("Accuracy")
 plot_Accuracy <- plotThis(df_Accuracy, error = "Accuracy")
 
+library(ggpubr)
 plot <- annotate_figure(ggarrange(plot_PI, plot_Accuracy, nrow = 1, ncol = 2), 
-                        top = text_grob("Comparing objective function criteria", size = 10))
+                        top = text_grob("Comparing objective function criteria", size = 12))
 plot
 
 tiff(file = "../Figures/Results/DDS/Heatmap_ofc.tiff", height = 70, width = 190, unit = "mm", res = 300)

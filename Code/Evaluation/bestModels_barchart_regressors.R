@@ -212,11 +212,11 @@ plot_Accuracy <- ggplot(df_Accuracy, aes(x = interaction(Nr), y = value, fill = 
 plot_Accuracy
 
 plot <- annotate_figure(ggarrange(plot_PI, plot_Accuracy, ncol = 2, nrow = 1, common.legend = T, legend = "bottom"),
-                        text_grob("Comparison top-5 models with-\nand without regressors based on AVG-PI", size = 10))
+                        text_grob("Comparison top-5 models with-and without regressors based on AVG-PI", size = 10))
 plot
 
 
-tiff(file = "../Figures/Results/DDS/Barchart_regressors.tiff", width = 140, height = 70, units = "mm", res = 300)
+tiff(file = "../Figures/Results/DDS/Barchart_regressors.tiff", width = 140, height = 60, units = "mm", res = 300)
 plot
 dev.off()
 
